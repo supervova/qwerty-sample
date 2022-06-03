@@ -1,0 +1,240 @@
+// -----------------------------------------------------------------------------
+// FEED
+// -----------------------------------------------------------------------------
+// #region
+
+[id='postsblock'] > .makepost,
+[id='postsblock'] > [id='searchform'],
+[id='postsblock'] > [id='searchform'] + div {
+  display: none;
+}
+
+// RSS
+
+.link.is-rss,
+.rss-subcr {
+  display: none;
+
+  @include media-breakpoint-up(sm) {
+    display: block;
+  }
+}
+
+.link.is-rss {
+  text-align: center;
+  margin-top: $size-line;
+  padding-top: var(--size-padding-top-base);
+  padding-bottom: var(--size-padding-bottom-base);
+}
+
+.rss-subcr > a,
+[href*='type=rss']:not(.is-rss):not(.btn.is-ghost) {
+  @include media-breakpoint-up(sm) {
+    background-image: var(--asset-data-image-rss);
+    background-position: 0 50%;
+    background-repeat: no-repeat;
+    display: inline-block;
+    padding-left: $size-4;
+
+    img {
+      display: none;
+    }
+  }
+}
+// #endregion
+
+// -----------------------------------------------------------------------------
+// EDIT
+// -----------------------------------------------------------------------------
+// #region
+
+[id='Mypost'] h3 {
+  margin-top: $size-line * 2;
+}
+
+// Description
+
+[id='postdescription'] {
+  min-height: $size-line * 4 + $size-2;
+}
+
+[id='Mypost'] [style*='text-align'] {
+  text-align: left !important;
+}
+
+// Checkbox cell
+[id='categorylist'] tr > td:nth-child(1) {
+  padding-left: $size-2;
+}
+
+[id='categorylist'] tr > td:nth-child(4) {
+  text-align: right !important;
+}
+
+// Emoji
+
+.emoticons {
+  background-color: var(--color-background-acrylic);
+  backdrop-filter: var(--color-background-acrylic-backdrop);
+  border-radius: var(--shape-border-radius-base);
+  box-shadow: var(--layer-box-shadow-z3);
+  padding: var(--size-padding-x-box);
+  z-index: var(--layer-zindex-popover);
+}
+
+.emoticons .grid {
+  --qwt-columns: 2;
+  --qwt-gap: 0;
+  justify-items: start;
+  max-width: 100%;
+
+  @include media-breakpoint-up(lg) {
+    --qwt-columns: 3;
+  }
+
+  @include media-breakpoint-up(xl) {
+    --qwt-columns: 4;
+  }
+}
+
+.emoticons .btn > span {
+  @extend %text-truncate;
+}
+
+.emoticons img {
+  image-rendering: crisp-edges;
+  margin-right: $size-1;
+}
+
+
+// Location & Publishing date
+[id='longitude'] + .input-group-addon,
+[id='posttime'] + .input-group-addon,
+[id='posttime'] + .input-group-addon + .input-group-addon {
+  padding: 0;
+  position: absolute;
+  top: 0;
+  right: 0;
+  z-index: 4;
+
+  .btn {
+    @extend %btn-ghost;
+    padding: 0 $size-1;
+  }
+}
+
+.btn.is-location-detection,
+[id='longitude'] + .input-group-addon .btn:nth-child(2) {
+  display: none;
+
+  @include media-breakpoint-up(sm) {
+    display: inline-flex;
+  }
+}
+
+// override bootstrap selector chain
+.input-group [id='postlocation'] {
+  @include media-breakpoint-up(sm) {
+    width: calc(100% - 23rem);
+  }
+}
+
+// Publishing date
+
+[id='posttime'] + .input-group-addon,
+.input-group.date .input-group-addon span {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: var(--size-height-button);
+  height: var(--size-height-button);
+}
+
+[id='posttime'] + .input-group-addon {
+  right: var(--size-height-button);
+}
+
+.input-group.form_datetime {
+  display: table;
+  width: auto;
+}
+
+.form__input.is-post-date {
+  flex-basis: 26rem;
+}
+
+// Date picker
+.datetimepicker.datetimepicker-dropdown-bottom-right {
+  right: auto;
+
+  @include media-breakpoint-down(lg) {
+    // override inline styles
+    left: auto !important;
+    right: var(--size-padding-x-container);
+  }
+}
+
+// Categories
+[id='categorylist'] tbody > tr > td {
+  vertical-align: middle;
+}
+
+// Media library
+.f-group.is-media-library {
+  display: flex;
+  flex-direction: column;
+  gap: $size-1;
+  max-width: 100%;
+
+  @include media-breakpoint-up(md) {
+    flex-direction: row;
+    flex-wrap: wrap;
+
+    > div {
+      aspect-ratio: 1 / 1;
+      // override inline styles
+      background-color: var(--color-background-alt) !important;
+      border-radius: var(--shape-border-radius-base) !important;
+      max-width: calc(50% - #{$size-1}) !important;
+    }
+  }
+}
+
+.f-group.is-media-library label {
+  padding-top: 1.2rem;
+  padding-left: $size-3;
+  position: relative;
+}
+
+.f-group.is-media-library label > input {
+  position: absolute;
+  top: 1.2rem;
+  left: 0;
+}
+// #endregion
+
+//------------------------------------------------------------------------------
+// MIGRATED INLINE STYLES
+// -----------------------------------------------------------------------------
+// #region
+
+// filter - #typesdiv
+.subscribers {
+  display: none;
+  padding: $size-1;
+  width: 100%;
+}
+
+.subscribers__clear {
+  position: absolute;
+  right: 30px;
+  margin-top: -30px;
+}
+
+// #membersblock
+.subscribers__results {
+  text-align: center;
+  width: 100%;
+}
+
+// #endregion

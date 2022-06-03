@@ -1,0 +1,400 @@
+// -----------------------------------------------------------------------------
+// BASE
+// -----------------------------------------------------------------------------
+// #region
+
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  padding-top: $size-line;
+  position: relative;
+  width: 100%;
+  z-index: calc(var(--layer-zindex-scrim) + 1);
+
+  @include media-breakpoint-up(md) {
+    --gap: #{$size-3};
+
+    @include grid();
+
+    margin-right: auto;
+    margin-left: auto;
+
+    padding: ($size-line * 2) 0 0;
+    z-index: 3;
+  }
+
+  @include media-breakpoint-up(lg) {
+    --gap: #{$size-5};
+  }
+}
+// #endregion
+
+// -----------------------------------------------------------------------------
+// LOGO
+// -----------------------------------------------------------------------------
+// #region
+
+// @see base/graphics/logo
+// #endregion
+
+// -----------------------------------------------------------------------------
+// SEARCH
+// -----------------------------------------------------------------------------
+// #region
+
+// Search toggle button
+.header__search-toggle {
+  background-color: transparent;
+  flex-shrink: 0;
+  margin-right: -$size-2;
+  padding-right: $size-1 * 1.5;
+  padding-left: $size-1 * 1.5;
+
+  @include media-breakpoint-up(md) {
+    display: none;
+  }
+}
+
+// Base
+.header__search {
+  @include media-breakpoint-down(md) {
+    background-color: var(--color-background-base);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-left: 2rem;
+    padding-right: 2rem;
+    opacity: 0;
+    pointer-events: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    transform: translateY(-$size-line);
+    transition:
+      opacity var(--motion-duration-sm) var(--motion-easing-base),
+      transform var(--motion-duration-sm) var(--motion-easing-base);
+    height: $size-1 * 10;
+    z-index: var(--layer-zindex-drawer);
+
+    &.is-open {
+      opacity: 1;
+      pointer-events: auto;
+      transform: translateY(0);
+    }
+  }
+
+  @include media-breakpoint-up(md) {
+    display: block;
+    grid-column: auto / span 4;
+    transform: none;
+    height: auto;
+  }
+
+  @include media-breakpoint-up(xl) {
+    grid-column: auto / span 6;
+  }
+}
+
+// Input and its container
+.header__search [type='text'],
+.header__search .input,
+.header__search .form__item {
+  padding-bottom: 0;
+  flex-grow: 1;
+}
+
+.header__search [type='search'],
+.header__search [type='text'] {
+  padding-right: $size-7;
+  min-width: 100%;
+}
+
+// Submit
+.header__search-submit {
+  @extend %btn;
+
+  background: transparent;
+  position: absolute;
+  top: 50%;
+  right: 0;
+  transform: translateY(-50%);
+  width: $size-6;
+  height: $size-6;
+}
+
+// Cancel button
+.header__search-cancel {
+  @extend %btn-ghost;
+
+  color: var(--color-ink-2ry);
+  margin-left: $size-1;
+  height: $size-6;
+
+  @include media-breakpoint-up(md) {
+    display: none;
+  }
+}
+// #endregion
+
+// -----------------------------------------------------------------------------
+// MENU
+// -----------------------------------------------------------------------------
+// #region
+
+.header__menu {
+  display: flex;
+  justify-content: center;
+  list-style: none;
+  padding: 0 0 0 $size-1;
+
+  @include media-breakpoint-up(md) {
+    align-items: center;
+    border-radius: 0;
+    box-shadow: none;
+    // An explicit start is used to preserve right alignment when hiding other
+    // header elements
+    grid-column: 6 / span 7;
+    justify-content: flex-end;
+    padding-left: 0;
+    position: static;
+  }
+
+  @include media-breakpoint-up(lg) {
+    grid-column: 7 / span 6;
+  }
+}
+// #endregion
+
+// -----------------------------------------------------------------------------
+// MENU ITEMS
+// -----------------------------------------------------------------------------
+// #region
+
+// LOCATION
+
+.header__location {
+  @include media-breakpoint-up(md) {
+    display: flex;
+    margin-right: auto;
+    padding: 0;
+  }
+}
+
+.header__location > button {
+  @extend %btn-base, %label;
+
+  display: none;
+
+  @include media-breakpoint-up(md) {
+    background-color: transparent;
+    color: var(--color-ink-2ry);
+    display: flex;
+    padding-right: $size-2;
+    padding-left: $size-2;
+    max-width: $size-line * 3;
+
+    &:hover {
+      background-color: var(--color-background-alt);
+      box-shadow: none;
+      transform: none;
+    }
+  }
+
+  @include media-breakpoint-up(lg) {
+    max-width: 22rem;
+  }
+
+  @include media-breakpoint-up(xl) {
+    max-width: none;
+  }
+}
+
+.header__location > button .icon {
+  transform: translateY(-.1rem);
+}
+
+.header__location-label {
+
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+  min-width: 0;
+}
+// #endregion
+
+// The legacy stuff
+.header__login { display: none; }
+
+.header__sign-up,
+.header__sign-in,
+.header__user {
+  display: none;
+
+  &.is-on {
+    display: flex;
+  }
+}
+
+// LOGIN & REGISTRATION
+
+.header__sign-up,
+.header__sign-in {
+  align-items: center;
+  padding: 0;
+  height: 4.8rem;
+
+  > button {
+    @extend %btn-base, %btn-outline;
+
+    margin-right: $size-1;
+    max-width: 8rem;
+
+    @include media-breakpoint-up(sm) {
+      max-width: 16rem;
+    }
+
+    @include media-breakpoint-down(md) {
+      padding-right: $size-1;
+      padding-left: $size-1;
+      height: $size-line * 2;
+    }
+  }
+}
+
+.header__sign-up {
+  @include media-breakpoint-up(md) {
+    margin-left: $size-1;
+  }
+}
+
+
+// USER MENU
+
+.header__user {
+  margin-right: $size-1;
+  padding: 0;
+
+  @include media-breakpoint-down(md) {
+    position: static;
+  }
+}
+
+.header__user .dropdown-toggle {
+  @extend %bottom-nav-item, %label;
+
+  border-radius: var(--shape-border-radius-pill);
+  display: flex;
+  align-items: center;
+
+  @include media-breakpoint-down(md) {
+    background-image: none;
+    display: block;
+  }
+
+  @include media-breakpoint-up(md) {
+    background-image: none;
+    padding-left: 0;
+    // Add right padding if user menu contains user name
+    // padding-right: $size-2;
+
+    &:hover,
+    &:focus,
+    &:active {
+      // Inline style override
+      background-color: var(--color-background-alt) !important;
+    }
+
+    &:hover {
+      box-shadow: 0 0 0 $size-half var(--color-background-alt);
+    }
+
+    &:focus,
+    &:active {
+      box-shadow: var(--layer-box-shadow-focus-outline);
+    }
+
+    .hidden-xs {
+      @include text-truncate();
+
+      transform: translateY(.1rem);
+      max-width: 100%;
+    }
+  }
+}
+
+.header__user .icon:not(.is-user-menu-icon),
+.header__user .glyphicon {
+  display: none;
+}
+
+// Override complicated selector
+.dropdown-menu > li > button .is-user-menu-icon {
+  margin-right: 0;
+  margin-left: auto;
+}
+
+.header__user .dropdown-menu {
+  left: auto;
+  right: 2rem;
+
+  @include media-breakpoint-up(md) {
+    right: 0;
+  }
+}
+
+// LANGUAGE TOGGLE
+
+.header__language-toggle {
+  display: none;
+
+  @include media-breakpoint-up(md) {
+    display: flex;
+    padding: 0;
+    // margin-left: auto;
+    width: $size-line * 2;
+    min-width: $size-line * 2;
+  }
+}
+
+.header__language-toggle .btn {
+  background-color: transparent;
+  color: var(--color-ink-2ry);
+  padding-right: $size-1 * 1.5;
+  padding-left: $size-1 * 1.5;
+
+  &:hover {
+    background: var(--color-background-alt);
+  }
+}
+
+.header__language-toggle .dropdown-menu {
+  left: auto;
+  right: 0;
+}
+
+// #endregion
+
+// -----------------------------------------------------------------------------
+// AVATAR
+// -----------------------------------------------------------------------------
+// #region
+
+.header_photo {
+  @extend %avatar, %avatar-sm;
+
+  background-image: var(--asset-data-image-user);
+  border-radius: var(--shape-border-radius-pill);
+
+  > img {
+    border-radius: var(--shape-border-radius-pill);
+  }
+
+  @include media-breakpoint-up(md) {
+    // Add right padding if user menu contains user name
+    // margin-right: $size-1;
+  }
+}
+// #endregion
+

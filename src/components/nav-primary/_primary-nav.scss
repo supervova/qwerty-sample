@@ -1,0 +1,363 @@
+@use 'sass:math';
+
+// -----------------------------------------------------------------------------
+// BASE
+// -----------------------------------------------------------------------------
+// #region
+
+.primary-nav {
+  background-color: var(--color-background-acrylic);
+  backdrop-filter: var(--color-background-acrylic-backdrop);
+  border-top: .1rem solid var(--color-ink-border);
+  position: fixed;
+  right: 0;
+  bottom: 0;
+  bottom: env(safe-area-inset-bottom);
+  left: 0;
+  width: 100%;
+  height: 5.6rem;
+  z-index: calc(var(--layer-zindex-scrim) + 1);
+
+  @include media-breakpoint-up(md) {
+    background-color: transparent;
+    backdrop-filter: none;
+    border-top: 0;
+    border-right: .1rem solid var(--color-ink-border);
+    display: flex;
+    flex-direction: column;
+    padding-top: $size-line;
+    overflow-y: auto;
+    position: sticky;
+    top: 0;
+    right: auto;
+    height: 100vh;
+    z-index: var(--layer-zindex-header);
+  }
+
+  @include media-breakpoint-up(xl) {
+    padding:
+      ($size-line * 2)
+      $size-5
+      $size-line;
+  }
+}
+// #endregion
+
+// -----------------------------------------------------------------------------
+// LOGO
+// -----------------------------------------------------------------------------
+// #region
+
+.primary-nav__logo {
+  display: none;
+
+  @include media-breakpoint-up(md) {
+    display: flex;
+    border-radius: var(--shape-border-radius-base);
+
+    &:focus {
+      background: var(--color-background-alt);
+    }
+  }
+
+  @include media-breakpoint-up(xl) {
+    margin-left: -$size-1;
+  }
+}
+// #endregion
+
+// -----------------------------------------------------------------------------
+// MENU
+// -----------------------------------------------------------------------------
+// #region
+
+.primary-nav > .menu {
+  display: flex;
+  padding: 0;
+
+  @include media-breakpoint-down(md) {
+    align-items: stretch;
+    height: $size-7;
+  }
+
+  @include media-breakpoint-up(md) {
+    flex: 1;
+    flex-direction: column;
+    margin-top: 5.2rem;
+    padding-bottom: 2rem;
+    height: auto;
+  }
+
+  @include media-breakpoint-up(xl) {
+    margin-top: 6.5rem;
+  }
+}
+
+// ITEMS
+
+.primary-nav .menu__item {
+  @include media-breakpoint-down(md) {
+    width: clamp(8rem, 25%, 16.8rem);
+  }
+
+  @include media-breakpoint-up(xl) {
+    margin-bottom: $size-1;
+  }
+}
+
+.primary-nav .menu .menu__item,
+.primary-nav .dropdown__item {
+  @include media-breakpoint-down(xl) {
+    padding: $size-half;
+  }
+}
+
+// LINKS
+
+.primary-nav .menu__link {
+  align-items: center;
+  flex-direction: column;
+  text-align: center;
+  padding:
+    $size-half
+    $size-1
+    0;
+
+  &.is-active {
+    background-color: var(--color-ink-accent);
+  }
+
+  @include media-breakpoint-down(md) {
+    height: $size-line * 2;
+  }
+
+  @include media-breakpoint-between(md, xl) {
+    padding: $size-1;
+    justify-content: space-between;
+    height: $size-8;
+  }
+
+  @include media-breakpoint-up(xl) {
+    flex-direction: row;
+    justify-content: flex-start;
+    padding: .2rem 1.6rem;
+    height: auto;
+    min-height: $size-5;
+  }
+}
+
+// LABELS
+
+.primary-nav .label {
+  @extend %text-truncate;
+}
+
+.primary-nav .label,
+%bottom-nav-item {
+  color: var(--color-ink-2ry);
+  font-weight: 400;
+  max-width: 100%;
+
+  @include media-breakpoint-down(xl) {
+    text-transform: none;
+  }
+}
+
+// ICONS
+
+.primary-nav .menu__link .icon {
+  display: block;
+  margin: 0 auto;
+
+  @include media-breakpoint-up(xl) {
+    margin: 0 $size-2 0 0;
+  }
+}
+
+// ACTIVE STATES
+.is-dashboard .primary-nav .menu__link.is-dashboard,
+.is-wallet .primary-nav .menu__link.is-wallet,
+.is-portfolio .primary-nav .menu__link.is-portfolio,
+.is-payments .primary-nav .menu__link.is-payments,
+.is-history .primary-nav .menu__link.is-history,
+.is-api .primary-nav .menu__link.is-api,
+.is-contacts .primary-nav .menu__link.is-contacts {
+  background-color: var(--color-ink-accent);
+}
+
+
+// #endregion
+
+// -----------------------------------------------------------------------------
+// DROPDOWN
+// -----------------------------------------------------------------------------
+// #region
+.primary-nav .dropdown {
+  @include media-breakpoint-down(md) {
+    position: static;
+  }
+
+  @include media-breakpoint-up(md) {
+    pointer-events: all;
+  }
+}
+
+.primary-nav .dropdown__menu{
+  @include media-breakpoint-up(md) {
+    pointer-events: all;
+  }
+}
+
+// #endregion
+
+// -----------------------------------------------------------------------------
+// MYBUSINES
+// -----------------------------------------------------------------------------
+// #region
+
+// Item
+
+.primary-nav .menu__item.is-cta {
+  @include media-breakpoint-down(md) {
+    display: none;
+  }
+
+  @include media-breakpoint-up(md) {
+    margin-top: auto;
+    order: 1;
+  }
+}
+
+// Button
+
+.primary-nav .menu__item.is-cta .menu__link {
+  @include media-breakpoint-up(md) {
+    background-color: transparent;
+    border: .1rem solid var(--color-ink-border);
+    border-radius: var(--shape-border-radius-base);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    line-height: 1;
+    text-align: center;
+    text-decoration: none;
+    padding: 0 $size-2;
+    user-select: none;
+    white-space: nowrap;
+    transition:
+      background-color var(--motion-duration-sm),
+      box-shadow  var(--motion-duration-sm);
+    height: $size-8;
+
+    &:hover {
+      background-color: var(--color-background-base);
+      text-decoration: none;
+    }
+
+    &:active {
+      box-shadow:
+        inset 0 0 0 1px var(--color-ink-border),
+        inset 0 3px 5px var(--color-ink-border),
+        inset 0 0 0 100px var(--color-ink-accent);
+    }
+
+    &:focus {
+      box-shadow: var(--layer-box-shadow-focus-outline);
+      outline: 0;
+    }
+
+    &:focus,
+    &:active:focus {
+      outline: 0;
+    }
+  }
+
+  @include media-breakpoint-up(xl) {
+    height: $size-5;
+  }
+}
+
+// Label
+// stylelint-disable selector-max-compound-selectors
+.primary-nav .is-cta > .menu__link .label {
+
+  @include media-breakpoint-down(xl) {
+    @include visually-hidden();
+  }
+
+  @include media-breakpoint-up(md) {
+    color: var(--color-ink-primary-text);
+  }
+}
+
+// Icon
+
+.primary-nav .is-cta > .menu__link .icon {
+  transform: translateY(-.1rem);
+
+  @include media-breakpoint-up(xl) {
+    margin-right: $size-1;
+    margin-left: -$size-1;
+  }
+}
+
+// #endregion
+
+// -----------------------------------------------------------------------------
+// MORE
+// -----------------------------------------------------------------------------
+// #region
+
+.primary-nav .is-more .dropdown__menu {
+  top: auto;
+  bottom: 100%;
+  left: auto;
+  right: 2rem;
+
+  @include media-breakpoint-up(md) {
+    background-color: transparent;
+    box-shadow: none;
+    border-radius: 0;
+    padding: 0;
+    opacity: 1;
+    position: static;
+    visibility: visible;
+    width: 100%;
+  }
+}
+
+.primary-nav .is-more .dropdown__item {
+  @include media-breakpoint-up(xl) {
+    margin-bottom: $size-1;
+  }
+}
+
+.primary-nav .is-more .dropdown__link {
+  @include media-breakpoint-between(md, xl) {
+    align-items: center;
+    flex-direction: column;
+    text-align: center;
+    padding: $size-1;
+    justify-content: space-between;
+    height: $size-8;
+  }
+}
+
+.primary-nav .is-more .dropdown__link .icon {
+  @include media-breakpoint-between(md, xl) {
+    margin: 0 auto;
+  }
+}
+
+.primary-nav .menu__item.is-more {
+  @include media-breakpoint-up(md) {
+    padding: 0;
+  }
+}
+
+.primary-nav .is-more > .menu__link {
+  @include media-breakpoint-up(md) {
+    display: none;
+  }
+}
+// #endregion

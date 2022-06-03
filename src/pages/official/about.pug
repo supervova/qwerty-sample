@@ -1,0 +1,59 @@
+extends /pages/base/base.pug
+include /pages/base/mixins
+
+//- SETTINGS -------------------------------------------------------------------
+
+append config
+  -
+    const page = {
+      title: 'About Us',
+      description: site.description,
+      link: site.url,
+      img: site.img,
+      isClean: true,
+      isArticle: true
+    }
+
+//- CONTENT --------------------------------------------------------------------
+
+
+
+block content
+  h1 About us
+  p International B2B Social Network b2bingo.com - social network for companies, their employees and individual entrepreneurs.
+
+  h2 Objective of the project
+  p Project's objective is to provide a convenient search tool and provides B2B services, as well as communications and other opportunities for businesses and companies around the world.
+
+  h2 For whom we
+  p Our social network will be useful for the widest audience:
+
+  h3
+    +icon('check-mark')
+    | To business
+
+  ul
+    li Creating a page and a virtual representation of the company;
+    li Free publication and promotion of press releases and company news;
+    li Placement of vacancies and search for employees;
+    li Search and get business services from thousands of companies and freelancers;
+
+  h3
+    +icon('check-mark')
+    | To freelancers
+  p Placing and promotion B2B services, as well as receiving payments using B2Bingo.com;
+
+  h3
+    +icon('check-mark')
+    | To SMM specialists and marketers
+  ul
+    li Creating and promoting diverse communities and publications;
+    li Selling advertising in communities;
+    li Tools for promoting business and B2B services;
+
+  h3
+    +icon('check-mark')
+    | To everyone else
+  ul
+    li Subscribing to interesting communities and companies news;
+    li Publishing personal portfolios and job search.

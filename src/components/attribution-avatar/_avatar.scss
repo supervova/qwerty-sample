@@ -1,0 +1,71 @@
+// AVATAR
+.avatar,
+%avatar {
+  @extend %border;
+
+  background-color: var(--color-background-alt);
+  background-image: var(--asset-data-image-picture);
+  background-position: 50% 50%;
+  background-repeat: no-repeat;
+  padding: 0 !important;
+  overflow: hidden;
+
+  img {
+    // override inline styles
+    box-shadow: none !important;
+    border: 0;
+    margin: 0 !important;
+    object-fit: cover;
+    width: 100%;
+    min-height: 100%;
+  }
+
+  [src*='nophoto'],
+  [src*='no-image'] {
+    opacity: 0;
+    display: block;
+  }
+}
+
+// -----------------------------------------------------------------------------
+// LARGE
+// -----------------------------------------------------------------------------
+
+.avatar.is-large,
+%avatar-lg {
+  background-size: $size-8;
+  border-radius: var(--shape-border-radius-base);
+  width: $size-line * 9;
+  min-height: $size-line * 10;
+}
+
+
+// -----------------------------------------------------------------------------
+// SMALL
+// -----------------------------------------------------------------------------
+
+.avatar.is-small,
+%avatar-sm {
+  width: $size-5;
+  height: $size-5;
+
+  &:after {
+    border-radius: var(--shape-border-radius-pill);
+  }
+}
+
+// POSITIONING
+
+.form__fieldset.has-2-avatars,
+%two-avatars-fieldset {
+  position: relative;
+  margin-bottom: $size-line;
+
+  .avatar.is-small {
+    box-shadow: var(--layer-box-shadow-z3);
+    position: absolute;
+    top: 50%;
+    left: $size-line * 8;
+    transform: translateY(calc(-50% - #{$size-line}));
+  }
+}

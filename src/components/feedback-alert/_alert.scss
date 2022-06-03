@@ -1,0 +1,127 @@
+.alert {
+  border: 0;
+  border-radius: var(--shape-border-radius-sm);
+  box-shadow: inset 0 0 0 1px var(--color-ink-border);
+  color: var(--color-ink-primary-accent);
+  margin-bottom: $size-line;
+  padding: var(--size-padding-x-box);
+  position: relative;
+
+  // > p {
+  //   max-width: 70ch;
+  // }
+}
+
+// BIG GLOBAL ALERTS
+
+.alert.is-global,
+body > .alert {
+  background-color: var(--color-background-warning);
+  border-radius: 0;
+  box-shadow:
+    inset 0 -1px 0 var(--color-ink-border),
+    var(--layer-box-shadow-z5);
+  text-align: center;
+  margin-bottom: 0;
+  padding: $size-line var(--size-padding-x-box);
+  position: absolute;
+  right: 0;
+  left: 0;
+  max-width: none;
+  z-index: var(--layer-zindex-alert);
+
+  > p {
+    text-align: left;
+    margin: 0 auto;
+    padding-left: $size-8;
+    position: relative;
+    min-height: 4.8rem;
+    // Max width is 7 global columns on desktops
+    // max-width: round($size-max-width-container / 2);
+  }
+
+  // Big Icons
+  > p .icon {
+    position: absolute;
+    top: -.2rem;
+    left: 0;
+    width: 5.2rem;
+    height: 5.2rem;
+  }
+}
+
+// SEMANTIC BACKGROUNDS
+
+.is-waring,
+%alert-waring {
+  background: var(--color-background-warning);
+  opacity: .9;
+}
+
+.alert.is-warning .icon__body {
+  fill: var(--color-ink-warning-base);
+}
+
+.alert.is-warning .icon__details {
+  fill: var(--color-ink-icon);
+}
+
+.is-danger,
+%alert-danger {
+  background: var(--color-background-error);
+}
+
+.is-info {
+  background: var(--color-background-info);
+}
+
+
+// DISMISSIBLE ALERTS
+
+// .is-dismissible {
+//   padding-right: $size-4; // 32px
+
+//   // Adjust close link position
+//   .btn.is-close {
+//     position: absolute;
+//     top: $size-1;
+//     right: $size-1;
+//   }
+// }
+
+// -----------------------------------------------------------------------------
+// OVERRIDES
+// -----------------------------------------------------------------------------
+
+.alert-warning {
+  @extend %alert-waring;
+}
+
+.cookiesalert {
+  background: var(--color-background-acrylic);
+  backdrop-filter: var(--color-background-acrylic-backdrop);
+  box-shadow: var(--layer-box-shadow-z2);
+  color: var(--color-ink-2ry);
+  font-size: var(--font-size-base);
+  line-height: var(--font-line-height-base);
+  padding:
+    calc(#{$size-line} + var(--size-padding-top-base))
+    var(--size-padding-x-box)
+    $size-line;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  max-width: 100%;
+  z-index: var(--layer-zindex-fixed);
+
+  > div {
+    padding-top: 1.3rem;
+  }
+
+  @include media-breakpoint-up(md) {
+    border-radius: var(--shape-border-radius-base);
+    bottom: $size-2;
+    max-width: 68.8rem;
+  }
+}
+

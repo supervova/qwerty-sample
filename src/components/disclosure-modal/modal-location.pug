@@ -1,0 +1,25 @@
+//-  Modal: Location
+
+.modal.fade#modal-location(role='dialog' aria-labelledby='region-selector-title' aria-hidden='true' tabindex='-1')
+  .modal-dialog(role='document')
+    .modal__box
+      .modal__header
+        h3.modal__title#region-selector-title Your location:
+        button.btn.is-close(type='button' data-dismiss='modal' aria-label='Close')
+          svg.icon(aria-hidden='true' focusable='false')
+            use(href='/projects/#{ExtraData.domain}/images/base/graphics/sprite.svg#icon-close')
+      form.modal__body#form-region
+        .form__item.has-select
+          label(for='cclist') Country:
+          | {$cc_html}
+
+        .form__item
+          label(for='cclist') City:
+          .typeahead__container
+            .typeahead__field
+              span.typeahead__query
+                input.form-control#this_region_lng(type='text' name='this_region_lng' value='{$user_region_lng}' placeholder='City search...' autocomplete='off' onchange='checkregion()')
+          input#this_region(type='hidden' name='this_region')
+
+      .modal__footer
+        button.btn.is-primary(onclick='saveregion()') Continue with new region

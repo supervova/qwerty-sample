@@ -1,0 +1,87 @@
+// stylelint-disable selector-no-qualifying-type
+
+.is-touched:not(textarea),
+.has-been-validated :not(textarea),
+.form__item.has-error :not(textarea),
+.form__item.is-correct :not(textarea) {
+  background-position: right $size-1 center;
+  background-repeat: no-repeat;
+}
+
+textarea.is-touched,
+.has-been-validated textarea,
+.form__item.has-error textarea,
+.form__item.is-correct textarea {
+  background-position: right $size-1 top .9rem;
+  background-repeat: no-repeat;
+}
+
+// -----------------------------------------------------------------------------
+// VALID INPUTS
+// -----------------------------------------------------------------------------
+
+.is-touched:not(:focus):not(:invalid),
+.has-been-validated :not(:focus):not(:invalid),
+.form__item.is-correct :not(:focus) {
+  background-image: var(--asset-data-image-success);
+}
+
+// -----------------------------------------------------------------------------
+// INVALID INPUTS
+// -----------------------------------------------------------------------------
+
+/* stylelint-disable selector-max-compound-selectors */
+// .is-invalid, // server-side validated
+.is-touched:not(:focus):invalid,
+.has-been-validated :not(:focus):invalid,
+.form__item.has-error :not(:focus):invalid {
+  background-image: var(--asset-data-image-error);
+  border-color: var(--color-border-error);
+  box-shadow: inset 0 0 0 1px var(--color-border-error);
+
+  // Show alert
+  + .form__alert,
+  + .form__hint + .form__alert {
+    opacity: 1;
+    height: auto;
+  }
+
+  // And hide hint
+  + .form__hint {
+    display: none;
+  }
+}
+
+// -----------------------------------------------------------------------------
+// ERROR MESSAGES
+// -----------------------------------------------------------------------------
+
+.form__alert {
+  color: var(--color-ink-error-text);
+  font-size: var(--font-size-small);
+  line-height: var(--font-line-height-small);
+  overflow: hidden;
+  opacity: 0;
+  transition: opacity var(--motion-duration-lg);
+  height: 0;
+}
+
+// To hide message using height: 0 we should wrap it in another div and delegate
+// paddings to it
+.form__alert > div {
+  padding-top: var(--size-padding-top-small);
+  padding-bottom: .4rem;
+}
+
+// Show front-end validation alert for form rows
+.form__row.has-error + .form__alert {
+  opacity: 1;
+  height: auto;
+}
+
+// ALERT UNDER THE CHECKBOXES
+/* stylelint-disable selector-no-qualifying-type */
+.has-been-validated input[type='checkbox']:not(:focus):invalid + label + .form__alert {
+  display: block;
+}
+

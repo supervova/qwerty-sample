@@ -1,0 +1,530 @@
+extends /pages/base/base.pug
+include /pages/base/mixins
+
+//- SETTINGS -------------------------------------------------------------------
+
+append config
+  -
+    const page = {
+      lang: 'ru',
+      title: 'Profile',
+      description: site.description,
+      link: site.url,
+      img: site.img,
+      isClean: true,
+    }
+
+
+//- CONTENT --------------------------------------------------------------------
+
+block content
+
+
+  h3 Статистика автора<br>
+    small Партнерская программа для авторов публикаций и владельцев сообществ!
+
+  p
+    span Мы платим:
+    |  10 копеек
+    span за каждое прочтение ваших публикаций!
+    |  Вознаграждение начисляется только в том случае, если размер публикации не менее 1000 знаков, при условии прочтения до конца!
+
+    h4 Статистика за период:
+
+  .form-inline
+    .input-group.date.startdate(data-link-field='dtp_input1')
+      input#fromtime.form-control(size='10' type='text' value='2021-08-20' placeholder='Нажмите, чтобы выбрать' readonly onchange='getstat()')
+      span.input-group-addon
+        span.glyphicon.glyphicon-remove
+      span.input-group-addon
+        span.glyphicon.glyphicon-th
+    | -
+    .input-group.date.enddate(data-link-field='dtp_input2')
+      input#totime.form-control(size='10' type='text' value='2021-08-20' placeholder='Нажмите, чтобы выбрать' readonly onchange='getstat()')
+      span.input-group-addon
+        span.glyphicon.glyphicon-remove
+      span.input-group-addon
+        span.glyphicon.glyphicon-th
+
+  small(style='margin-left: 10px') Ваш Часовой пояс:
+  |  UTC +2
+  small
+    | (
+    a(href='/profile' target='_blank') настройки профиля
+    | )
+  input#dtp_input1(type='hidden')
+  input#dtp_input2(type='hidden')
+
+  table
+    thead
+      tr
+        td(style='padding: 5px')
+          strong Публикации
+        td(style='padding: 5px')
+          strong Посетители
+        td(style='padding: 5px')
+          strong Прочитано
+        td(style='padding: 5px')
+          strong Заработано
+    tbody#tbody
+
+  h4 Ваш баланс:
+
+  p
+    | Оперативный баланс:
+    strong 0 WMC
+    br
+    | Доступно для вывода:
+    strong 0 WMC
+
+  h2
+    span.nottranslate WMC
+    | -
+    span что это?
+  p
+    span.nottranslate WMC
+    | (
+    span или
+    span.nottranslate Web-Money-Credits
+    | ) -
+    span Внутренняя система жетонов, которые можно обменять на виртуальные товары (услуги и обязательства).
+  p
+    span Стоимость
+    span.nottranslate 1 WMC
+    | =
+    span 0,01 доллара США
+  p
+    span Курсы
+    // nottranslate
+    span.nottranslate WMC
+    // nottranslate
+    span по отношению к мировым валютам на данный момент:
+
+  .table-responsive(style='padding: 10px; background: #fff')
+    table.table.table-striped
+      thead
+        tr
+          th Код валюты
+          th Название валюты
+          th Курс
+          th Расчет баланса
+      tbody
+        tr
+          td AUD
+          td Australian Dollar
+          td 1.40 AUD / 100 WMC
+          td 0 AUD
+        tr
+          td BGN
+          td Български лев
+          td 1.67 BGN / 100 WMC
+          td 0 BGN
+        tr
+          td BRL
+          td Moeda brasileira
+          td 5.44 BRL / 100 WMC
+          td 0 BRL
+        tr
+          td BYN
+          td Беларускі рубель
+          td 2.52 BYN / 100 WMC
+          td 0 BYN
+        tr
+          td CAD
+          td Canadian Dollar
+          td 1.28 CAD / 100 WMC
+          td 0 CAD
+        tr
+          td CHF
+          td Swiss franc
+          td 0.92 CHF / 100 WMC
+          td 0 CHF
+        tr
+          td CNY
+          td 中國元
+          td 6.49 CNY / 100 WMC
+          td 0 CNY
+        tr
+          td CZK
+          td Česká Koruna
+          td 21.80 CZK / 100 WMC
+          td 0 CZK
+        tr
+          td DKK
+          td Danske kroner
+          td 6.36 DKK / 100 WMC
+          td 0 DKK
+        tr
+          td EUR
+          td Euro
+          td 0.85 EUR / 100 WMC
+          td 0 EUR
+        tr
+          td GBP
+          td Pound sterling
+          td 0.73 GBP / 100 WMC
+          td 0 GBP
+        tr
+          td HKD
+          td 港元
+          td 7.79 HKD / 100 WMC
+          td 0 HKD
+        tr
+          td HRK
+          td Kuna
+          td 6.41 HRK / 100 WMC
+          td 0 HRK
+        tr
+          td HUF
+          td Forint
+          td 300.09 HUF / 100 WMC
+          td 0 HUF
+        tr
+          td ICG
+          td Physical gold based coin
+          td 17.52 ICG / 100 WMC
+          td 0 ICG
+        tr
+          td IDR
+          td Rupee
+          td 14468.25 IDR / 100 WMC
+          td 0 IDR
+        tr
+          td ILS
+          td שקל
+          td 3.25 ILS / 100 WMC
+          td 0 ILS
+        tr
+          td INR
+          td Indian rupee
+          td 74.38 INR / 100 WMC
+          td 0 INR
+        tr
+          td ISK
+          td Icelandic krone
+          td 127.22 ISK / 100 WMC
+          td 0 ISK
+        tr
+          td JPY
+          td 円
+          td 109.62 JPY / 100 WMC
+          td 0 JPY
+        tr
+          td KRW
+          td 원
+          td 1175.91 KRW / 100 WMC
+          td 0 KRW
+        tr
+          td MXN
+          td Peso mejicano
+          td 20.17 MXN / 100 WMC
+          td 0 MXN
+        tr
+          td MYR
+          td Ringgit Malaysia
+          td 4.24 MYR / 100 WMC
+          td 0 MYR
+        tr
+          td NOK
+          td Norske kroner
+          td 9.02 NOK / 100 WMC
+          td 0 NOK
+        tr
+          td NZD
+          td New Zealand Dollar
+          td 1.46 NZD / 100 WMC
+          td 0 NZD
+        tr
+          td PHP
+          td Philippine Peso
+          td 50.52 PHP / 100 WMC
+          td 0 PHP
+        tr
+          td PLN
+          td Zloty
+          td 3.92 PLN / 100 WMC
+          td 0 PLN
+        tr
+          td RON
+          td Lei
+          td 4.21 RON / 100 WMC
+          td 0 RON
+        tr
+          td RUB
+          td Российский рубль
+          td 74.14 RUB / 100 WMC
+          td 0 RUB
+        tr
+          td SEK
+          td Svenska kronor
+          td 8.79 SEK / 100 WMC
+          td 0 SEK
+        tr
+          td SGD
+          td Singapore Dollar
+          td 1.36 SGD / 100 WMC
+          td 0 SGD
+        tr
+          td THB
+          td ค้างคาว
+          td 33.34 THB / 100 WMC
+          td 0 THB
+        tr
+          td TRY
+          td Lyra
+          td 6.47 TRY / 100 WMC
+          td 0 TRY
+        tr
+          td UAH
+          td Гривня
+          td 27.12 UAH / 100 WMC
+          td 0 UAH
+        tr
+          td USD
+          td US Dollar
+          td 1.00 USD / 100 WMC
+          td 0 USD
+        tr
+          td ZAR
+          td Rand
+          td 15.18 ZAR / 100 WMC
+          td 0 ZAR
+
+  .table-responsive(style='padding: 10px; background: #fff')
+    table.table.table-striped
+      thead
+        tr
+          th Код валюты
+          th Название валюты
+          th Курс
+          th Расчет баланса
+      tbody
+        tr
+          td AUD
+          td Australian Dollar
+          td 1.40 AUD / 100 WMC
+          td 0 AUD
+        tr
+          td BGN
+          td Български лев
+          td 1.67 BGN / 100 WMC
+          td 0 BGN
+        tr
+          td BRL
+          td Moeda brasileira
+          td 5.44 BRL / 100 WMC
+          td 0 BRL
+        tr
+          td BYN
+          td Беларускі рубель
+          td 2.52 BYN / 100 WMC
+          td 0 BYN
+        tr
+          td CAD
+          td Canadian Dollar
+          td 1.28 CAD / 100 WMC
+          td 0 CAD
+        tr
+          td CHF
+          td Swiss franc
+          td 0.92 CHF / 100 WMC
+          td 0 CHF
+        tr
+          td CNY
+          td 中國元
+          td 6.49 CNY / 100 WMC
+          td 0 CNY
+        tr
+          td CZK
+          td Česká Koruna
+          td 21.80 CZK / 100 WMC
+          td 0 CZK
+        tr
+          td DKK
+          td Danske kroner
+          td 6.36 DKK / 100 WMC
+          td 0 DKK
+        tr
+          td EUR
+          td Euro
+          td 0.85 EUR / 100 WMC
+          td 0 EUR
+        tr
+          td GBP
+          td Pound sterling
+          td 0.73 GBP / 100 WMC
+          td 0 GBP
+        tr
+          td HKD
+          td 港元
+          td 7.79 HKD / 100 WMC
+          td 0 HKD
+        tr
+          td HRK
+          td Kuna
+          td 6.41 HRK / 100 WMC
+          td 0 HRK
+        tr
+          td HUF
+          td Forint
+          td 300.09 HUF / 100 WMC
+          td 0 HUF
+        tr
+          td ICG
+          td Physical gold based coin
+          td 17.52 ICG / 100 WMC
+          td 0 ICG
+        tr
+          td IDR
+          td Rupee
+          td 14468.25 IDR / 100 WMC
+          td 0 IDR
+        tr
+          td ILS
+          td שקל
+          td 3.25 ILS / 100 WMC
+          td 0 ILS
+        tr
+          td INR
+          td Indian rupee
+          td 74.38 INR / 100 WMC
+          td 0 INR
+        tr
+          td ISK
+          td Icelandic krone
+          td 127.22 ISK / 100 WMC
+          td 0 ISK
+        tr
+          td JPY
+          td 円
+          td 109.62 JPY / 100 WMC
+          td 0 JPY
+        tr
+          td KRW
+          td 원
+          td 1175.91 KRW / 100 WMC
+          td 0 KRW
+        tr
+          td MXN
+          td Peso mejicano
+          td 20.17 MXN / 100 WMC
+          td 0 MXN
+        tr
+          td MYR
+          td Ringgit Malaysia
+          td 4.24 MYR / 100 WMC
+          td 0 MYR
+        tr
+          td NOK
+          td Norske kroner
+          td 9.02 NOK / 100 WMC
+          td 0 NOK
+        tr
+          td NZD
+          td New Zealand Dollar
+          td 1.46 NZD / 100 WMC
+          td 0 NZD
+        tr
+          td PHP
+          td Philippine Peso
+          td 50.52 PHP / 100 WMC
+          td 0 PHP
+        tr
+          td PLN
+          td Zloty
+          td 3.92 PLN / 100 WMC
+          td 0 PLN
+        tr
+          td RON
+          td Lei
+          td 4.21 RON / 100 WMC
+          td 0 RON
+        tr
+          td RUB
+          td Российский рубль
+          td 74.14 RUB / 100 WMC
+          td 0 RUB
+        tr
+          td SEK
+          td Svenska kronor
+          td 8.79 SEK / 100 WMC
+          td 0 SEK
+        tr
+          td SGD
+          td Singapore Dollar
+          td 1.36 SGD / 100 WMC
+          td 0 SGD
+        tr
+          td THB
+          td ค้างคาว
+          td 33.34 THB / 100 WMC
+          td 0 THB
+        tr
+          td TRY
+          td Lyra
+          td 6.47 TRY / 100 WMC
+          td 0 TRY
+        tr
+          td UAH
+          td Гривня
+          td 27.12 UAH / 100 WMC
+          td 0 UAH
+        tr
+          td USD
+          td US Dollar
+          td 1.00 USD / 100 WMC
+          td 0 USD
+        tr
+          td ZAR
+          td Rand
+          td 15.18 ZAR / 100 WMC
+          td 0 ZAR
+  script.
+
+    $(document).ready(function () {
+        $('.startdate').datetimepicker({
+          language: 'ru',
+          weekStart: 1,
+          todayBtn: 1,
+          autoclose: 1,
+          todayHighlight: 1,
+          startView: 2,
+          minView: 2,
+          forceParse: 0,
+          showMeridian: 1,
+          calendarWeeks: 1,
+          format: 'yyyy-mm-dd',
+        });
+        $('.enddate').datetimepicker({
+          language: 'ru',
+          weekStart: 1,
+          todayBtn: 1,
+          autoclose: 1,
+          todayHighlight: 1,
+          startView: 2,
+          minView: 2,
+          forceParse: 0,
+          showMeridian: 1,
+          calendarWeeks: 1,
+          format: 'yyyy-mm-dd',
+        });
+        getstat();
+      });
+      function getstat() {
+        var fromtime = document.getElementById('fromtime').value;
+        var totime = document.getElementById('totime').value;
+        if (fromtime == '' || totime == '') {
+          return;
+        }
+        const request = new XMLHttpRequest();
+        const url = './authorstat.php';
+        const params = 'from=' + fromtime + '&to=' + totime;
+        request.open('POST', url, true);
+        request.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+        request.addEventListener('readystatechange', () => {
+          if (request.readyState === 4 && request.status === 200) {
+            document.getElementById('tbody').innerHTML = request.responseText;
+          }
+        });
+        request.send(params);
+      }

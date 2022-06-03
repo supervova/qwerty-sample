@@ -1,0 +1,560 @@
+extends /pages/base/base.pug
+include /pages/base/mixins
+
+//- SETTINGS -------------------------------------------------------------------
+
+append config
+  -
+    const page = {
+      lang: 'ru',
+      title: 'Community Settings',
+      description: site.description,
+      link: site.url,
+      img: site.img,
+      isClear: true
+    }
+
+append head
+
+
+//- CONTENT --------------------------------------------------------------------
+
+block content
+
+  script.
+
+    function resizeFile(file, b64field, rW, rH) {
+          $('#p_prldr').show();
+          var reader = new FileReader();
+          reader.onloadend = function () {
+            var tempImg = new Image();
+            tempImg.src = reader.result;
+            tempImg.onload = function () {
+              var tempW = tempImg.width;
+              var tempH = tempImg.height;
+              imgcrop(this, tempW, tempH, rW, rH, b64field, 0, 0);
+              document.getElementById('communitylogo').style.background = 'url("' + $(b64field).val() + '") no-repeat center left';
+              document.getElementById('communitylogo').style.backgroundSize = 'cover';
+              $('#p_prldr').delay(100).fadeOut('slow');
+            };
+          };
+          reader.readAsDataURL(file);
+        }
+
+        function resizecover(file, b64field, rW, rH) {
+          $('#p_prldr').show();
+          var reader = new FileReader();
+          reader.onloadend = function () {
+            var tempImg = new Image();
+            tempImg.src = reader.result;
+            tempImg.onload = function () {
+              var tempW = tempImg.width;
+              var tempH = tempImg.height;
+              if (tempW < 800 || tempH < 250) {
+                $('#p_prldr').delay(100).fadeOut('slow');
+                document.getElementById('coverimage').value = '';
+                bootpopup.alert('Размер изображения для сообщества должен быть 1600x500 пикселей!', 'Пожалуйста, обратите внимание');
+                return;
+              }
+              imgcrop(this, tempW, tempH, rW, rH, b64field);
+              document.getElementById('coverbg').style.background = 'no-repeat top left url("' + $(b64field).val() + '")';
+              document.getElementById('coverbg').style.backgroundSize = 'contain';
+              $('#p_prldr').delay(100).fadeOut('slow');
+            };
+          };
+          reader.readAsDataURL(file);
+        }
+
+        function imgcrop(image, tempW, tempH, maxW, maxH, elem, strongmode, filetype) {
+          var sourceX = 0;
+          var sourceY = 0;
+          var destWidth = tempW;
+          var destHeight = tempH;
+          if (strongmode == 0) {
+            if (tempW > maxW) {
+              var destWidth = maxW;
+              var destHeight = destHeight * (maxW / tempW);
+            }
+            if (destHeight > maxH) {
+              var destWidth = tempW;
+              var destHeight = tempH;
+              var destHeight = maxH;
+              var destWidth = destWidth * (maxH / tempH);
+            }
+          } else {
+            var destWidth = maxW;
+            var destHeight = maxH;
+          }
+          var destX = 0;
+          var destY = 0;
+
+          var canvas = document.createElement('canvas');
+          canvas.width = destWidth;
+          canvas.height = destHeight;
+
+          var ctx = canvas.getContext('2d');
+          ctx.drawImage(image, sourceX, sourceY, tempW, tempH, destX, destY, destWidth, destHeight);
+          if (filetype == 1) {
+            var dataURL = canvas.toDataURL('image/jpeg');
+          } else {
+            var dataURL = canvas.toDataURL('image/png');
+          }
+          $(elem).val(dataURL);
+        }
+
+        function showlogo() {
+          var image = $('#PhotoFile');
+          if (image[0].files && image[0].files[0]) {
+            resizeFile(image[0].files[0], $('#photo_b64'), 400, 400);
+          }
+        }
+
+        function showcoverimage() {
+          var image = $('#coverimage');
+          if (image[0].files && image[0].files[0]) {
+            resizecover(image[0].files[0], $('#coverimage64'), 1600, 500);
+          }
+        }
+
+        function autocost() {
+          document.getElementById('cost24').value = 100;
+          document.getElementById('cost48').value = 190;
+          document.getElementById('cost96').value = 360;
+          document.getElementById('cost7').value = 600;
+          document.getElementById('cost30').value = 2200;
+          document.getElementById('costunlim').value = 20000;
+        }
+
+        function savesettings() {
+          var blogname = document.getElementById('blogname').value;
+          var blogdescription = document.getElementById('blogdescription').value;
+          var blogpassword = document.getElementById('blogpassword').value;
+          var journalists_list = document.getElementById('journalists_list').value;
+          var administrators_list = document.getElementById('administrators_list').value;
+          var moderators_list = document.getElementById('moderators_list').value;
+          var cost24 = document.getElementById('cost24').value;
+          var cost48 = document.getElementById('cost48').value;
+          var cost96 = document.getElementById('cost96').value;
+          var cost7 = document.getElementById('cost7').value;
+          var cost30 = document.getElementById('cost30').value;
+          var costunlim = document.getElementById('costunlim').value;
+
+          var subscribecost7 = document.getElementById('subscribecost7').value;
+          var subscribecost30 = document.getElementById('subscribecost30').value;
+          var subscribecost182 = document.getElementById('subscribecost182').value;
+          var subscribecost365 = document.getElementById('subscribecost365').value;
+          var subscribecostunlim = document.getElementById('subscribecostunlim').value;
+
+          var isadult = document.getElementById('isadult').checked;
+          var enabled = document.getElementById('enabled').checked;
+          var noover = document.getElementById('noover').checked;
+          var blogaccess = '';
+          var blogpostaccess = '';
+          var blogmoderation = '';
+          if (document.getElementById('blogaccess0').checked) {
+            var blogaccess = 0;
+          }
+          if (document.getElementById('blogaccess1').checked) {
+            var blogaccess = 1;
+          }
+          if (document.getElementById('blogaccess2').checked) {
+            var blogaccess = 2;
+          }
+          if (document.getElementById('blogpostaccess0').checked) {
+            var blogpostaccess = 0;
+          }
+          if (document.getElementById('blogpostaccess1').checked) {
+            var blogpostaccess = 1;
+          }
+          if (document.getElementById('blogpostaccess2').checked) {
+            var blogpostaccess = 2;
+          }
+          if (document.getElementById('blogmoderation0').checked) {
+            var blogmoderation = 0;
+          }
+          if (document.getElementById('blogmoderation1').checked) {
+            var blogmoderation = 1;
+          }
+          var photo_b64 = document.getElementById('photo_b64').value;
+          var coverimage64 = document.getElementById('coverimage64').value;
+          var community_type = -1;
+          if (document.getElementById('communitytype0').checked) {
+            var community_type = 0;
+          }
+          if (document.getElementById('communitytype1').checked) {
+            var community_type = 1;
+          }
+          if (document.getElementById('communitytype2').checked) {
+            var community_type = 2;
+          }
+          if (document.getElementById('communitytype3').checked) {
+            var community_type = 3;
+          }
+          if (document.getElementById('communitytype4').checked) {
+            var community_type = 4;
+          }
+          $('#p_prldr').show();
+          $.post('./savecommunity.php', { blogaddress: '13017', blogname: blogname, blogdescription: blogdescription, isadult: isadult, enabled: enabled, noover: noover, photo_b64: photo_b64, coverimage64: coverimage64, blogaccess: blogaccess, blogpostaccess: blogpostaccess, blogmoderation: blogmoderation, blogpassword: blogpassword, journalists_list: journalists_list, moderators_list: moderators_list, administrators_list: administrators_list, cost24: cost24, cost48: cost48, cost96: cost96, cost7: cost7, cost30: cost30, costunlim: costunlim, subscribecost7: subscribecost7, subscribecost30: subscribecost30, subscribecost182: subscribecost182, subscribecost365: subscribecost365, subscribecostunlim: subscribecostunlim, community_type: community_type, checkID: 1631703571 }).done(function (data) {
+            if (data != 'OK') {
+              bootpopup.alert(data, 'Ошибка');
+              $('#p_prldr').delay(100).fadeOut('slow');
+            } else {
+              location.href = '/community-13017';
+            }
+          });
+        }
+
+        function unbanuser(ban_user_id, ban_username) {
+          bootpopup({
+            title: 'Разблокировать пользователя',
+            content: ['Вы уверены, что хотите разблокировать этого пользователя?<br>', 'Пользователь: <b>' + ban_username + '</b>'],
+            cancel: function (data, array, event) {
+              return false;
+            },
+            ok: function (data, array, event) {
+              $.post('./banuser.php', { checkID: 1631703571, ban_user_id: ban_user_id, unblock: 1, community: '13017' }).done(function (data) {
+                bootpopup.alert(data, 'Пожалуйста, обратите внимание');
+                document.getElementById('banned' + ban_user_id).remove();
+              });
+            },
+          });
+        }
+
+        function resizecommunity() {
+          BlockW = document.getElementById('coverbg').offsetWidth;
+          BlockH = 500 * (BlockW / 1600);
+          document.getElementById('coverbg').style.height = BlockH + 'px';
+          logowidth = BlockH / 2;
+          document.getElementById('communitylogo').style.height = logowidth + 'px';
+          document.getElementById('communitylogo').style.width = logowidth + 'px';
+        }
+
+        function overshow() {
+          if (document.getElementById('noover').checked) {
+            $('#communitylogo').hide();
+            $('#communitydescr').hide();
+          } else {
+            $('#communitylogo').show();
+            $('#communitydescr').show();
+          }
+        }
+
+        jQuery(document).ready(function () {
+          document.getElementById('isadult').checked = false;
+          document.getElementById('enabled').checked = true;
+          document.getElementById('noover').checked = false;
+
+          if ('0' == '0') {
+            document.getElementById('blogaccess0').checked = true;
+          }
+          if ('0' == '1') {
+            document.getElementById('blogaccess1').checked = true;
+          }
+          if ('0' == '2') {
+            document.getElementById('blogaccess2').checked = true;
+          }
+          if ('0' == '0') {
+            document.getElementById('blogpostaccess0').checked = true;
+          }
+          if ('0' == '1') {
+            document.getElementById('blogpostaccess1').checked = true;
+          }
+          if ('0' == '2') {
+            document.getElementById('blogpostaccess2').checked = true;
+          }
+          if ('0' == '0') {
+            document.getElementById('blogmoderation0').checked = true;
+          }
+          if ('0' == '1') {
+            document.getElementById('blogmoderation1').checked = true;
+          }
+          if ('0' == '0') {
+            document.getElementById('communitytype0').checked = true;
+          }
+          if ('0' == '1') {
+            document.getElementById('communitytype1').checked = true;
+          }
+          if ('0' == '2') {
+            document.getElementById('communitytype2').checked = true;
+          }
+          if ('0' == '3') {
+            document.getElementById('communitytype3').checked = true;
+          }
+          if ('0' == '4') {
+            document.getElementById('communitytype4').checked = true;
+          }
+          if ('0' == '0') {
+            document.getElementById('communitytype3').disabled = true;
+          }
+          resizecommunity();
+          overshow();
+          window.onresize = resizecommunity;
+        });
+
+  header.main__header
+    h1 Настройки сообщества
+    a(href='https://ru.#{ExtraData.domain}/community-13017' target='_blank') https://ru.#{ExtraData.domain}/community-13017
+
+  .cover#coverbg
+    .cover__logo#communitylogo
+    h2.cover__title Lorem ipsum dolor sit amet
+    .cover__description#communitydescr С другой стороны повышение уровня гражданского сознания обеспечивает широкому кругу специалистов участие в
+
+  .tabs
+    ul.tabs__tablist.pt-2.pb-1(role='tablist')
+      li.tabs__tab.active(role='presentation')
+        a(href='#pane-general' role='tab' data-toggle='tab') Общие параметры
+      li.tabs__tab(role='presentation')
+        a(href='#pane-roles' role='tab' data-toggle='tab') Роли и безопасность
+      li.tabs__tab.dropdown(role='presentation' data-toggle='tooltip' title='Больше')
+        a.dropdown-toggle#dropdown-settings-more-label(href='javascript:void(0)' data-toggle='dropdown' aria-controls='dropdown-settings-more-contents' aria-expanded='false')
+          svg.icon(aria-hidden='true' focusable='false')
+            use(href='/projects/#{ExtraData.domain}/images/base/graphics/sprite.svg#icon-more')
+          span.sr-only Больше
+        ul.dropdown-menu#dropdown-settings-more-contents(aria-labelledby='dropdown-settings-more-label')
+          li
+            a(href='#pane-vip' data-toggle='tab')
+              b VIP-услуги
+          li
+            a(href='#pane-advertising' data-toggle='tab') Рекламные возможности
+          li
+            a(href='#pane-subscriptions' data-toggle='tab') Подписки
+          li
+            a(href='#pane-blocked-users' data-toggle='tab') Заблокированные пользователи
+    form.tabs__content(action='javascript:void(0);')
+      section.tabs__pane.active#pane-general
+        h2.sr-only Обзор
+        .form__item
+          label(for='blogname') Название
+          input#blogname(name='blogname' type='text' value='Lorem ipsum dolor sit amet' placeholder='Введите название сообщества (например, дизайн и программирование)')
+        .form__item
+          label(for='blogdescription') Описание
+          input#blogdescription(name='blogdescription' type='text' value='С другой стороны повышение уровня гражданского сознания обеспечивает широкому кругу специалистов участие в' placeholder='Краткое описание вашего блога')
+
+        fieldset.form__options
+          label.form__item.has-option
+            input#isadult(name='isadult' type='checkbox')
+            | Сообщество содержит материалы для взрослых
+
+          label.form__item.has-option
+            input#enabled(name='enabled' type='checkbox')
+            | Это сообщество доступно другим пользователям
+
+          label.form__item.has-option
+            input#noover(name='noover' type='checkbox' onchange='overshow()')
+            | Не накладывать логотип и описание на обложку
+
+        .form__fieldset
+          h3 Новый логотип
+          ul.note
+            li Вам нужно выбрать квадратное изображение (мы рекомендуем использовать прозрачный PNG-файл), Рекомендуемый размер - 300х300 пикселей.
+            li Или вы можете использовать сообщество без логотипа.
+          input#PhotoFile(type='file' name='PhotoFile' onchange='showlogo();')
+          input#photo_b64(name='photo_b64' type='hidden')
+
+        .form__fieldset
+          h3 Новое изображение для заголовка вашего сообщества
+          p.note При необходимости вы можете загрузить новое изображение для шапки вашего сообщества (1600x500 пикселей).
+          input#coverimage(type='file' name='coverimage' onchange='showcoverimage();')
+          input#coverimage64(name='coverimage64' type='hidden')
+
+        .form__fieldset
+          h3 Тип сообщества:
+          p.note Изменение типа сообщества допускается только при его создании!
+
+          .form__options
+            label.form__item.has-option
+              input#communitytype0(name='communitytype' type='radio' value='0')
+              strong Публикации
+              | . Статьи, пользовательские публикации, обзоры
+
+            label.form__item.has-option
+              input#communitytype4(name='communitytype' type='radio' value='4')
+              strong Закрытые публикации
+              | . Закрытое сообщество (одобрение участников)
+
+            label.form__item.has-option
+              input#communitytype1(name='communitytype' type='radio' value='1')
+              strong Магазин
+              | . Продажа и реклама различных товаров
+
+      section.tabs__pane#pane-roles
+        h2.sr-only Роли и безопасность
+        h3 Параметры доступа для читателей
+
+        .form__options
+          label.form__item.has-option
+            input#blogaccess0(name='blogaccess' type='radio' value='0')
+            span Сообщество доступно для всех
+          label.form__item.has-option
+            input#blogaccess1(name='blogaccess' type='radio' value='1')
+            span Доступ на чтение только для меня
+          label.form__item.has-option
+            input#blogaccess2(name='blogaccess' type='radio' value='2')
+            span Доступ через пароль
+        .form__item
+          label(for='blogpassword') Пароль:
+          input#blogpassword(name='blogpassword' type='text')
+
+        h3 Настройки модерации
+
+        .form__options
+          label.form__item.has-option
+            input#blogmoderation0(name='blogmoderation' type='radio' value='0')
+            span Модерировать перед публикацией
+          label.form__item.has-option
+            input#blogmoderation1(name='blogmoderation' type='radio' value='1')
+            span Немедленно опубликовать
+
+        h3 Администраторы
+
+        p.note Укажите дополнительных администраторов. Введите их идентификаторы, разделив их пробелом или запятой:
+        .form__item
+          label(for='administrators_list') Администраторы:
+          input#administrators_list(name='administrators_list' type='text' placeholder)
+
+        h3 Модераторы
+
+        p.note Укажите дополнительных модераторов. Введите их идентификаторы, разделив их пробелом или запятой:
+        .form__item
+          label(for='moderators_list') Модераторы:
+          input#moderators_list(name='moderators_list' type='text' placeholder)
+
+        h3 Кто может постить
+        .form__options
+          label.form__item.has-option
+            input#blogpostaccess0(name='blogpostaccess' type='radio' value='0')
+            span Только Я
+          label.form__item.has-option
+            input#blogpostaccess1(name='blogpostaccess' type='radio' value='1')
+            span Все
+          label.form__item.has-option
+            input#blogpostaccess2(name='blogpostaccess' type='radio' value='2')
+            span Только журналисты из моего списка:
+
+        p.note Укажите, кто еще может делать публикации. Введите их идентификаторы, разделив их пробелом или запятой.
+        .form__item
+          label(for='journalists_list') Журналисты:
+          input#journalists_list(name='journalists_list' type='text' placeholder)
+
+      section.tabs__pane#pane-advertising
+        h2 Реклама
+        strong Вы можете настроить публикацию рекламных сообщений и зарабатывать на рекламе в сообществе!
+        h3 Стоимость рекламы в сообществе:
+        div
+          span Рекламный пост в сообществе на период...
+          span Укажите стоимость рекламы в WMC за каждый из периодов.
+          a(href='https://ru.#{ExtraData.domain}/wmc')
+            span Что такое WMC?
+          br
+          span Если вы не хотите продавать рекламу в любой из периодов, оставьте поле пустым или укажите 0.
+          br
+          a(href='javascript:void(0)' onclick='autocost()') Нажмите здесь, чтобы рассчитать стоимость рекламы автоматически, исходя из популярности вашего сообщества.
+
+        .form__fieldset.is-community-prices
+          .form__item
+            label(for='cost24') 24 часа:
+            input#cost24(name='cost24' type='number' value='0')
+          .form__item
+            label(for='cost48') 48 часов:
+            input#cost48(name='cost48' type='number' value='0')
+          .form__item
+            label(for='cost96') 96 часов:
+            input#cost96(name='cost96' type='number' value='0')
+          .form__item
+            label(for='cost7') 7 дней:
+            input#cost7(name='cost7' type='number' value='0')
+          .form__item
+            label(for='cost30') 30 дней:
+            input#cost30(name='cost30' type='number' value='0')
+          .form__item
+            label(for='costunlim') неограничен:
+            input#costunlim(name='costunlim' type='number' value='0')
+
+        ul.note.is-unstyled
+            li Ваш доход составляет 60% от рекламы, размещенной в ваших сообществах.
+            li Неограниченный период рекламы предполагает, что сообщение будет зафиксировано в верхней части сообщества в течение 30 календарных дней, а затем войдет в историю. Если вы не хотите продавать рекламу в течение неограниченного периода времени, оставьте это поле пустым или укажите 0.
+            li В случае удаления рекламного поста до окончания рекламного периода средства возвращаются рекламодателю в полном объеме.
+
+      section.tabs__pane.is-vip#pane-vip
+        h2 VIP-услуги
+        strong Вы можете заказать дополнительные услуги, которые сделают ваше сообщество еще более популярным:
+        h4(align='center') Автоматический перевод публикаций
+        div(style='margin-bottom: 10px') Все публикации блога будут автоматически переведены на языки читателей. Система автоматически определяет язык читателя и, если он не соответствует языку публикации, автоматически переводит текст на язык читателя. Ограничение: автоматический перевод выполняется только на следующие языки: английский, испанский, русский, французский, немецкий и итальянский.
+        div(style='margin-bottom: 10px')
+          a(href='https://ru.#{ExtraData.domain}/buyservice.php?id=interpreter-13017&key=8b207b0cc86ea90146a61870848003b0&hello=MTA0Mjg2MXwxMGQyOTZiN2Y1NjE2MDA4ODM2NjJlMTMzZWM4Y2I2Yw@@&days=30' target='_blank' style='white-space: nowrap') Активировать 30 дней
+          |
+          span(style='white-space: nowrap') Стоимость - 3,000 WMC (~25.39 EUR)
+        div(style='margin-bottom: 10px')
+          a(href='https://ru.#{ExtraData.domain}/buyservice.php?id=interpreter-13017&key=8b207b0cc86ea90146a61870848003b0&hello=MTA0Mjg2MXwxMGQyOTZiN2Y1NjE2MDA4ODM2NjJlMTMzZWM4Y2I2Yw@@&days=90' target='_blank' style='white-space: nowrap') Активировать 90 дней
+          |
+          span(style='white-space: nowrap') Стоимость - 6,900 WMC (~58.41 EUR)
+        div(style='margin-bottom: 10px')
+          a(href='https://ru.#{ExtraData.domain}/buyservice.php?id=interpreter-13017&key=8b207b0cc86ea90146a61870848003b0&hello=MTA0Mjg2MXwxMGQyOTZiN2Y1NjE2MDA4ODM2NjJlMTMzZWM4Y2I2Yw@@&days=365' target='_blank' style='white-space: nowrap') Активировать 365 дней
+          |
+          span(style='white-space: nowrap') Стоимость - 20,700 WMC (~175.22 EUR)
+        h4(align='center') Добавление сообщества в список рекомендованных
+        div(style='margin-bottom: 10px') Мы предложим подписаться на ваше сообщество всем новым пользователям. Кроме того, ваше сообщество будет в списке рекомендованных и приоритетных.
+        div(style='margin-bottom: 10px')
+          a(href='https://ru.#{ExtraData.domain}/buyservice.php?id=recommended-13017&key=8b207b0cc86ea90146a61870848003b0&hello=MTA0Mjg2MXwxMGQyOTZiN2Y1NjE2MDA4ODM2NjJlMTMzZWM4Y2I2Yw@@&days=30' target='_blank' style='white-space: nowrap') Активировать 30 дней
+          |
+          span(style='white-space: nowrap') Стоимость - 9,000 WMC (~76.18 EUR)
+        div(style='margin-bottom: 10px')
+          a(href='https://ru.#{ExtraData.domain}/buyservice.php?id=recommended-13017&key=8b207b0cc86ea90146a61870848003b0&hello=MTA0Mjg2MXwxMGQyOTZiN2Y1NjE2MDA4ODM2NjJlMTMzZWM4Y2I2Yw@@&days=90' target='_blank' style='white-space: nowrap') Активировать 90 дней
+          |
+          span(style='white-space: nowrap') Стоимость - 20,700 WMC (~175.22 EUR)
+        div(style='margin-bottom: 10px')
+          a(href='https://ru.#{ExtraData.domain}/buyservice.php?id=recommended-13017&key=8b207b0cc86ea90146a61870848003b0&hello=MTA0Mjg2MXwxMGQyOTZiN2Y1NjE2MDA4ODM2NjJlMTMzZWM4Y2I2Yw@@&days=365' target='_blank' style='white-space: nowrap') Активировать 365 дней
+          |
+          span(style='white-space: nowrap') Стоимость - 62,100 WMC (~525.65 EUR)
+        h4(align='center') Рекламные услуги для блога
+        div(style='margin-bottom: 10px') Мы используем контекстные рекламные системы для рекламы блогов. Наш менеджер создаст персональную рекламную кампанию, и ваш блог получит еще больше новых читателей и подписчиков. Кроме того, ваш блог будет добавлен в список рекомендованных.
+        div(style='margin-bottom: 10px')
+          a(href='https://ru.#{ExtraData.domain}/buyservice.php?id=adblog-13017&key=8b207b0cc86ea90146a61870848003b0&hello=MTA0Mjg2MXwxMGQyOTZiN2Y1NjE2MDA4ODM2NjJlMTMzZWM4Y2I2Yw@@&days=30' target='_blank' style='white-space: nowrap') Активировать 30 дней
+          |
+          span(style='white-space: nowrap') Стоимость - 27,000 WMC (~228.54 EUR)
+        div(style='margin-bottom: 10px')
+          a(href='https://ru.#{ExtraData.domain}/buyservice.php?id=adblog-13017&key=8b207b0cc86ea90146a61870848003b0&hello=MTA0Mjg2MXwxMGQyOTZiN2Y1NjE2MDA4ODM2NjJlMTMzZWM4Y2I2Yw@@&days=90' target='_blank' style='white-space: nowrap') Активировать 90 дней
+          |
+          span(style='white-space: nowrap') Стоимость - 62,100 WMC (~525.65 EUR)
+        div(style='margin-bottom: 10px')
+          a(href='https://ru.#{ExtraData.domain}/buyservice.php?id=adblog-13017&key=8b207b0cc86ea90146a61870848003b0&hello=MTA0Mjg2MXwxMGQyOTZiN2Y1NjE2MDA4ODM2NjJlMTMzZWM4Y2I2Yw@@&days=365' target='_blank' style='white-space: nowrap') Активировать 365 дней
+          |
+          span(style='white-space: nowrap') Стоимость - 186,300 WMC (~1,576.94 EUR)
+
+      section.tabs__pane#pane-subscriptions
+        h2 Платные подписки
+        .alert.alert-warning
+          span При необходимости вы можете настроить платный доступ к своему сообществу! Ваш доход составляет 60% от цены подписки.
+        h4 Стоимость подписки на публикации сообщества, в зависимости от периода подписки:
+        div
+          span Укажите стоимость подписки в WMC за каждый из периодов.
+          |
+          a(href='https://ru.#{ExtraData.domain}/wmc')
+            span Что такое WMC?
+          br
+          span Если вы не хотите продавать подписку за любой из периодов, оставьте поле пустым или укажите 0.
+
+        .form__fieldset.is-community-prices
+          .form__item
+            label(for='subscribecost7') 7 дней:
+            input#subscribecost7(name='subscribecost7' type='number')
+          .form__item
+            label(for='subscribecost30') 30 дней:
+            input#subscribecost30(name='subscribecost30' type='number')
+          .form__item
+            label(for='subscribecost182') 6 месяцев:
+            input#subscribecost182(name='subscribecost182' type='number')
+          .form__item
+            label(for='subscribecost365') 1 год:
+            input#subscribecost365(name='subscribecost365' type='number')
+          .form__item
+            label(for='subscribecostunlim') неограничен:
+            input#subscribecostunlim(name='subscribecostunlim' type='number')
+        p.note После установки стоимости подписки ваше сообщество больше не будет доступно для всех. Доступ к публикациям сообщества будет возможен ТОЛЬКО для подписчиков.
+
+      section.tabs__pane#pane-blocked-users
+        h2 Заблокированные пользователи
+        | Нет забаненных пользователей
+
+  button.btn.is-primary#savebutton(type='button' onclick='savesettings();') Сохранить настройки

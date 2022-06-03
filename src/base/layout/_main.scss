@@ -1,0 +1,237 @@
+@use 'sass:math';
+
+// -----------------------------------------------------------------------------
+// BASE
+// -----------------------------------------------------------------------------
+// #region
+
+.main,
+%main {
+  padding: ($size-line * 2) 0;
+  overflow: visible;
+  position: relative;
+
+  // Animated scroll-to-target behavior
+  scroll-behavior: smooth;
+  width: 100%;
+  max-width: $size-max-width-container;
+
+  @include media-breakpoint-up(md) {
+    margin: 0 auto;
+    padding-top: 0;
+  }
+
+  @include media-breakpoint-up(lg) {
+    padding-bottom: $size-line * 3;
+  }
+}
+
+// On public pages: about, contacts, etc. A column for logo is added
+// .entity.is-lite:not(.is-home) .main {
+//   padding-right: var(--size-padding-x-container);
+//   padding-left: var(--size-padding-x-container);
+// }
+
+// LEGACY
+.affix-content {
+  @extend %main;
+
+  background-color: transparent;
+  // override inline styles
+  float: none !important;
+  padding:
+    $size-line * 4
+    0
+    $size-line * 2
+    0 !important;
+
+  @include media-breakpoint-up(md) {
+    padding-top: ($size-line * 8) !important;
+    padding-bottom: $size-line * 3 !important;
+  }
+
+  @include media-breakpoint-up(lg) {
+    padding-bottom: $size-line * 4 !important;
+  }
+}
+
+.container {
+  margin-top: 0;
+  overflow-y: hidden;
+}
+
+.affix-content > .container {
+  background-color: transparent;
+  padding: 0 !important;
+}
+// #endregion
+
+// -----------------------------------------------------------------------------
+// WITH RIGHT SIDEBAR
+// -----------------------------------------------------------------------------
+// #region
+
+// stylelint-disable indentation
+.main.has-sidebar {
+  @include media-breakpoint-up(lg) {
+    display: grid;
+    align-items: start;
+    grid-template-areas:
+    // 1  2  3  4  5  6  7  8  9  10 11 12
+      'h  h  h  h  h  h  h  h  h  h  h  h'
+      'm  m  m  m  m  m  m  m  s  s  s  s';
+    grid-column-gap: var(--size-gutter-lg);
+    grid-template-columns: repeat(12, 1fr);
+    grid-template-rows: minmax(7.2rem, auto) 1fr;
+  }
+
+  @include media-breakpoint-up(xl) {
+    grid-template-areas:
+  // 1  2  3  4  5  6  7  8  9  10 11 12
+    'h  h  h  h  h  h  h  h  s  s  s  s'
+    'm  m  m  m  m  m  m  m  s  s  s  s';
+  }
+}
+// stylelint-enable indentation
+
+.main.has-sidebar .main__header {
+  grid-area: h;
+}
+
+.main.has-sidebar .list-view {
+  grid-area: m;
+}
+
+.main.has-sidebar .filter {
+  grid-area: s;
+}
+
+// #endregion
+
+// -----------------------------------------------------------------------------
+// BODY AND SUBSECTIONS
+// -----------------------------------------------------------------------------
+// #region
+.main.is-readable,
+.main__content.is-readable {
+  max-width: var(--size-width-readable);
+}
+
+.main__row.is-base {
+  @extend %grid;
+}
+
+.main__row.is-media-object {
+  @include media-breakpoint-down(md) {
+    img {
+      margin-top: $size-line;
+      margin-bottom: $size-line;
+    }
+  }
+  @include media-breakpoint-up(md) {
+    display: flex;
+    align-items: center;
+    gap: var(--size-padding-x-box);
+    margin-bottom: $size-line;
+  }
+}
+
+.main__row:not(.is-sm):not(.is-md):not(.is-lg),
+%main-row {
+  display: flex;
+  gap: var(--size-padding-x-box);
+}
+
+.main__row.is-lg,
+%main-row-lg {
+  @include media-breakpoint-up(lg) {
+    display: flex;
+    gap: var(--size-padding-x-box);
+  }
+}
+
+// #endregion
+
+// -----------------------------------------------------------------------------
+// CONTENT
+// -----------------------------------------------------------------------------
+// #region
+
+.main__header {
+  padding-bottom: $size-line;
+}
+
+.main__header-subtitle {
+  margin-top: -$size-2;
+}
+
+.main__body a:not([class]) {
+  text-decoration: underline;
+}
+
+.main__section .buttons {
+  margin-top: $size-line * 2;
+}
+
+
+// #endregion
+
+// -----------------------------------------------------------------------------
+// LEGACY
+// -----------------------------------------------------------------------------
+// #region
+
+// HEADER
+
+.main__header .page-header {
+  border-bottom: 0 !important;
+  display: flex;
+  align-items: center;
+  font-weight: normal;
+  margin-bottom: .6rem;
+  overflow: visible;
+
+  > a {
+    display: inline-block;
+    padding-right: $size-half;
+  }
+}
+
+.main__header .page-header a,
+main .page-header:first-of-type a {
+  color: var(--color-ink-link);
+
+  &:focus {
+    outline: none;
+  }
+}
+
+// BODY
+
+.page-header > h3 {
+  font-size: var(--font-size-big);
+  font-weight: var(--font-weight-title) /* !important */;
+  line-height: var(--font-line-height-big) /* !important */;
+
+  @include media-breakpoint-up(md) {
+    font-size: var(--font-size-title);
+    line-height: var(--font-line-height-title) /* !important */;
+  }
+}
+
+// stylelint-disable selector-no-qualifying-type
+img[src*='images/flags/32'] {
+  display: none;
+}
+
+.js-smartPhoto {
+  @extend %border;
+
+  margin: -.6rem 0 .6rem;
+
+  > img {
+    border-radius: var(--shape-border-radius-base);
+  }
+}
+// #endregion
+

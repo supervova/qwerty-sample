@@ -1,0 +1,95 @@
+extends /pages/base/base.pug
+include /pages/base/mixins
+
+//- SETTINGS -------------------------------------------------------------------
+
+append config
+  -
+    const page = {
+      lang: 'ru',
+      title: 'Profile',
+      description: site.description,
+      link: site.url,
+      img: site.img,
+      isClean: true
+    }
+
+//- CONTENT --------------------------------------------------------------------
+
+block content
+  h1 Fuxk
+  .filter.is-section-search#typesdiv
+    .form__row.mb-2s
+      input#descsearch(name='descsearch' type='search' placeholder='Search for pages')
+      button.btn.is-search(type='submit')
+        svg.icon(aria-hidden='true' focusable='false')
+          use(href='/projects/#{ExtraData.domain}/images/base/graphics/sprite.svg#icon-search')
+      .dropdown.is-leftward.open
+        button.btn.is-icon.is-ghost(type='button' data-toggle='dropdown' aria-haspopup='true' aria-expanded='true' aria-label='Filter search')
+          svg.icon(aria-hidden='true' focusable='false')
+            use(href='/projects/#{ExtraData.domain}/images/base/graphics/sprite.svg#icon-chevron-down-sm')
+        ul.dropdown__menu
+          li
+            label.form__item.has-option
+              input#communitytype0(name='community_type' type='radio' value='0' onchange='changetype()' checked)
+              | Все страницы
+
+          li
+            label.form__item.has-option
+              input#communitytype1(name='community_type' type='radio' value='1' onchange='changetype()')
+              | Компании
+
+          li
+            label.form__item.has-option
+              input#communitytype2(name='community_type' type='radio' value='2' onchange='changetype()')
+              | Клубы
+
+          li
+            label.form__item.has-option
+              input#communitytype3(name='community_type' type='radio' value='3' onchange='changetype()')
+              | Организации
+
+          li
+            label.form__item.has-option
+              input#communitytype4(name='community_type' type='radio' value='4' onchange='changetype()')
+              | Бренды
+
+          li.dropdown__menu-divider(role='separator')
+
+          li(style='display: none')
+            label.form__item.has-option.is-admin-job
+              input#moderationtype0(name='moderation_type' type='radio' value='0' onchange='changetype()' checked)
+              |  Все страницы
+
+          li
+            label.form__item.has-option.is-admin-job
+              input#moderationtype3(name='moderation_type' type='radio' value='3' onchange='changetype()')
+              | В ожидании модерации
+
+          li(style='display: none')
+            label.form__item.has-option.is-admin-job
+              input#moderationtype1(name='moderation_type' type='radio' value='1' onchange='changetype()')
+              | Утвержденные страницы
+
+          li(style='display: none')
+            label.form__item.has-option.is-admin-job
+              input#moderationtype2(name='moderation_type' type='radio' value='2' onchange='changetype()')
+              | Отклоненные страницы
+
+    .form__row.mb-1s
+      .form__item
+        label(for='cclist') Страна:
+        select#cclist.form-control(name='cclist' onchange='getnew()')
+          option(value) Не выбрано
+          option(value='AU') Австралия
+          option(value='AT') Австрия
+      .form__item#citydiv
+        label(for='pageregion_lng') Город:
+        .typeahead__container
+          .typeahead__field
+            span.typeahead__query
+              span.typeahead__cancel-button ×
+              input#pageregion_lng(name='pageregion_lng' type='text' value='Херцег-Нови' placeholder='Поиск города...' autocomplete='off' onchange='checkregion()')
+              |
+        input#pageregion(type='hidden' name='pageregion')
+    a.filter__reset(href='javascript:void(0)' onclick='cleanfilter()') очистить фильтр

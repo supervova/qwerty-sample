@@ -1,0 +1,188 @@
+.cover,
+.coverbg {
+  background-image:
+    var(--color-primary-scrim),
+    var(--asset-background-image-section-header);
+  background-blend-mode: normal, color, normal;
+  background-position: top center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  border-radius: var(--shape-border-radius-lg);
+  text-align: center;
+  margin-bottom: 1.4rem;
+  padding:
+    $size-4
+    var(--size-padding-x-box)
+    $size-line * 2
+    var(--size-padding-x-box);
+  overflow: hidden;
+  position: relative;
+  width: 100%;
+  height: auto !important;
+  min-height: 27rem;
+  max-height: 100%;
+
+  > a {
+    color: var(--color-ink-inverse-base);
+    display: block;
+    // text-align: center;
+    margin-bottom: $size-line;
+    // padding-top: 64px;
+    // position: relative;
+    word-break: normal;
+    z-index: 1;
+  }
+
+  @include media-breakpoint-down(lg) {
+    padding-top: $size-line * 7;
+  }
+
+  @include media-breakpoint-up(lg) {
+    text-align: left;
+    padding-top: $size-5;
+    padding-left: $size-line * 7;
+  }
+}
+
+.cover__logo,
+.communitylogo {
+  background-image: var(--asset-background-image-section-header-logo, none);
+  background-position: center;
+  background-repeat: no-repeat;
+  border-radius: var(--shape-border-radius-pill);
+  display: inline-block;
+  filter: var(--layer-filter-shadow-section-header-logo-user);
+  margin: 0;
+  padding: 0;
+  position: absolute;
+  top: $size-4;
+  left: 50%;
+  transform: translateX(-50%);
+
+  //override inline styles
+  width: $size-line * 5 !important;
+  height: $size-line * 5 !important;
+
+  // &::after {
+  //   background-image: var(--asset-background-image-section-header-logo-user);
+  //   background-position: top left;
+  //   background-repeat: no-repeat;
+  //   background-size: contain;
+  //   border-radius: var(--shape-border-radius-pill);
+  //   content: '';
+  //   position: absolute;
+  //   top: $size-half;
+  //   left: $size-half;
+  //   width: $size-line * 5 - $size-1;
+  //   height: $size-line * 5 - $size-1;
+  // }
+
+  @include media-breakpoint-up(lg) {
+    position: absolute;
+    top: $size-6;
+    left: $size-line;
+    transform: none;
+  }
+}
+
+.cover__title,
+.communityname {
+  color: var(--color-ink-inverse-max);
+  font-family: var(--font-family-title);
+  font-size: var(--font-size-subhead-h2);
+  font-weight: var(--font-weight-title);
+  line-height: 1.2;
+  margin: 0;
+  padding: var(--size-padding-top-subhead-h2) 0;
+  position: static;
+  text-shadow: none;
+
+  @include media-breakpoint-up(md) {
+    margin-bottom: -14px;
+  }
+}
+
+/* Section header first subtitle */
+.cover__subtitle,
+.communitytype {
+  color: var(--color-ink-inverse-base);
+  font-family: var(--font-family-title);
+  font-size: var(--font-size-section-header-subhead-h2);
+  line-height: var(--font-line-height-subhead-h2);
+  margin-top: -2vw;
+  position: absolute;
+}
+
+.cover__description,
+.communitydescr {
+  color: var(--color-ink-inverse-base);
+  display: block;
+  font-family: var(--font-family-big);
+  font-size: var(--font-size-big);
+  line-height: var(--font-line-height-big);
+  margin: 0;
+  padding: 0;
+}
+
+#subscribes {
+  font-weight: normal;
+  text-align: left;
+  margin: 0 !important;
+  padding-top: 5px;
+  position: relative !important;
+  top: 0 !important;
+  z-index: 1;
+}
+
+
+[id='subscribediv'] {
+  @include media-breakpoint-down(lg) {
+    text-align: center;
+  }
+}
+
+[id='subscribediv'] span {
+  @extend %text-truncate;
+
+  display: inline-block;
+
+  @include media-breakpoint-down(sm) {
+    max-width: 28rem;
+  }
+}
+
+[id='btnsubscribe'] {
+  @extend %btn-base, %btn-primary, %text-truncate;
+
+  background-image:
+    var(--asset-data-image-chevron-right-inverse),
+    var(--color-primary-gradient);
+  background-position:
+    right $size-1 center,
+    center center;
+  background-repeat: no-repeat, repeat;
+  padding-right: $size-4;
+  max-width: 248px;
+
+  &:hover {
+    filter: brightness(var(--color-brightness-hover));
+  }
+
+  &:focus {
+    box-shadow: var(--layer-box-shadow-focus-outline);
+  }
+
+  @include media-breakpoint-up(sm) {
+    max-width: none;
+  }
+}
+
+// -----------------------------------------------------------------------------
+// LEGACY
+// -----------------------------------------------------------------------------
+
+.coverbg {
+  > a {
+    color: var(--color-ink-inverse-base) !important;
+  }
+}

@@ -1,0 +1,350 @@
+extends /pages/base/base.pug
+include /pages/base/mixins
+
+//- SETTINGS -------------------------------------------------------------------
+
+append config
+  -
+    const page = {
+      lang: 'ru',
+      title: 'Profile',
+      description: site.description,
+      link: site.url,
+      img: site.img,
+      isClean: true,
+      mainClasses: 'tabs'
+    }
+
+append head
+  script.
+    loadingposts = 0;
+    publishtime = 0;
+    attached = 1;
+
+    function js_translate(str) {
+      if (str == '{$phraseclose}') {
+        str = '{$btn_close}';
+      }
+      if (str == 'Close') {
+        str = '{$btn_close}';
+      }
+      if (str == '{$phraseok}') {
+        str = '{$btn_ok}';
+      }
+      if (str == '{$phrasecancel}') {
+        str = '{$btn_cancel}';
+      }
+      if (str == '{$phraseyes}') {
+        str = '{$btn_yes}';
+      }
+      if (str == '{$phraseno}') {
+        str = '{$btn_no}';
+      }
+      return str;
+    }
+
+    function getposts() {
+      loadingposts = 1;
+      $.ajax({
+        url: 'getposts.php',
+        type: 'GET',
+        async: true,
+        data: {
+          pageuid: 1042861,
+          poststab: currenttab,
+          publishtime: publishtime,
+          attached: attached,
+          blogcatid: '{$blog_cat_id}',
+          blogtag: '{$blog_tag}',
+          blogdate: '{$blog_date}',
+          blogsearch: '{$blog_search}',
+          posttype: '0,1'
+        },
+        success: function (response) {
+          if (publishtime == 0) {
+            $('#postsblock').html(response);
+
+          } else {
+            $('#postsblock').append(response);
+
+          }
+          loadingposts = 0;
+          document.getElementById('loadingposts').style.display = 'none';
+          showposts();
+        },
+        error: function (response) {
+          getposts();
+        },
+        timeout: 10000
+      });
+    }
+
+    function showposts() {
+      if (loadingposts == 0) {
+        var posTop = (window.pageYOffset !== undefined) ? window.pageYOffset : (document.documentElement || document.body.parentNode || document.body).scrollTop;
+        for (var i = 0; i < $('.endposts').get().length; i++) {
+          var coordstop = $('.endposts:eq(' + i + ')').offset().top;
+          var windowHeight = screen.height;
+          if (coordstop < windowHeight + posTop + 1000 || publishtime == 0) {
+            document.getElementById('loadingposts').style.display = 'block';
+            $(".endposts").removeClass("endposts");
+            getposts();
+          }
+        }
+      }
+    }
+
+    /*
+    function showtab(tabid) {
+      currenttab = tabid;
+      $("#aboutme").hide();
+      $("#communities").hide();
+      $("#subscriptions").hide();
+      $(".active").removeClass("active");
+      $("#tab" + tabid).addClass("active");
+      $("#" + tabid).show();
+      loadingposts = 0;
+      publishtime = 0;
+      attached = 1;
+      getposts();
+    }
+    */
+
+    function openTab() {
+      const queryString = window.location.search;
+      const urlParams = new URLSearchParams(queryString);
+
+      if (urlParams.has('tab')) {
+        const target = urlParams.get('tab');
+
+        currenttab = target;
+        loadingposts = 0;
+        publishtime = 0;
+        attached = 1;
+
+        document.querySelectorAll('.tabs .active').forEach((elem) => {
+          elem.classList.remove('active');
+        });
+
+        document.getElementById(target).classList.add('active');
+        document.getElementById(`tab-${target}`).classList.add('active');
+
+        getposts();
+      }
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+      openTab();
+    }, false);
+
+    $(function () {
+      $('[data-toggle="tooltip"]').tooltip()
+    });
+
+
+//- CONTENT --------------------------------------------------------------------
+
+block content
+
+  .main__header.has-tabs.pb-2
+    h1 Vladimir Nikishin
+
+    ul.tabs__tablist(role='tablist')
+      li.tabs__tab.active#tab-aboutme(role='presentation')
+        a(href='#aboutme', aria-controls='aboutme', role='tab', data-toggle='tab') About me
+      li.tabs__tab#tab-communities(role='presentation')
+        a(href='#communities', aria-controls='communities', role='tab', data-toggle='tab') Communities
+      li.tabs__tab.dropdown(role='presentation', data-toggle='tooltip', title='More')
+        a.dropdown-toggle#dropdown-profile-more-label(href='#', data-toggle='dropdown', aria-controls='dropdown-profile-more-contents', aria-expanded='false')
+          +icon('more')
+          span.sr-only More
+        ul.dropdown-menu#dropdown-profile-more-contents(aria-labelledby='dropdown-profile-more-label')
+          li(role='presentation')
+            a(href='#subscriptions', aria-controls='subscriptions', role='tab', data-toggle='tab') Subscriptions
+          li(role='presentation')
+            a(href='/profile') Profile settings
+
+  .tabs__content.main__section.is-user-overview
+    section.tabs__pane.active#aboutme(role='tabpanel')
+      .tabs__pane-section.is-user-details
+        figure.avatar.is-large
+          img(src='https://ru.#{ExtraData.domain}/images/profile_nophoto.jpg', alt='')
+
+        dl
+          dt Имя и фамилия:
+          dd Vladimir Nikishin
+
+          dt.dt.is-single пользователь (самостоятельная регистрация)
+
+          dt Псевдоним:
+          dd не указан
+
+          dt Дата рождения:
+          dd 31 Октябрь 1970
+
+          dt Пол:
+          dd мужской
+
+          dt Местонахождение:
+          dd
+            a(href='https://www.google.com/maps/place/Montenegro+Podgorica', target='_blank', rel='noopener noreferrer')
+              +icon('pin', 'mx-1s')
+              span Черногория, Подгорица
+
+          dt Репутация:
+          dd 257
+
+          dt ID пользователя:
+          dd 1042861
+
+          dt Регистрация:
+          dd 01 Апрель 2021 в 10:11
+
+          dt Последняя активность:
+          dd 1 секунду назад
+
+      .tabs__pane-section.is-about-me
+        h3 Несколько слов обо мне
+        p Не заполнено
+
+    section.tabs__pane#communities
+      h2.h3 Мои сообщества
+      p Вы можете создать новое сообщество на странице
+        a(href='/communities') Сообщества
+      p Вы можете создать страницу организации на странице
+        a(href='/pages') Организации
+
+    section.tabs__pane#subscriptions
+      h2.h3 Мои подписки
+
+      table.table
+        thead
+          tr
+            th Дата подписки
+            th Объект подписки
+        tbody
+          tr
+            td 2021-05-31 15:44:42
+            td
+              | Сообщество
+              a(href='/communities', target='_blank') Международная медицинская социальная сеть
+          tr
+            td 2021-04-01 10:11:38
+            td
+              | Пользователь
+              a(href='/user/18', target='_blank') Maxim Novichkov
+
+  .main__section#postsblock
+    a.btn.btn-success(href='/editpost') Личный пост
+
+    .postspost
+      div(style='overflow: hidden;')
+        .page-header(style='margin-top: 10px;')
+          div(style='display:inline-block;width:100%;white-space:nowrap;')
+            span(style='white-space: normal;')
+            div(style='display: inline-block;')
+              a(href='https://ru.#{ExtraData.domain}/user/1042861')
+                .post_avatar
+                  img.post_avatar(src='./images/profile_nophoto.jpg', alt='')
+            div(style='display: inline-block; white-space: normal; vertical-align: middle;')
+              a(href='https://ru.#{ExtraData.domain}/user/1042861') Vladimir Nikishin
+              |  ·
+              span.date(style='white-space:normal;') 2021-06-01 13:02:09 GMT+2
+          div(style='display: inline-block;')
+            a(href='/7269825')
+              h3(style='margin-top: 5px;') Широкая электрификация южных губерний даст мощный толчок подъёму сельского хозяйства
+        a(href='/7269825')
+          span.postdescription
+            img.postthumbnail(src='https://source.unsplash.com/random/96x104', alt='')
+            |
+            span.postdescription Lorem ipsum dolor sit amet consectetur adipisicing elit. Pariatur, adipisci, optio blanditiis incidunt nisi vero, assumenda laudantium nemo cum quasi quibusdam delectus. Hic quaerat alias repellendus quia ducimus, iusto sed? Ullam porro ipsum officia ducimus cum beatae corrupti quia adipisci enim dolores blanditii
+          span
+            | ...
+            span(style='color: #ccc; white-space: nowrap; border-radius: 15px; border: 1px solid #ccc; margin-left: 10px; padding: 0 8px 0 8px;') Читать
+      div
+        div(style='vertical-align: bottom; color: #b3b3b3; height: 100%; text-align: right; margin-bottom: -8px; white-space: nowrap;')
+          small
+            span(style='color: #389E28;', data-toggle='tooltip', title='Положительные оценки')
+              | 1
+              span.glyphicon.glyphicon-thumbs-up(aria-hidden='true')
+            |
+            span(data-toggle='tooltip', title='Отрицательные оценки')
+              | 0
+              span.glyphicon.glyphicon-thumbs-down(aria-hidden='true')
+            |
+            span(data-toggle='tooltip', title='Количество репостов')
+              | 0
+              span.glyphicons.glyphicons-retweet
+            |
+            span(data-toggle='tooltip', title='Количество комментариев')
+              | 0
+              span.glyphicons.glyphicons-comments
+            |
+            span(data-toggle='tooltip', title='Количество просмотров и уникальных пользователей (когда читатель был более 20 секунд)')
+              span.glyphicon.glyphicon-eye-open(aria-hidden='true')
+              |  2
+              span.glyphicon.glyphicon-user(aria-hidden='true')
+              |  3
+
+    .postspost(style='background: rgb(255, 255, 255);')
+      div(style='overflow: hidden;')
+        .page-header(style='margin-top: 10px;')
+          div(style='display:inline-block;width:100%;white-space:nowrap;')
+            span(style='white-space: normal;')
+            div(style='display: inline-block;')
+              a(href='https://ru.#{ExtraData.domain}/user/1042861')
+                .post_avatar
+                  img.post_avatar(src='./images/profile_nophoto.jpg', alt='')
+            div(style='display: inline-block; white-space: normal; vertical-align: middle;')
+              a(href='https://ru.#{ExtraData.domain}/user/1042861') Vladimir Nikishin
+              |  ·
+              span.date(style='white-space:normal;') 2021-05-31 15:44:42 GMT+2
+          div(style='display: inline-block;')
+            a(href='/7269770')
+              h3(style='margin-top: 5px;') Съешь же ещё этих мягких французских булок, да выпей чаю
+        a(href='/7269770')
+          span.postdescription
+            img.postthumbnail(src='https://source.unsplash.com/random/96x104', alt='')
+            |
+            span.postdescription Lorem ipsum dolor sit amet consectetur adipisicing elit. Neque dignissimos nulla, numquam labore dolores culpa vitae exercitationem itaque nam id modi fuga totam? Officiis dignissimos sit beatae optio, asperiores laborum! Voluptate, consequuntur? Ullam error accusantium itaque quam harum commodi eos, optio natus a
+          span
+            | ...
+            span(style='color: #ccc; white-space: nowrap; border-radius: 15px; border: 1px solid #ccc; margin-left: 10px; padding: 0 8px 0 8px;') Читать
+      div
+        div(style='vertical-align: bottom; color: #b3b3b3; height: 100%; text-align: right; margin-bottom: -8px; white-space: nowrap;')
+          small
+            span(data-toggle='tooltip', title='Положительные оценки')
+              | 0
+              span.glyphicon.glyphicon-thumbs-up(aria-hidden='true')
+            |
+            span(data-toggle='tooltip', title='Отрицательные оценки')
+              | 0
+              span.glyphicon.glyphicon-thumbs-down(aria-hidden='true')
+            |
+            span(data-toggle='tooltip', title='Количество репостов')
+              | 0
+              span.glyphicons.glyphicons-retweet
+            |
+            span(data-toggle='tooltip', title='Количество комментариев')
+              | 0
+              span.glyphicons.glyphicons-comments
+            |
+            span(data-toggle='tooltip', title='Количество просмотров и уникальных пользователей (когда читатель был более 20 секунд)')
+              span.glyphicon.glyphicon-eye-open(aria-hidden='true')
+              |  1
+              span.glyphicon.glyphicon-user(aria-hidden='true')
+              |  0
+
+  #loadingposts(style='display: none;')
+    br
+    br
+    span Загрузка...
+    br
+    img(src='/images/loading.gif', width='50', height='50', alt='Loading...')
+    br
+    br
+
+  script.
+    $(function () {
+      $('[data-toggle="tooltip"]').tooltip()
+    })

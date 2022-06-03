@@ -1,0 +1,305 @@
+// NOTES
+
+// .modal           - container to scroll within
+// .modal-dialog    - positioning shell for the actual modal
+// .modal__box      - (.modal-content in BS) actual modal w/ bg and corners and shit
+
+// Modal has role='dialog'.
+// This version of the component is based on the BS3 code. Therefore,
+// .modal-dialog is explicitly assigned the role='document'. We don't need
+// to do this in BS5 since Bootstrap add it via JS.
+
+$modal-header-padding:                  $size-line var(--size-padding-x-box) 0;
+$modal-body-padding:                    0 var(--size-padding-x-box) $size-line;
+$modal-footer-padding:                  $size-2 var(--size-padding-x-box) var(--size-padding-x-box);
+$modal-combined-padding:                $size-line var(--size-padding-x-box) var(--size-padding-x-box);
+
+// Kill the scroll on the body
+.modal-open {
+  overflow: hidden;
+
+  .modal {
+    overflow-x: hidden;
+    overflow-y: auto;
+  }
+}
+
+// Container
+.modal {
+  -webkit-overflow-scrolling: touch;
+  display: none;
+  outline: 0;
+  overflow: hidden;
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  z-index: var(--layer-zindex-modal);
+
+  // When fading in the modal, animate it to slide down
+  &.fade .modal-dialog {
+    transform: translate(0, -25%);
+
+    transition: transform var(--motion-duration-base) var(--motion-easing-appearance);
+  }
+
+  &.in .modal-dialog {
+    transform: translate(0, 0);
+  }
+
+  &.show { opacity: 1; }
+}
+
+
+// Shell div to position the modal with bottom padding
+.modal-dialog {
+  margin: $size-2;
+  position: relative;
+  width: auto;
+
+  @include media-breakpoint-up(md) {
+    margin: ($size-line * 2) auto;
+    width: var(--size-width-md);
+    // BS override
+    max-width: var(--size-width-md);
+
+    &.is-small {
+      width: var(--size-width-base);
+      max-width: var(--size-width-base);
+    }
+  }
+
+  @include media-breakpoint-up(lg) {
+    &.is-large {
+      width: var(--size-width-lg);
+      max-width: var(--size-width-lg);
+    }
+  }
+}
+
+// Actual modal (.modal-content in BS)
+.modal__box,
+.modal-content {
+  background-clip: padding-box;
+  background-color: var(--color-background-base);
+  border-radius: var(--shape-border-radius-xl);
+  border: 0;
+  box-shadow: var(--layer-box-shadow-z5);
+  outline: 0;
+  position: relative;
+}
+
+// Overlay
+.modal-backdrop {
+  @extend %backdrop;
+}
+
+// Modal header
+// Top section of the modal w/ title and dismiss
+.modal__header,
+.modal-header {
+  border-bottom: 0;
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  padding: $modal-header-padding;
+}
+
+.modal__title,
+.modal-title {
+  @extend %h2;
+
+  padding-right: $size-1;
+}
+
+// Tab pane toggles
+.modal__tab-toggle {
+  // position: absolute;
+  // top: 5.4rem;
+  // right: $size-4;
+  display: none;
+
+  @include media-breakpoint-up(sm) {
+    display: inline-block;
+    padding-top: .9rem;
+  }
+}
+
+// Close button
+.modal__header .btn.is-close,
+.modal-header .close,
+.dm-modal .close {
+  position: absolute;
+  top: $size-2;
+  right: $size-2;
+}
+
+// Modal body
+.modal__body,
+.modal-body {
+  position: relative;
+  padding: $modal-body-padding;
+
+  .avatar.is-large {
+    width: auto;
+    max-width: var(--size-width-sm);
+    min-height: 0;
+  }
+
+  .avatar.is-large img {
+    object-fit: contain;
+  }
+
+  @include media-breakpoint-up(sm) {
+    .avatar.is-large {
+      max-width: var(--size-width-base);
+    }
+  }
+}
+
+// Footer (for actions)
+// Use left aligned buttons, as there may be additional messages underneath and
+// right alignment will be confusing.
+.modal__footer,
+.modal-footer {
+  border-top: 0;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  flex-wrap: wrap;
+  flex-shrink: 0;
+  gap: $size-1;
+  padding: $modal-footer-padding;
+}
+
+.modal__footer.has-add-on {
+  padding-top: 0;
+}
+
+.modal-footer .btn-primary {
+  @extend %btn-primary;
+}
+
+.modal-footer .form__item.has-option,
+.modal__footer .form__item.has-option {
+  @extend %label;
+
+  margin-top: 0;
+  margin-bottom: 0;
+  padding-top: 0;
+  padding-bottom: .7rem;
+
+  [type='checkbox'] {
+    top: .6rem;
+  }
+}
+
+.modal-footer .btn-default {
+  background-color: transparent;
+}
+
+.modal__footer.has-dual-purpose {
+  justify-content: space-between;
+}
+
+.modal__footer.is-centered {
+  justify-content: center;
+}
+
+.modal__footer.is-left-aligned {
+  justify-content: flex-start;
+}
+
+// We use BS measure scrollbar style unchanged
+
+//------------------------------------------------------------------------------
+// MIGRATED INLINE STYLES
+// -----------------------------------------------------------------------------
+// #region
+
+.modal-footer,
+.modal-footer > div {
+  white-space: nowrap;
+}
+
+.modal__photo-selection {
+  vertical-align: middle;
+  margin: 2px;
+  white-space: nowrap;
+  width: 100%;
+}
+
+.modal__photo > img {
+  max-width: 100%;
+  max-height: 300px;
+}
+
+.modal__photo-selection .btn {
+  display: inline-block;
+}
+
+.modal__photo-label {
+  margin-top: $size-1;
+}
+
+.modal__photo-label > small {
+  float: right;
+}
+
+// #loadingphoto
+.modal__photo-loader {
+  display: none;
+}
+
+// #deletediv
+.modal__photo-remover {
+  display: inline-block;
+  float: left;
+  white-space: nowrap;
+}
+
+.modal__actions {
+  display: inline-block;
+  white-space: nowrap;
+}
+// #endregion
+
+//------------------------------------------------------------------------------
+// ANOTHER LEGACY MODAL
+// -----------------------------------------------------------------------------
+// #region
+
+.dm-overlay {
+  background: var(--color-scrim-base);
+  z-index: var(--layer-zindex-modal);
+}
+
+.modal-header .close,
+.modal__header .btn.is-close {
+  position: absolute;
+  top: 1.6rem;
+  right: 1.6rem;
+}
+
+.dm-modal {
+  background-color: var(--color-background-base);
+  border-radius: var(--shape-border-radius-xl);
+  border: 0;
+  box-shadow: var(--layer-box-shadow-z5);
+  color: var(--color-ink-base);
+  margin-top: $size-line;
+  margin-bottom: $size-line;
+  padding: $modal-combined-padding;
+  position: relative;
+  width: auto;
+  min-width: none;
+
+  @include media-breakpoint-up(md) {
+    width: var(--size-width-md);
+  }
+}
+
+// #endregion
+

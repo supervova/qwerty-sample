@@ -1,0 +1,201 @@
+// stylelint-disable selector-no-qualifying-type
+
+$table-background:                      var(--color-background-base);
+$table-accent-bg:                       var(--color-background-alt);
+$table-hover-bg:                        hsla(0, 0%, 0%, .03);
+
+// -----------------------------------------------------------------------------
+// BASE
+// -----------------------------------------------------------------------------
+// #region
+
+table {
+  background-color: $table-background;
+  color: var(--color-ink-base);
+  font-feature-settings: 'lnum' 1, 'tnum' 1;
+  font-variant-numeric: lining-nums tabular-nums;
+  margin-bottom: var(--size-margin-bottom-table);
+  vertical-align: top;
+  margin-top: var(--size-margin-top-table);
+  max-width: 100%;
+}
+
+.table.has-fixed-layout {
+  table-layout: fixed;
+}
+
+caption {
+  // caption-side: bottom;
+  color: inherit;
+  font-weight: 500;
+  text-align: left;
+  padding-top: 0;
+  padding-bottom: $size-1;
+  padding-left: calc(var(--size-padding-x-cell) / 2);
+}
+
+th,
+td {
+  border-top: var(--size-border-width) solid var(--color-ink-border);
+  text-align: left;
+  padding-top: calc(var(--size-padding-y-cell) - var(--size-border-width));
+  padding-right: var(--size-padding-x-cell);
+  padding-bottom: var(--size-padding-y-cell);
+  padding-left: var(--size-padding-x-cell);
+  vertical-align: top;
+
+  &:first-child {
+    padding-left: calc(var(--size-padding-x-cell) / 2);
+  }
+
+  &:last-child {
+    padding-right: calc(var(--size-padding-x-cell) / 2);
+  }
+
+  // Remove margin from the last-child
+  > :last-child { margin-bottom: 0; }
+}
+
+thead tr:last-child {
+  border-bottom: calc(var(--size-border-width) * 2) solid var(--color-ink-border);
+}
+
+thead th {
+  font-weight: 500;
+  padding-bottom: calc(var(--size-padding-y-cell) - var(--size-border-width) * 2);
+  vertical-align: bottom;
+
+  &[colspan] {
+    text-align: center;
+  }
+}
+
+th[scope='row'] {
+  border-right: var(--size-border-width) solid var(--color-ink-border);
+
+  tbody & {
+    background: var(--color-background-base);
+  }
+}
+
+
+.table__special-cell {
+  min-width: 10em;
+  max-width: 90vw;
+}
+
+// #endregion
+
+// -----------------------------------------------------------------------------
+// Hover effect and zebra striping (deprecated)
+// -----------------------------------------------------------------------------
+
+// #region
+
+// Zebra-striping
+.table.is-zebra {
+  > tbody > tr:nth-of-type(odd) {
+    background-color: var(--color-background-alt);
+  }
+}
+
+tbody tr:hover {
+  background-color: $table-hover-bg;
+  transition: background-color var(--motion-duration-sm);
+}
+
+// #endregion
+
+// -----------------------------------------------------------------------------
+// Helpers
+// -----------------------------------------------------------------------------
+
+// #region
+
+.table__num {
+  text-align: right;
+}
+
+// Reduce cell to the width of its content, if space is available
+.table__shrinked-cell {
+  width: 1%;
+}
+
+// Row numbers
+tbody {
+  // Start the counter
+  tr {
+    counter-increment: row-number;
+  }
+}
+
+.table__row-number {
+  // Add the counter number
+  &::after {
+    content: counter(row-number);
+  }
+}
+
+// #endregion
+
+// -----------------------------------------------------------------------------
+// Responsive table
+// -----------------------------------------------------------------------------
+
+// #region
+
+@include media-breakpoint-down(lg) {
+  .table-responsive, // legacy
+  .has-responsive-table {
+    -webkit-overflow-scrolling: touch;
+    background-color: var(--color-background-base) !important; // inline styles override
+    border: .1rem solid var(--color-ink-border);
+    margin-top: var(--size-margin-top-table);
+    margin-bottom: var(--size-margin-bottom-table);
+    padding: 0 !important; // inline styles override
+    overflow-x: auto;
+    width: 100%;
+
+    &:focus {
+      box-shadow: var(--layer-box-shadow-focus-outline);
+    }
+  }
+
+  .table-responsive table,  // legacy
+  .has-responsive-table table {
+    margin: 0;
+    width: auto;
+    max-width: none;
+  }
+}
+
+.table-responsive, // legacy
+.has-responsive-table {
+  @include media-breakpoint-down(md) {
+    max-width: calc(100vw - var(--size-padding-x-container) *  2);
+  }
+
+  @include media-breakpoint-only(md) {
+    max-width: 100%;
+  }
+}
+// #endregion
+
+// -----------------------------------------------------------------------------
+// OVERRIDES
+// -----------------------------------------------------------------------------
+
+.table > tbody > tr > td,
+.table > tfoot > tr > td {
+  border-top: 0;
+}
+
+.table > tbody > tr,
+.table > tfoot > tr {
+  border-top: 1px solid var(--color-ink-border);
+}
+
+.table-striped > tbody > tr:nth-of-type(odd) {
+  background-color: var(--color-background-alt);
+}
+

@@ -1,0 +1,131 @@
+/* stylelint-disable property-no-unknown */
+
+@use 'sass:math';
+
+// ☝️🧐 The .section defines the vertical paddings and background. The horizontal
+// paddings and max-width are determined by the nested .q-container.
+
+// content-visibility to boost rendering performance
+// https://web.dev/content-visibility/
+
+.section {
+  content-visibility: auto;
+  padding-top: ($size-line * 2);
+  padding-bottom: ($size-line * 2);
+}
+
+// -----------------------------------------------------------------------------
+// SECTION ELEMENTS
+// -----------------------------------------------------------------------------
+
+.section__header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.section__eyebrow {
+  @extend %petit;
+
+  background-color: transparent;
+  color: var(--color-ink-primary-text);
+  font-weight: 500;
+  letter-spacing: .05rem;
+  text-align: center;
+  text-transform: uppercase;
+  margin-bottom: -$size-line;
+  padding-left: 0;
+  padding-right: 0;
+
+  @include media-breakpoint-up(md) {
+    margin-bottom: -$size-4;
+  }
+}
+
+.section__eyebrow.is-action {
+  @extend %btn;
+
+  padding-top: 1.4rem;
+  padding-bottom: 2.2rem;
+  position: relative;
+
+  &::after {
+    border-top: .2rem dashed var(--color-primary-base);
+    content: '';
+    position: absolute;
+    bottom: 2rem;
+    left: 0;
+    right: 0;
+    height: 0;
+  }
+
+  &:focus::after {
+    border-top: 2px solid var(--color-primary-base);
+  }
+}
+
+.section__title {
+  text-align: center;
+  margin-top: 0;
+
+  .is-action + & {
+    pointer-events: none;
+  }
+}
+
+// -----------------------------------------------------------------------------
+// SECTION DIVIDER
+// -----------------------------------------------------------------------------
+
+.section-divider {
+  margin-top: $size-line - .1rem;
+  margin-bottom: $size-line;
+  margin-left: auto;
+  margin-right: auto;
+  width: percentage(math.div(3, 4));
+}
+
+// -----------------------------------------------------------------------------
+// VARIATIONS
+// -----------------------------------------------------------------------------
+
+.section.is-alt {
+  background-color: var(--color-background-alt);
+}
+
+
+.section.is-above-the-fold {
+  content-visibility: visible;
+}
+
+// HIGHLIGHT
+
+.section.is-highlight {
+  background-color: var(--color-background-primary-dark);
+
+  h2,
+  p {
+    color: var(--color-ink-inverse-base);
+  }
+}
+
+// FULL BLEED
+
+// Markup
+// .section.is-full-bleed
+//   .q-container
+//     Content...
+
+// figure.section.is-full-bleed
+//   img(src='https://source.unsplash.com/e_DmszdpETY/1200x600',
+//     srcset='https://source.unsplash.com/e_DmszdpETY/2400x1200 2400w,\
+//     https://source.unsplash.com/e_DmszdpETY/1200x600 1200w,\
+//     https://source.unsplash.com/e_DmszdpETY/600x300 600w',\
+//     sizes='100vw', alt='low-angle photography of trees')
+//   figcaption Photo by Jonathan Borba on Unsplash
+
+.section.is-full-bleed {
+  margin-left: 50%;
+  transform: translateX(-50%);
+  width: 100vw;
+}

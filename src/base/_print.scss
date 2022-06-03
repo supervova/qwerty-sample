@@ -1,0 +1,27 @@
+// -----------------------------------------------------------------------------
+// ADD-ONS TO PRINT STYLES WHICH IS USING IN QWERTY BOOTSTRAP VERSION (3.3.7)
+// -----------------------------------------------------------------------------
+
+@media print {
+
+  .ads,
+  .comments__form,
+  .footer,
+  .header,
+  .navbar,
+  .global-nav,
+  .pagination,
+  .sidebar,
+  .social-tools,
+  .toc {
+    display: none !important;
+  }
+
+  .btn {
+    text-decoration: none;
+  }
+
+  pre {
+    white-space: pre-wrap !important;
+  }
+}

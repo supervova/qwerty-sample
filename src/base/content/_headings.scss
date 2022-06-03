@@ -1,0 +1,169 @@
+/* stylelint-disable selector-list-comma-newline-after, scss/percent-placeholder-pattern */
+
+// EYEBROW
+
+// Markup: use (p|a).eyebrow, h1-h2, and p.subtitle within header
+// https://go.shr.lc/3782CWT
+
+// <header>
+//   <p class="eyebrow">Chapter 2</p>
+//   <h1>The Battle</h1>
+//   <p class="subtitle">Once more unto the breach</p>
+// </header>
+
+// <header>
+//   <a class="hero__eyebrow" href="/chapter-2">Chapter 2</a>
+//   <h1 class="hero__title">The Battle</h1>
+//   <p class="hero__subtitle">Once more unto the breach</p>
+// </header>
+
+// ⚠️ role="doc-subtitle" is not supported by most screen readers
+
+.eyebrow,
+%eyebrow {
+  color: var(--color-ink-primary-text);
+  display: block;
+  font-size: var(--font-size-small);
+  font-weight: 500;
+  letter-spacing: .05rem;
+  line-height: var(--font-line-height-small);
+  text-transform: uppercase;
+  margin: 0;
+  padding-top: var(--size-padding-top-small);
+  padding-bottom: var(--size-padding-bottom-small);
+}
+
+// -----------------------------------------------------------------------------
+
+// H1 & H2
+
+h1, .h1, %h1,
+h2, .h2, %h2 {
+  // OpenType kerning
+  font-family: var(--font-family-title);
+  font-feature-settings: 'kern' 1, 'liga' 1;
+
+  .eyebrow + & {
+    margin-top: var(--size-margin-top-title-minus);
+  }
+
+  @include media-breakpoint-up(lg) {
+    letter-spacing: -.1rem;
+  }
+}
+
+// H1 and hero titles
+h1, .h1, %h1 {
+  color: var(--color-ink-title);
+  font-size: var(--font-size-title);
+  font-weight: var(--font-weight-title);
+  line-height: var(--font-line-height-title);
+  margin: 0;
+  padding-top: var(--size-padding-top-title);
+  padding-bottom: var(--size-padding-bottom-title);
+}
+
+// Heading 2
+h2, .h2, %h2 {
+  color: var(--color-ink-primary-accent);
+  font-size: var(--font-size-subhead-h2);
+  font-weight: var(--font-weight-subhead-h2);
+  line-height: var(--font-line-height-subhead-h2);
+  // Prevent text transformation on h3 styled as h2
+  text-transform: none;
+  margin: 0;
+  padding-top: var(--size-padding-top-subhead-h2);
+  padding-bottom: var(--size-padding-bottom-subhead-h2);
+
+  &:not(:first-child):not([class]) {
+    margin-top: var(--size-margin-top-subhead-h2-plus);
+  }
+
+  > small {
+    display: block;
+    font-size: 100%;
+  }
+}
+
+.h2.is-highlight {
+  color: var(--color-ink-primary-fill);
+}
+
+// -----------------------------------------------------------------------------
+
+// SUBTITLES
+
+.subtitle,
+h1 > small {
+  @extend %h2;
+
+  color: var(--color-ink-2ry);
+}
+
+.main h1 > small {
+  display: block;
+}
+
+// -----------------------------------------------------------------------------
+
+// SUBHEADS
+
+h3, .h3, %h3 {
+  color: var(--color-ink-title);
+  font-size: var(--font-size-big);
+  line-height: var(--font-line-height-big);
+  margin: 0;
+  padding-top: var(--size-padding-top-big);
+  padding-bottom: var(--size-padding-bottom-big);
+
+  @include media-breakpoint-up(md) {
+    text-transform: none;
+  }
+}
+
+.main h3 .icon {
+  margin-right: $size-1;
+  margin-left: -.2rem;
+}
+
+h3, %h3,
+h4, %h4, .h4,
+h5, h6 {
+  font-family: var(--font-family-base);
+  font-weight: 500;
+  margin: 0;
+
+  &:not(:first-child):not([class]) {
+    margin-top: var(--size-margin-top-subhead-h2-plus);
+  }
+}
+
+h4, %h4, .h4,
+h5, h6 {
+  font-size: 100%;
+  line-height: $line-height-base;
+  padding-top: var(--size-padding-top-base);
+  padding-bottom: var(--size-padding-bottom-base);
+
+  &:not(:first-child):not([class]) {
+    margin-top: var(--size-margin-top-subhead-h2-plus);
+  }
+}
+
+// -----------------------------------------------------------------------------
+// OVERRIDES
+// -----------------------------------------------------------------------------
+
+.header-h1 h3 {
+  @extend %h3;
+
+  background: transparent;
+  color: var(--color-ink-primary-text);
+  display: block;
+  position: relative;
+  text-transform: none;
+
+  &::after {
+    display: none;
+  }
+}

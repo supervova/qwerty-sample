@@ -1,0 +1,28 @@
+.typeahead__field input,
+.typeahead__field textarea,
+.typeahead__field [contenteditable],
+.typeahead__field .typeahead__hint {
+  @extend %input;
+}
+
+.typeahead__field {
+  position: relative;
+}
+
+.typeahead__cancel-button {
+  opacity: .54;
+  position: absolute;
+  right: $size-2;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 10;
+}
+
+.typeahead__container {
+  font-family: var(--font-family-base);
+  font-size: var(--font-size-base);
+}
+
+.typeahead__list > li {
+  border-top: 0;
+}

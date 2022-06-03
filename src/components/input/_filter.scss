@@ -1,0 +1,18 @@
+.filter__row {
+  @extend %form-row;
+}
+
+.filter__datalist-input {
+  @extend %input;
+}
+
+// HACK: dealing with specificity
+.filter__icon-action.filter__icon-action {
+  display: inline-block;
+  border-radius: var(--shape-border-radius-sm);
+  padding: $size-1;
+
+  &:hover {
+    background-color: var(--color-ink-accent);
+  }
+}

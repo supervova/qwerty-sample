@@ -1,0 +1,480 @@
+extends /pages/base/base.pug
+include /pages/base/mixins
+
+//- SETTINGS -------------------------------------------------------------------
+
+append config
+  -
+    const page = {
+      title: site.title.ru,
+      description: site.description,
+      link: site.url,
+      img: site.img
+    }
+
+append head
+  link(rel='stylesheet', href='/css/jquery.toast.min.css')
+  link(rel='stylesheet', href='/js/tinymce/plugins/codesample/prism.css')
+  link(rel='stylesheet', href='/css/smartphoto.min.css')
+
+//- CONTENT --------------------------------------------------------------------
+
+
+
+block content
+  //- Parent: .bodybg > .containerbg > .affix-row
+  //- Main content: .global-nav + .affix-content or .main - .col-sm-9.col-md-10.affix-content(style='padding: 0; float: right;')
+
+  .container
+    span
+    .collection#postsblock
+      .makepost
+        a(href='/newpost') How to create a publication?
+      form#searchform.form-group.form-gorizontal(onsubmit='searchblog();return false;')
+        .input-group(style='width: 100%')
+          input#blogsearch.form-control(type='search' name='blogsearch' placeholder='Search by publications...' style='border: 1px solid #e4ebf3')
+          .input-group-btn
+            a.btn.btn-default.btn-sm(href='/publications/' style='border: 1px solid #e4ebf3')
+              i.glyphicon.glyphicon-remove
+            button.btn.btn-default.btn-sm(type='submit' style='border: 1px solid #e4ebf3')
+              i.glyphicon.glyphicon-search
+      div(style='text-align: right')
+        a(href='https://en.#{ExtraData.domain}/?readlng=ru&type=rss' target='_blank')
+          img(src='/images/rss.png' style='height: 12pt; border: none')
+          |
+          small RSS Subscription
+      //  #region: ADVERT
+      div(style='background: rgb(255, 255, 255); padding: 10px')
+        link(rel='stylesheet' href='/owl-carousel/owl.carousel.css?v=5.287')
+        script(src='/owl-carousel/owl.carousel.min.js?v=5.287')
+        div(style='background: #fff; width: 100%; margin-top: -10px; margin-bottom: 10px; padding: 5px; text-align: left')
+          div(style='overflow: hidden; font-size: 12px')
+            a#js-prev(href='#' style='float: left; color: #000; white-space: nowrap; margin-left: 10px')
+              span.glyphicon.glyphicon-backward(aria-hidden='true')
+              |  Back
+            a#js-next(href='#' style='float: right; color: #000; white-space: nowrap; margin-right: 10px')
+              | Forward
+              span.glyphicon.glyphicon-forward(aria-hidden='true')
+          #carousel.owl-carousel.owl-theme(style='font-size: 12px; opacity: 1; display: block')
+            .owl-wrapper-outer
+              .owl-wrapper(style='width: 1704px; left: 0px; display: block; transition: all 0ms ease 0s; transform: translate3d(0px, 0px, 0px)')
+                .owl-item(style='width: 142px')
+                  .carousel-element(style='margin: 2px; border-radius: 3px; text-align: left; cursor: pointer' onclick='window.open(\'https://en.#{ExtraData.domain}/goad.php?id=7\', \'_blank\');')
+                    img(src='uploads/files/2/b/2/a/f/2b2afd6a224065f60655a8fd55972f03.jpg' style='float: left; padding: 5px; max-width: 40%; vertical-align: top')
+                    | Shop services for business. A meeting place for freelancers and companies! Marketing, SMM, SEO, consulting and other services.
+                .owl-item(style='width: 142px')
+                  .carousel-element(style='margin: 2px; border-radius: 3px; text-align: left; cursor: pointer' onclick='window.open(\'https://en.#{ExtraData.domain}/goad.php?id=9\', \'_blank\');')
+                    img(src='uploads/files/6/4/7/3/d/6473d09aaee29937b77588546c76120d.jpg' style='float: left; padding: 5px; max-width: 40%; vertical-align: top')
+                    | We invite a partner and co-investor to launch an international medical social network based on ″Qwerty Social Network Engine″.
+                .owl-item(style='width: 142px')
+                  .carousel-element(style='margin: 2px; border-radius: 3px; text-align: left; cursor: pointer' onclick='window.open(\'https://en.#{ExtraData.domain}/goad.php?id=18\', \'_blank\');')
+                    img(src='uploads/files/3/f/a/0/c/3fa0c31ae82f991a4e36f6dda583d3f5.jpg' style='float: left; padding: 5px; max-width: 40%; vertical-align: top')
+                    | Want your own dating site? The company Qwerty Networks develops the most successful social networks and dating sites!
+                .owl-item(style='width: 142px')
+                  .carousel-element(style='margin: 2px; border-radius: 3px; text-align: left; cursor: pointer' onclick='window.open(\'https://en.#{ExtraData.domain}/goad.php?id=6\', \'_blank\');')
+                    img(src='uploads/files/2/1/5/d/3/215d304d9c000eedbd17347a52e59d38.jpg' style='float: left; padding: 5px; max-width: 40%; vertical-align: top')
+                    | We invite partners to develop the most real social networks. Want to be a new Zuckerberg? That way!
+                .owl-item(style='width: 142px')
+                  .carousel-element(style='margin: 2px; border-radius: 3px; text-align: left; cursor: pointer' onclick='window.open(\'https://en.#{ExtraData.domain}/goad.php?id=8\', \'_blank\');')
+                    img(src='uploads/files/8/c/b/6/d/8cb6d47accd408987305b274887428b1.jpg' style='float: left; padding: 5px; max-width: 40%; vertical-align: top')
+                    | Looking for an investor for your project? Have a startup idea, but no investment? Add your project to our catalog!
+                .owl-item(style='width: 142px')
+                  .carousel-element.hidden-xs(style='margin: 2px; border-radius: 3px; text-align: center; cursor: pointer' onclick='window.open(\'https://en.#{ExtraData.domain}/placead\', \'_blank\');')
+                    br
+                    br
+                    | Place for your advertising! 👍
+
+                    div
+                      button.btn.btn-primary.btn-xs To place an ad
+            .owl-controls.clickable
+              .owl-pagination
+                .owl-page.active
+                  span
+                .owl-page
+                  span
+                .owl-page
+                  span
+        script.
+
+          var carousel = $('#carousel');
+                  carousel.owlCarousel();
+                  $('#js-prev').click(function () {
+                    carousel.trigger('owl.prev');
+                    return false;
+                  });
+                  $('#js-next').click(function () {
+                    carousel.trigger('owl.next');
+                    return false;
+                  });
+
+      //  #endregion: advert
+      //  #region: POSTS
+      .postspost(style='background: rgb(255, 255, 255)')
+        div(style='overflow: hidden')
+          .page-header(style='margin-top: 10px')
+            div(style='display: inline-block; width: 100%; white-space: nowrap')
+              span(style='white-space: normal')
+              div(style='display: inline-block')
+                a(href='https://en.#{ExtraData.domain}/user/1042861')
+                  .post_avatar
+                    img.post_avatar(src='https://en.#{ExtraData.domain}/images/profile_nophoto.jpg')
+              div(style='display: inline-block; white-space: normal; vertical-align: middle')
+                a(href='https://en.#{ExtraData.domain}/user/1042861') Vladimir Nikishin
+                |  ·
+                span.date(style='white-space: normal') 2021-06-01 13:02:09 GMT+2
+            div(style='display: inline-block')
+              a(href='/7269825')
+                h3(style='margin-top: 5px') The widespread electrification of the southern provinces will give a powerful impetus to the rise of agriculture
+          a(href='/7269825')
+            span.postdescription
+              img.postthumbnail(src='https://en.#{ExtraData.domain}/uploads/files/7/8/4/5/d/7845d9193a47c30a3463ad9d5665250c.jpg' border='0')
+              |
+              span.postdescription Lorem ipsum dolor sit amet consectetur adipisicing elit. Pariatur, adipisci, optio blanditiis incidunt nisi vero, assumenda laudantium nemo cum quasi quibusdam delectus. Hic quaerat alias repellendus quia ducimus, iusto sed? Ullam porro ipsum officia duci
+            span
+              | ...
+              span(style='color: #ccc; white-space: nowrap; border-radius: 15px; border: 1px solid #ccc; margin-left: 10px; padding: 0 8px 0 8px') To read
+        span
+          div(style='vertical-align: bottom; color: #b3b3b3; height: 100%; text-align: right; margin-bottom: -8px; white-space: nowrap')
+            small
+              span(data-toggle='tooltip' data-original-title='Positive estimates')
+                | 1
+                span.glyphicon.glyphicon-thumbs-up(aria-hidden='true')
+              |   
+              span(data-toggle='tooltip' data-original-title='Negative estimates')
+                | 0
+                span.glyphicon.glyphicon-thumbs-down(aria-hidden='true')
+              |     
+              span(data-toggle='tooltip' data-original-title='Number of reposts')
+                | 0
+                span.glyphicons.glyphicons-retweet
+              |     
+              span(data-toggle='tooltip' data-original-title='Number of comments')
+                | 0
+                span.glyphicons.glyphicons-comments
+              |     
+              span(data-toggle='tooltip' data-original-title='The number of views and unique users (when the reader was stayed more than 20 seconds)')
+                span.glyphicon.glyphicon-eye-open(aria-hidden='true')
+                |  1  
+                span.glyphicon.glyphicon-user(aria-hidden='true')
+                |  0
+      .postspost(style='background: rgb(255, 255, 255)')
+        div(style='overflow: hidden')
+          .page-header(style='margin-top: 10px')
+            div(style='display: inline-block; width: 100%; white-space: nowrap')
+              span(style='white-space: normal')
+              div(style='display: inline-block')
+                a(href='https://en.#{ExtraData.domain}/user/1042861')
+                  .post_avatar
+                    img.post_avatar(src='https://en.#{ExtraData.domain}/images/profile_nophoto.jpg')
+              div(style='display: inline-block; white-space: normal; vertical-align: middle')
+                a(href='https://en.#{ExtraData.domain}/user/1042861') Vladimir Nikishin
+                |  ·
+                span.date(style='white-space: normal') 2021-05-31 15:44:42 GMT+2
+            div(style='display: inline-block')
+              a(href='/7269770')
+                h3(style='margin-top: 5px') Eat some more of these soft French rolls, and have some tea
+          a(href='/7269770')
+            span.postdescription
+              img.postthumbnail(src='https://en.#{ExtraData.domain}/uploads/files/b/6/2/b/8/b62b8be67c7a6d0cf24bc4b0d13ae3cd.jpg' border='0')
+              span.postdescription Lorem ipsum dolor sit amet consectetur adipisicing elit. Neque dignissimos nulla, numquam labore dolores culpa vitae exercitationem itaque nam id modi fuga totam? Officiis dignissimos sit beatae optio, asperiores laborum! Voluptate, consequuntur? Ullam er
+            span
+              | ...
+              span(style='color: #ccc; white-space: nowrap; border-radius: 15px; border: 1px solid #ccc; margin-left: 10px; padding: 0 8px 0 8px') To read
+        span
+          div(style='vertical-align: bottom; color: #b3b3b3; height: 100%; text-align: right; margin-bottom: -8px; white-space: nowrap')
+            small
+              span(data-toggle='tooltip' data-original-title='Positive estimates')
+                | 1
+                span.glyphicon.glyphicon-thumbs-up(aria-hidden='true')
+              |   
+              span(data-toggle='tooltip' data-original-title='Negative estimates')
+                | 0
+                span.glyphicon.glyphicon-thumbs-down(aria-hidden='true')
+              |     
+              span(data-toggle='tooltip' data-original-title='Number of reposts')
+                | 0
+                span.glyphicons.glyphicons-retweet
+              |     
+              span(data-toggle='tooltip' data-original-title='Number of comments')
+                | 0
+                span.glyphicons.glyphicons-comments
+              |     
+              span(data-toggle='tooltip' data-original-title='The number of views and unique users (when the reader was stayed more than 20 seconds)')
+                span.glyphicon.glyphicon-eye-open(aria-hidden='true')
+                |  1  
+                span.glyphicon.glyphicon-user(aria-hidden='true')
+                |  0
+      //  #endregion: advert
+    .main__loader#loadingposts(style='display: none')
+      br
+      br
+      span Loading...
+      br
+      img(src='/images/loading.gif', height='50', width='50', alt='Loading...')
+      br
+      br
+    .subscribers#typesdiv
+      a(href) To publications
+      h2 Subscribers:
+      span.subscribers__clear
+        a(href='javascript:void(0)' onclick='cleanfilter()') clean the filter
+      .subscribers__form.form-inline
+        .subscribers__country.input-group
+          span.input-group-addon Country:
+          select#cclist.form-control(name='cclist')
+            option(value) Not chosen
+            option(value='AF') Afghanistan
+            option(value='AX') Aland Islands
+            option(value='AL') Albania
+            option(value='DZ') Algeria
+            option(value='AS') American Samoa
+            option(value='AD') Andorra
+            option(value='AO') Angola
+            option(value='AI') Anguilla
+            option(value='AQ') Antarctica
+            option(value='AG') Antigua and Barbuda
+            option(value='AR') Argentina
+            option(value='AM') Armenia
+            option(value='AW') Aruba
+            option(value='AU') Australia
+            option(value='AT') Austria
+            option(value='AZ') Azerbaijan
+            option(value='BS') Bahamas
+            option(value='BH') Bahrain
+            option(value='BD') Bangladesh
+            option(value='BB') Barbados
+            option(value='BY') Belarus
+            option(value='BE') Belgium
+            option(value='BZ') Belize
+            option(value='BJ') Benin
+            option(value='BM') Bermuda
+            option(value='BT') Bhutan
+            option(value='BO') Bolivia
+            option(value='BA') Bosnia and Herzegovina
+            option(value='BW') Botswana
+            option(value='BV') Bouvet Island
+            option(value='BR') Brazil
+            option(value='IO') British Indian Ocean Territory
+            option(value='BN') Brunei Darussalam
+            option(value='BG') Bulgaria
+            option(value='BF') Burkina Faso
+            option(value='BI') Burundi
+            option(value='KH') Cambodia
+            option(value='CM') Cameroon
+            option(value='CA') Canada
+            option(value='CV') Cape Verde
+            option(value='KY') Cayman Islands
+            option(value='CF') Central African Republic
+            option(value='TD') Chad
+            option(value='CL') Chile
+            option(value='CN') China
+            option(value='CO') Colombia
+            option(value='KM') Comoros
+            option(value='CG') Congo
+            option(value='CK') Cook Islands
+            option(value='CR') Costa Rica
+            option(value='CI') Cote D
+            option(value='HR') Croatia (Hrvatska)
+            option(value='CU') Cuba
+            option(value='CY') Cyprus
+            option(value='CZ') Czech Republic
+            option(value='CD') Democratic Republic of the Congo
+            option(value='DK') Denmark
+            option(value='DJ') Djibouti
+            option(value='DM') Dominica
+            option(value='DO') Dominican Republic
+            option(value='EC') Ecuador
+            option(value='EG') Egypt
+            option(value='SV') El Salvador
+            option(value='GQ') Equatorial Guinea
+            option(value='ER') Eritrea
+            option(value='EE') Estonia
+            option(value='ET') Ethiopia
+            option(value='EU') Europe
+            option(value='FK') Falkland Islands (Malvinas)
+            option(value='FO') Faroe Islands
+            option(value='FM') Federated States of Micronesia
+            option(value='FJ') Fiji
+            option(value='FI') Finland
+            option(value='FR') France
+            option(value='GF') French Guiana
+            option(value='PF') French Polynesia
+            option(value='GA') Gabon
+            option(value='GM') Gambia
+            option(value='GE') Georgia
+            option(value='DE') Germany
+            option(value='GH') Ghana
+            option(value='GI') Gibraltar
+            option(value='GB') Great Britain (UK)
+            option(value='GR') Greece
+            option(value='GL') Greenland
+            option(value='GD') Grenada
+            option(value='GP') Guadeloupe
+            option(value='GU') Guam
+            option(value='GT') Guatemala
+            option(value='GG') Guernsey
+            option(value='GN') Guinea
+            option(value='GW') Guinea-Bissau
+            option(value='GY') Guyana
+            option(value='HT') Haiti
+            option(value='HN') Honduras
+            option(value='HK') Hong Kong
+            option(value='HU') Hungary
+            option(value='IS') Iceland
+            option(value='IN') India
+            option(value='ID') Indonesia
+            option(value='IR') Iran
+            option(value='IQ') Iraq
+            option(value='IE') Ireland
+            option(value='IM') Isle of Man
+            option(value='IL') Israel
+            option(value='IT') Italy
+            option(value='JM') Jamaica
+            option(value='JP') Japan
+            option(value='JE') Jersey
+            option(value='JO') Jordan
+            option(value='KZ') Kazakhstan
+            option(value='KE') Kenya
+            option(value='KI') Kiribati
+            option(value='KP') Korea (North)
+            option(value='KR') Korea (South)
+            option(value='KW') Kuwait
+            option(value='KG') Kyrgyzstan
+            option(value='LA') Laos
+            option(value='LV') Latvia
+            option(value='LB') Lebanon
+            option(value='LS') Lesotho
+            option(value='LR') Liberia
+            option(value='LY') Libya
+            option(value='LI') Liechtenstein
+            option(value='LT') Lithuania
+            option(value='LU') Luxembourg
+            option(value='MO') Macao
+            option(value='MK') Macedonia
+            option(value='MG') Madagascar
+            option(value='MW') Malawi
+            option(value='MY') Malaysia
+            option(value='MV') Maldives
+            option(value='ML') Mali
+            option(value='MT') Malta
+            option(value='MH') Marshall Islands
+            option(value='MQ') Martinique
+            option(value='MR') Mauritania
+            option(value='MU') Mauritius
+            option(value='YT') Mayotte
+            option(value='MX') Mexico
+            option(value='MD') Moldova
+            option(value='MC') Monaco
+            option(value='MN') Mongolia
+            option(value='ME') Montenegro
+            option(value='MS') Montserrat
+            option(value='MA') Morocco
+            option(value='MZ') Mozambique
+            option(value='MM') Myanmar
+            option(value='NA') Namibia
+            option(value='NR') Nauru
+            option(value='NP') Nepal
+            option(value='NL') Netherlands
+            option(value='NC') New Caledonia
+            option(value='NZ') New Zealand (Aotearoa)
+            option(value='NI') Nicaragua
+            option(value='NE') Niger
+            option(value='NG') Nigeria
+            option(value='NU') Niue
+            option(value='NF') Norfolk Island
+            option(value='MP') Northern Mariana Islands
+            option(value='NO') Norway
+            option(value='OM') Oman
+            option(value='PK') Pakistan
+            option(value='PW') Palau
+            option(value='PS') Palestinian Territory
+            option(value='PA') Panama
+            option(value='PG') Papua New Guinea
+            option(value='PY') Paraguay
+            option(value='PE') Peru
+            option(value='PH') Philippines
+            option(value='PL') Poland
+            option(value='PT') Portugal
+            option(value='PR') Puerto Rico
+            option(value='QA') Qatar
+            option(value='RE') Reunion
+            option(value='RO') Romania
+            option(value='RU') Russian Federation
+            option(value='RW') Rwanda
+            option(value='KN') Saint Kitts and Nevis
+            option(value='LC') Saint Lucia
+            option(value='PM') Saint Pierre and Miquelon
+            option(value='VC') Saint Vincent and the Grenadines
+            option(value='WS') Samoa
+            option(value='SM') San Marino
+            option(value='ST') Sao Tome and Principe
+            option(value='SA') Saudi Arabia
+            option(value='SN') Senegal
+            option(value='RS') Serbia
+            option(value='SC') Seychelles
+            option(value='SL') Sierra Leone
+            option(value='SG') Singapore
+            option(value='SK') Slovakia
+            option(value='SI') Slovenia
+            option(value='SB') Solomon Islands
+            option(value='SO') Somalia
+            option(value='ZA') South Africa
+            option(value='ES') Spain
+            option(value='LK') Sri Lanka
+            option(value='SD') Sudan
+            option(value='SR') Suriname
+            option(value='SZ') Swaziland
+            option(value='SE') Sweden
+            option(value='CH') Switzerland
+            option(value='SY') Syria
+            option(value='TW') Taiwan
+            option(value='TJ') Tajikistan
+            option(value='TZ') Tanzania
+            option(value='TH') Thailand
+            option(value='TG') Togo
+            option(value='TK') Tokelau
+            option(value='TO') Tonga
+            option(value='TT') Trinidad and Tobago
+            option(value='TN') Tunisia
+            option(value='TR') Turkey
+            option(value='TM') Turkmenistan
+            option(value='TC') Turks and Caicos Islands
+            option(value='TV') Tuvalu
+            option(value='UG') Uganda
+            option(value='UA') Ukraine
+            option(value='AE') United Arab Emirates
+            option(value='US') United States
+            option(value='UM') United States Minor Outlying Islands
+            option(value='UY') Uruguay
+            option(value='UZ') Uzbekistan
+            option(value='VU') Vanuatu
+            option(value='VA') Vatican City State (Holy See)
+            option(value='VE') Venezuela
+            option(value='VN') Viet Nam
+            option(value='VG') Virgin Islands (British)
+            option(value='VI') Virgin Islands (U.S.)
+            option(value='WF') Wallis and Futuna
+            option(value='YE') Yemen
+            option(value='ZM') Zambia
+            option(value='ZW') Zimbabwe
+        .subscribers__city.input-group#citydiv
+          span.input-group-addon City:
+          .typeahead__container
+            .typeahead__field
+              span.typeahead__query
+                input.form-control.cities#memberregion_lng(type='text' name='memberregion_lng' placeholder='City search...' autocomplete='off' onchange='checkregion()')
+          input#memberregion(type='hidden' name='memberregion')
+      .subscribers__search.input-group
+        span.input-group-addon
+          span.glyphicon.glyphicon-search(aria-hidden='true')
+        input.form-control#membersearch(type='search' name='membersearch' placeholder='Search Members')
+        span.input-group-addon(onclick='document.getElementById(\'membersearch\').value=\'\';changetype();')
+          span.glyphicon.glyphicon-remove(aria-hidden='true')
+    span.subscribers__end.endmembers
+    .subscribers__results.input-group#membersblock
+    .main__loader#loadingmembers
+      span Loading...
+      br
+      img(src='/images/loading.gif', height='50', width='50', alt='Loading...')
+      br
+      a(href='https://en.#{ExtraData.domain}/publications') Click here if loading is not performed

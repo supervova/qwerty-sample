@@ -1,0 +1,27 @@
+// stylelint-disable selector-no-qualifying-type
+
+// -----------------------------------------------------------------------------
+// LEGACY
+// -----------------------------------------------------------------------------
+// #region
+img[src*='images/flags/32'] {
+  display: none;
+}
+
+.js-smartPhoto {
+  @extend %border;
+
+  margin: -.6rem 0 .6rem;
+
+  > img {
+    border-radius: var(--shape-border-radius-base);
+  }
+}
+
+.main__body {
+  max-width: var(--size-width-readable);
+}
+// #endregion
+
+
+

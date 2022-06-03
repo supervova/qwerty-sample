@@ -1,0 +1,269 @@
+@use 'sass:math';
+
+.icon {
+  --icon-stroke: var(--color-ink-3ry);
+  --icon-stroke-width: 2;
+  --icon-fill: var(--color-background-alt);
+
+  display: inline-block;
+
+  // Prevent the icon from shrinking inside a flex container.
+  flex-shrink: 0;
+  overflow: hidden;
+
+  // Vertical-align: middle не всегда
+  // выравнивает по визуальному центру. В таких случаях надо
+  // экспериментировать с цифровыми значениями
+  vertical-align: -.4rem;
+  transition: fill var(--motion-duration-sm);
+
+  width: var(--size-height-icon);
+  height: var(--size-height-icon);
+
+  &.is-lg,
+  .icon-badge.is-lg & {
+    --size-height-icon: 4.4rem;
+  }
+
+  //  ⚠️ Do not change the thickness of the stroke until we replace all the glyphicons
+
+  // @media #{$size-screen-retina} {
+  //   --icon-stroke-width: 1.5;
+  // }
+}
+
+.icon-badge {
+  --icon-stroke: var(--color-ink-inverse-base);
+
+  background-color: var(--color-primary-base);
+  border-radius: var(--shape-border-radius-pill);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 0;
+  width: $size-line * 2;
+  height: $size-line * 2;
+}
+
+.icon-badge.is-lg {
+  width: $size-1 * 10;
+  height: $size-1 * 10;
+}
+
+.icon-badge > .icon,
+.btn-success .icon,
+.btn.is-success .icon,
+.btn.is-primary .icon,
+%icon-active {
+  --icon-stroke: var(--color-ink-inverse-base);
+  filter: drop-shadow(var(--layer-box-shadow-z1));
+}
+
+.btn.is-outline.is-inverse .icon {
+  --icon-stroke: var(--color-ink-inverse-2ry);
+}
+
+.icon.is-dangerous,
+.is-dangerous > .icon {
+  --icon-stroke: var(--color-ink-error-fill);
+}
+
+.icon.is-left {
+  margin-right: $size-1;
+  margin-left: math.div(-$size-1, 2);
+}
+
+.icon.is-right {
+  margin-right: -$size-1;
+  margin-left: 0;
+}
+
+.icon.is-sm,
+%icon-sm {
+  background-size: $size-2;
+  width: $size-2;
+  height: $size-2;
+}
+
+// -----------------------------------------------------------------------------
+// OVERRIDES
+// -----------------------------------------------------------------------------
+
+// Hide icons that cannot be overridden
+.glyphicon-book,
+.glyphicon-list-alt,
+[id='communitytype0'] + .glyphicon-comment,
+[id='communitytype1'] + .glyphicon-shopping-cart,
+[id='communitytype4'] + .glyphicon-comment,
+[src*='/images/read.png'],
+[src*='/images/subscribed.png'] {
+  display: none;
+}
+
+// Icons Reset
+
+.glyphicon-arrow-left,
+.glyphicon-arrow-right,
+.glyphicon-cog,
+.glyphicon-envelope,
+.glyphicon-eye-close,
+.glyphicon-eye-open,
+.glyphicon-map-marker,
+.glyphicon-ok-sign,
+.glyphicon-remove,
+.glyphicon-paperclip,
+.glyphicon-th,
+.glyphicon-thumbs-down,
+.glyphicon-thumbs-up,
+.glyphicon-trash,
+.glyphicon-user,
+.glyphicons-bank,
+.glyphicons-book-open,
+.glyphicons-comments,
+.glyphicons-map-marker,
+.glyphicons-retweet,
+.glyphicons-settings {
+  background-repeat: no-repeat;
+  display: inline-block;
+  text-shadow: none /* !important */;
+  position: static /* !important */;
+  vertical-align: middle;
+  width: var(--size-height-icon);
+  height: var(--size-height-icon);
+
+  &::before {
+    display: none;
+  }
+}
+
+.btn:not(.btn-xs):not(.is-icon) .glyphicon:nth-child(1) {
+  margin-left: -$size-half;
+  margin-right: $size-1;
+}
+
+.btn .glyphicon-remove:nth-child(1) {
+  margin: 0;
+}
+
+.glyphicon,
+.glyphicons,
+%icon-bg-position {
+  background-position: 50% 50%;
+}
+
+// Donate
+[href*='/donate'] {
+  background-image: var(--asset-data-image-donate);
+  background-position: 50% calc(50% + -4px);
+  background-repeat: no-repeat;
+}
+
+.glyphicon-arrow-left {
+  background-image: var(--asset-data-image-chevron-left);
+}
+
+.glyphicon-arrow-right {
+  background-image: var(--asset-data-image-chevron-right);
+}
+
+.glyphicon-cog,
+.glyphicons-settings {
+  background-image: var(--asset-data-image-settings);
+}
+
+.glyphicon-envelope {
+  background-image: var(--asset-data-image-mail);
+}
+
+.glyphicon-eye-close {
+  background-image: var(--asset-data-image-eye-slash);
+}
+
+.glyphicon-eye-open {
+  background-image: var(--asset-data-image-eye);
+}
+
+.glyphicon-ok-sign,
+.list.is-checklist li::before {
+  background-image: var(--asset-data-image-success);
+}
+
+.glyphicon-paperclip {
+  background-image: var(--asset-data-image-attachment);
+}
+
+.glyphicon-remove {
+  background-image: var(--asset-data-image-remove);
+}
+
+.glyphicon-th {
+  background-image: var(--asset-data-image-calendar);
+}
+
+.glyphicon-thumbs-down {
+  background-image: var(--asset-data-image-dislike);
+  background-position: 50% calc(50% + 2px);
+}
+
+.glyphicon-thumbs-up {
+  background-image: var(--asset-data-image-like);
+  background-position: 50% calc(50% - 2px);
+}
+
+.glyphicon-trash {
+  background-image: var(--asset-data-image-trash);
+}
+
+.glyphicon-user {
+  background-image: var(--asset-data-image-user);
+}
+
+.glyphicons-bank {
+  background-image: var(--asset-data-image-crown);
+}
+
+.glyphicons-book,
+.glyphicons-book-open {
+  background-image: var(--asset-data-image-book);
+}
+
+.glyphicons-comments {
+  background-image: var(--asset-data-image-comment);
+}
+
+.glyphicon-map-marker,
+.glyphicons-map-marker {
+  background-image: var(--asset-data-image-pin);
+}
+
+.glyphicons-retweet {
+  background-image: var(--asset-data-image-repost);
+}
+
+.tabs__tab.is-settings a {
+
+  @include media-breakpoint-up(lg) {
+    background-image: var(--asset-data-image-edit);
+    background-position: 50%;
+    background-repeat: no-repeat;
+  }
+}
+
+[onclick='addblog()'],
+[href='https://wmprofile.com/editsite'] {
+  &:not([class])::before {
+    @extend %icon-bg-position;
+
+    background-image: var(--asset-data-image-add);
+    background-repeat: no-repeat;
+  }
+}
+
+/* stylelint-disable selector-no-qualifying-type */
+.close,
+button.close {
+  @extend %icon-bg-position;
+
+  background-image: var(--asset-data-image-x-mark);
+  background-repeat: no-repeat;
+}

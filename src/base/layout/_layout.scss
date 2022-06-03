@@ -1,0 +1,202 @@
+@use 'sass:math';
+
+// -----------------------------------------------------------------------------
+// LEGACY
+// -----------------------------------------------------------------------------
+// #region
+
+// MAIN CONTAINERS V1
+// #region
+
+// Wrapper Inner
+.bodybg {
+  background: transparent !important;
+  text-align: center;
+  width: 100%;
+}
+
+// Wrapper Inner
+.containerbg {
+  margin: 0;
+  text-align: left;
+  width: 100% /*!important*/;
+
+  @include media-breakpoint-up(md) {
+    display: inline-block;
+    margin: 0 auto;
+    overflow: hidden;
+    max-width: var(--size-max-width-container);
+  }
+}
+// #endregion
+
+// #endregion
+
+// -----------------------------------------------------------------------------
+// CONTAINERS
+// -----------------------------------------------------------------------------
+// #region
+
+.q-container,
+%q-container {
+  margin-right: auto;
+  margin-left: auto;
+  padding-left: var(--size-padding-x-container);
+  padding-right: var(--size-padding-x-container);
+  width: 100%;
+}
+
+.q-container,
+%q-container-base {
+  // we iterate over the map $container-max-widths: save the key to the variable
+  // $breakpoint, and save the value to the variable $max-width
+  @each $breakpoint, $max-width in $container-max-widths {
+    @include media-breakpoint-up($breakpoint, $grid-breakpoints) {
+      max-width: calc(#{$max-width} + var(--size-padding-x-container) * 2);
+    }
+  }
+}
+
+// Legacy
+// .wrapper,
+// %wrapper {
+//   @include media-breakpoint-up(md) {
+//     grid-template-columns: repeat(12, 1fr);
+//     grid-gap: 1.6rem;
+//     padding: 0 $size-4;
+//   }
+// }
+
+.wrapper,
+.bodybg > .containerbg > .affix-row {
+  @extend %q-container, %q-container-base;
+  min-height: 100vh;
+
+  @include media-breakpoint-up(md) {
+    display: grid;
+    align-items: start;
+    grid-column-gap: var(--size-gutter-xl);
+    grid-row-gap: $size-line;
+    grid-template-areas:
+      'sidebar header'
+      'sidebar main'
+      'sidebar footer';
+    grid-template-columns: 9.6rem 1fr;
+    grid-template-rows: 12rem 1fr minmax(min-content, max-content);
+    padding-left: 0;
+  }
+
+  @include media-breakpoint-up(xl) {
+    grid-template-columns: clamp(27.2rem, #{percentage(math.div(1, 6))}, 32rem) 1fr;
+  }
+}
+
+.primary-nav {
+  grid-area: sidebar;
+}
+
+.header {
+  grid-area: header;
+}
+
+.main {
+  grid-area: main;
+}
+
+.footer {
+  grid-area: footer;
+}
+
+// LEGACY
+// Inner wrappers
+// .bodybg {}
+// .containerbg {}
+// .bodybg > .containerbg > .affix-row {}
+// #endregion
+
+// -----------------------------------------------------------------------------
+// CSS GRID
+// -----------------------------------------------------------------------------
+// #region
+
+// @see layout.md
+
+@mixin grid() {
+  display: grid;
+  gap: var(--gap, #{$size-2});
+  grid-template-columns: repeat(var(--columns, 12), 1fr);
+  // grid-template-rows: repeat(var(--rows, 1), auto);
+}
+
+.grid.is-base,
+%grid {
+  @include grid();
+}
+
+// Adaptive grids
+$q-grids: 'sm', 'md', 'lg';
+
+@each $breakpoint in $q-grids {
+  .grid.is-#{$breakpoint} {
+    @include media-breakpoint-up($breakpoint) {
+      @include grid();
+    }
+  }
+}
+
+// Create all columns classes:
+// .grid .g-col-sm-10{grid-column:auto/span 10}
+// .g-col-md-8{grid-column:auto/span 8} etc
+.grid {
+  @include make-cssgrid();
+}
+
+@mixin grid-fw(
+  $gap: $size-2,
+  $max-width: $size-max-width-container,
+  $columns: 12,
+  $min-x-padding: var(--size-padding-x-container)
+) {
+  --max-width: #{$max-width};
+  --columns: #{$columns};
+  --gap: #{$gap};
+
+  display: grid;
+  grid-auto-flow: column;
+  grid-gap: var(--gap);
+  grid-template-columns:
+    // Side 'margins'. Minimum: 20px. Maximum: viewport width minus content maximum width divide into 2 (left and right)
+    [outer-start] minmax(calc(#{$min-x-padding} - var(--gap)), calc((100% - var(--max-width) - var(--gap) * 2) / 2))
+    [main-start] repeat(var(--columns), [col-start] 1fr)
+    [main-end] minmax(calc(#{$min-x-padding} - var(--gap)), calc((100% - var(--max-width) - var(--gap) * 2) / 2)) [outer-end];
+}
+// #endregion
+
+// -----------------------------------------------------------------------------
+// FLEX ROWS
+// -----------------------------------------------------------------------------
+// #region
+
+// ⚠️ Don't use gap with explicit width columns. The gaps will be flattened
+// to the overall width of the row and they break the entire layout. But auto
+// width columns with equal flex-basis are ok.
+
+@mixin q-row() {
+  display: flex;
+  gap: var(--gap);
+}
+
+$q-rows: 'sm', 'md', 'lg';
+
+@each $breakpoint in $q-rows {
+  .q-row.is-#{$breakpoint} {
+    @include media-breakpoint-up($breakpoint) {
+      @include q-row();
+    }
+  }
+}
+
+.q-row.is-v-centered {
+  align-items: center;
+}
+// #endregion

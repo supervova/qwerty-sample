@@ -1,0 +1,15 @@
+// MIGRATED INLINE STYLES
+[id='industrytag'] {
+  display: inline-block;
+  margin: .8rem .8rem 0 0;
+
+  small {
+    @extend %tag;
+  }
+}
+
+.js-smartPhoto > img {
+  margin: $size-line auto;
+  max-width: 90%;
+  max-height: $size-line * 10;
+}

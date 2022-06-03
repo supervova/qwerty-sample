@@ -1,0 +1,66 @@
+@use 'sass:math';
+
+// -----------------------------------------------------------------------------
+// MAIN BOX
+// -----------------------------------------------------------------------------
+// #region
+.hero {
+  background-color: var(--color-background-inverse);
+  border-bottom: .8rem solid var(--color-primary-base);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin-right: -$size-2p5;
+  margin-left: -$size-2p5;
+  padding-right: var(--size-padding-x-container);
+  padding-left: var(--size-padding-x-container);
+  min-height: 52.8rem;
+
+  @include media-breakpoint-up(md) {
+    margin-right: -$size-5;
+    margin-left: -$size-5;
+  }
+
+  @include media-breakpoint-up(lg) {
+    border-radius: var(--shape-border-radius-lg);
+    margin-right: 0;
+    margin-left: 0;
+  }
+}
+
+// #endregion
+
+// -----------------------------------------------------------------------------
+// COPY
+// -----------------------------------------------------------------------------
+// #region
+
+.hero__title {
+  color: var(--color-background-alt);
+  font-size: var(--font-size-hero-title);
+  font-weight: var(--font-weight-hero-title);
+  letter-spacing: -.15rem;
+  line-height: var(--font-line-height-hero-title);
+  text-align: center;
+  padding-top: var(--size-padding-top-hero-title);
+  padding-bottom: var(--size-padding-bottom-hero-title);
+}
+
+.hero__copy {
+  color: var(--color-background-alt);
+  font-size: var(--font-size-base);
+  font-weight: var(--font-weight-big);
+  line-height: var(--font-line-height-base);
+  text-align: center;
+  padding-top: var(--size-padding-top-base);
+  padding-bottom: var(--size-padding-bottom-base);
+
+  @include media-breakpoint-up(lg) {
+    font-size: var(--font-size-big);
+    line-height: var(--font-line-height-big);
+    padding-top: var(--size-padding-top-big);
+    padding-bottom: var(--size-padding-bottom-big);
+  }
+}
+// #endregion

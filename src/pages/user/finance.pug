@@ -1,0 +1,273 @@
+extends /pages/base/base.pug
+include /pages/base/mixins
+
+//- SETTINGS -------------------------------------------------------------------
+
+append config
+  -
+    const page = {
+      lang: 'ru',
+      title: 'Profile',
+      description: site.description,
+      link: site.url,
+      img: site.img,
+      isClean: true,
+    }
+
+
+//- CONTENT --------------------------------------------------------------------
+
+block content
+
+  div(style='padding: 10px')
+    h4 Ваш баланс:
+    | Оперативный баланс:
+    strong 0 WMC
+    br
+    | Доступно для вывода:
+    strong 0 WMC
+    hr
+    | Репутация:
+    a(href='/reputation' target='_blank')
+      span(style='color: green; font-weight: 600') 509
+    div(style='margin-top: 20px')
+      font(size='+1')
+        b Операции
+        |  |
+        a(href='/finance/?mode=repute') Репутация
+        |  |
+        a(href='/finance/?mode=add') Счета
+        |  |
+        a(href='/finance/?mode=withdraw') Снять деньги
+        |  |
+        a(href='/finance/?mode=requisites') Мои реквизиты
+    h4 История операций:
+    table.table.table-striped(width='100%' style='background-color: #ffffff')
+      thead
+        tr
+          td
+            strong Дата Время
+          td
+            strong Описание
+          td
+            strong Сумма
+          td
+            strong Валюта
+      tbody
+    font(style='color: gray') Никаких операций нашли
+  div(style='padding: 10px')
+    span Баланс пользователя учитывается в
+    strong
+      span.nottranslate WMC
+    | .
+
+    h2
+      span.nottranslate WMC
+      | -
+      span что это?
+    p
+      span.nottranslate WMC
+      | (
+      span или
+      span.nottranslate Web-Money-Credits
+      | ) -
+      span Внутренняя система жетонов, которые можно обменять на виртуальные товары (услуги и обязательства).
+    p
+      span Стоимость
+      span.nottranslate 1 WMC
+      | =
+      span 0,01 доллара США
+    p
+      span Курсы
+      span.nottranslate WMC
+      span по отношению к мировым валютам на данный момент:
+
+    .table-responsive(style='padding: 10px; background: #fff')
+      table.table.table-striped
+        thead
+          tr
+            th Код валюты
+            th Название валюты
+            th Курс
+            th Расчет баланса
+        tbody
+          tr
+            td AUD
+            td Australian Dollar
+            td 1.35 AUD / 100 WMC
+            td 0 AUD
+          tr
+            td BGN
+            td Български лев
+            td 1.65 BGN / 100 WMC
+            td 0 BGN
+          tr
+            td BRL
+            td Moeda brasileira
+            td 5.19 BRL / 100 WMC
+            td 0 BRL
+          tr
+            td BYN
+            td Беларускі рубель
+            td 2.50 BYN / 100 WMC
+            td 0 BYN
+          tr
+            td CAD
+            td Canadian Dollar
+            td 1.26 CAD / 100 WMC
+            td 0 CAD
+          tr
+            td CHF
+            td Swiss franc
+            td 0.92 CHF / 100 WMC
+            td 0 CHF
+          tr
+            td CNY
+            td 中國元
+            td 6.44 CNY / 100 WMC
+            td 0 CNY
+          tr
+            td CZK
+            td Česká Koruna
+            td 21.36 CZK / 100 WMC
+            td 0 CZK
+          tr
+            td DKK
+            td Danske kroner
+            td 6.28 DKK / 100 WMC
+            td 0 DKK
+          tr
+            td EUR
+            td Euro
+            td 0.84 EUR / 100 WMC
+            td 0 EUR
+          tr
+            td GBP
+            td Pound sterling
+            td 0.72 GBP / 100 WMC
+            td 0 GBP
+          tr
+            td HKD
+            td 港元
+            td 7.78 HKD / 100 WMC
+            td 0 HKD
+          tr
+            td HRK
+            td Kuna
+            td 6.32 HRK / 100 WMC
+            td 0 HRK
+          tr
+            td HUF
+            td Forint
+            td 295.48 HUF / 100 WMC
+            td 0 HUF
+          tr
+            td ICG
+            td Physical gold based coin
+            td 17.31 ICG / 100 WMC
+            td 0 ICG
+          tr
+            td IDR
+            td Rupee
+            td 14198.59 IDR / 100 WMC
+            td 0 IDR
+          tr
+            td ILS
+            td שקל
+            td 3.20 ILS / 100 WMC
+            td 0 ILS
+          tr
+            td INR
+            td Indian rupee
+            td 73.43 INR / 100 WMC
+            td 0 INR
+          tr
+            td ISK
+            td Icelandic krone
+            td 127.86 ISK / 100 WMC
+            td 0 ISK
+          tr
+            td JPY
+            td 円
+            td 109.81 JPY / 100 WMC
+            td 0 JPY
+          tr
+            td KRW
+            td 원
+            td 1165.91 KRW / 100 WMC
+            td 0 KRW
+          tr
+            td MXN
+            td Peso mejicano
+            td 19.88 MXN / 100 WMC
+            td 0 MXN
+          tr
+            td MYR
+            td Ringgit Malaysia
+            td 4.14 MYR / 100 WMC
+            td 0 MYR
+          tr
+            td NOK
+            td Norske kroner
+            td 8.62 NOK / 100 WMC
+            td 0 NOK
+          tr
+            td NZD
+            td New Zealand Dollar
+            td 1.40 NZD / 100 WMC
+            td 0 NZD
+          tr
+            td PHP
+            td Philippine Peso
+            td 49.86 PHP / 100 WMC
+            td 0 PHP
+          tr
+            td PLN
+            td Zloty
+            td 3.84 PLN / 100 WMC
+            td 0 PLN
+          tr
+            td RON
+            td Lei
+            td 4.17 RON / 100 WMC
+            td 0 RON
+          tr
+            td RUB
+            td Российский рубль
+            td 72.72 RUB / 100 WMC
+            td 0 RUB
+          tr
+            td SEK
+            td Svenska kronor
+            td 8.60 SEK / 100 WMC
+            td 0 SEK
+          tr
+            td SGD
+            td Singapore Dollar
+            td 1.34 SGD / 100 WMC
+            td 0 SGD
+          tr
+            td THB
+            td ค้างคาว
+            td 32.65 THB / 100 WMC
+            td 0 THB
+          tr
+            td TRY
+            td Lyra
+            td 6.39 TRY / 100 WMC
+            td 0 TRY
+          tr
+            td UAH
+            td Гривня
+            td 26.79 UAH / 100 WMC
+            td 0 UAH
+          tr
+            td USD
+            td US Dollar
+            td 1.00 USD / 100 WMC
+            td 0 USD
+          tr
+            td ZAR
+            td Rand
+            td 14.07 ZAR / 100 WMC
+            td 0 ZAR

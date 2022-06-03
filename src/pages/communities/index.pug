@@ -1,0 +1,132 @@
+extends /pages/base/base.pug
+include /pages/base/mixins
+
+//- SETTINGS -------------------------------------------------------------------
+
+append config
+  -
+    const page = {
+      lang: 'ru',
+      title: 'Profile',
+      description: site.description,
+      link: site.url,
+      img: site.img,
+      isClean: true
+    }
+
+append head
+
+
+//- CONTENT --------------------------------------------------------------------
+
+block content
+
+  h1 Сообщества
+  .main__row.is-communities-lead
+    img.revealator-rotateright(src='https://ru.#{ExtraData.domain}/images/big_communities.png' style='padding: 0; max-width: 230px; float: left;')
+
+    .main__col
+      p.list-caption
+        strong Создавайте сообщества в нашей социальной сети и извлекайте выгоду:
+      ul.list.is-checklist
+        li Вы легко найдете единомышленников, партнеров и клиентов
+        li Вы узнаете, насколько популярна та или иная тема
+        li Вы можете бесплатно рекламировать ваш сайт или партнерскую программу
+        li Вы можете публиковать новости рынка или вашей собственной компании
+        li Вы можете продать ваше сообщество к новому владельцу
+        li Вы можете продавать рекламу внутри сообщества
+  p
+    button.btn.btn-primary(type='button' onclick='newcommunity()') Создать сообщество
+
+  .form.is-create-community#createcommunity(style='display: none')
+    .form__item
+      label(for='communitytitle') Название:
+      input#communitytitle(name='communitytitle' type='text' placeholder='название нового сообщества (не более 100 символов)')
+    .form__item
+      label(for='communitydescr') Описание:
+      input#communitydescr(name='communitydescr' type='text' placeholder='краткое описание (не более 200 символов)')
+    fieldset
+      label(for='coverimage') Изображение для шапки вашего сообщества:
+      #loadingphoto(style='display: none;')
+        img(src='/images/loading.gif', width='50', height='50', alt='Loading...')
+      img.img.is-community-cover#imgcover(src alt)
+      input#coverimage(name='coverimage' type='file' onchange='showcoverimage();')
+      input#coverimage64(name='coverimage64' type='hidden')
+      br
+      p Вы должны подготовить и загрузить картинку 1600x500 пикселей.
+      p.list-caption Вы можете сделать это самостоятельно или подобрать готовую картинку здесь:
+      ul
+        li
+          a(href='https://www.google.ru/search?q=information+technology+1600x500&newwindow=1&site=imghp&source=lnms&tbm=isch' target='_blank' rel='noopener noreferrer') Google поиск изображений, размером 1600x500
+          br
+        li
+          a(href='https://yandex.ru/images/search?ih=500&p=1&text=IT&iw=1600&isize=eq' target='_blank' rel='noopener noreferrer') Яндекс поиск изображений, размером 1600x500
+
+    p На следующем шаге вам будет предложено ввести дополнительные параметры для вашего сообщества, загрузить логотип, ввести параметры для доступа в сообщество и настройки модерации.
+    button#savebutton.btn.btn-success(type='button' onclick='savecommunity()') Сохранить и продолжить настройку
+    .img.is-loading.is-saving#saving
+      img(src='/images/loading.gif', width='50', height='50', style='display: none', alt='Loading...')
+
+  .form.is-communities-search#typesdiv
+    p Кроме того, вы можете вступать в сообщества, созданные другими пользователями:
+    form(role='search' onsubmit='changetype()' aria-label='communities')
+      .form__row
+        input#descsearch(name='descsearch' type='search' placeholder='Search for communities')
+        button.btn.is-search(type='submit')
+          svg.icon(aria-hidden='true' focusable='false')
+            use(href='/projects/#{ExtraData.domain}/images/base/graphics/sprite.svg#icon-search')
+
+        .dropdown.is-leftward
+          button.btn.is-icon.is-ghost(type='button', data-toggle='dropdown', aria-haspopup='true', aria-expanded='false', aria-label='Filter search')
+            svg.icon(aria-hidden='true' focusable='false')
+              use(href='/projects/#{ExtraData.domain}/images/base/graphics/sprite.svg#icon-chevron-down-sm')
+          ul.dropdown__menu
+            li
+              label.form__item.has-option
+                input#communitytype0(name='community_type' type='radio' value='0' onchange='changetype()' checked)
+                | Все сообщества
+            li
+              label.form__item.has-option
+                input#communitytype1(name='community_type' type='radio' value='1' onchange='changetype()')
+                | Публикации и блоги
+            li
+              label.form__item.has-option
+                input#communitytype2(name='community_type' type='radio' value='2' onchange='changetype()')
+                | Магазины
+            li
+              label.form__item.has-option
+                input#communitytype3(name='community_type' type='radio' value='3' onchange='changetype()')
+                | Открытые профессиональные сообщества
+            li
+              label.form__item.has-option
+                input#communitytype4(name='community_type' type='radio' value='4' onchange='changetype()')
+                | Закрытые профессиональные сообщества
+            li
+              label.form__item.has-option
+                input#communitytype5(name='community_type' type='radio' value='5' onchange='changetype()')
+                | Платный доступ
+
+  span
+
+  #postsblock.row.row-flex
+    .col-sm-12.col-xs-12.col-md-6.col-lg-4(style='vertical-align: top; margin: 20px -5px 0 0;' onclick='location.href=\'/community-13018\'')
+      img(src='https://ru.#{ExtraData.domain}/uploads/files/0/2/e/9/f/02e9f5e09a1b50fd0f9e918bcb4aac72.png' style='display:inline-block;border:none;max-width:100px;')
+      div(style='display:inline-block;margin-left:20px;vertical-align:top;white-space:normal;max-width:50%;')
+        small(style='color: gray;')
+          span.glyphicon.glyphicon-book(aria-hidden='true')
+          |  Публикации и блоги
+        h4(style='white-space: normal; margin-bottom: 5px; margin-top: 0;')
+          span(style='color: #6699cc; border-bottom: 1px dashed #6699cc;') Новости медицины в РФ
+        | Новости медицины в Российской Федерации
+
+    span
+    script(type='text/javascript').
+
+      lasteventtime = 1629182286;
+
+  .loader.is-communities#loadingcommunities(style='display: none;')
+    span Загрузка...
+    br
+    img(src='/images/loading.gif' width='30' alt='Загрузка...')
+    br
+    a(href='https://ru.#{ExtraData.domain}/communities?descsearch=grtgrtghrh+') Нажмите здесь если загрузка не выполняется

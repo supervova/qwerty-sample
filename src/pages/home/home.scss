@@ -1,0 +1,724 @@
+@use 'sass:math';
+
+@import '../../base/variables';
+@import '../../base/mixins';
+@import '../../base/shared';
+
+// BS
+@import './node_modules/bootstrap/scss/functions';
+@import './node_modules/bootstrap/scss/variables';
+@import './node_modules/bootstrap/scss/mixins';
+
+// -----------------------------------------------------------------------------
+// HEADER
+// -----------------------------------------------------------------------------
+// #region
+
+.header {
+  padding-right: var(--size-padding-x-container);
+  padding-left: var(--size-padding-x-container);
+  max-width: $size-max-width-container;
+
+  @include media-breakpoint-up(md) {
+    padding-left: $size-width-navbar-md + $size-5;
+  }
+
+  @include media-breakpoint-up(lg) {
+    padding-left: $size-width-navbar-xl + $size-5;
+  }
+}
+
+// The logo is visible and absolutely positioned on home
+.header__logo {
+  @include media-breakpoint-up(md) {
+    position: absolute;
+    top: $size-4;
+    left: 0;
+  }
+
+  @include media-breakpoint-up(lg) {
+    flex-direction: row;
+    width: 19.2rem;
+    top: 4.9rem;
+    left: $size-5;
+  }
+}
+
+.logo__mark {
+  @include media-breakpoint-up(lg) {
+    margin-right: 1rem;
+    margin-bottom: 0;
+  }
+}
+
+.logo__copy {
+  @include media-breakpoint-up(lg) {
+    display: block;
+  }
+}
+
+.logo__type {
+  @include media-breakpoint-only(md) {
+    margin: auto;
+  }
+
+  @include media-breakpoint-up(lg) {
+    width: 14.1rem;
+    height: 3.5rem;
+  }
+}
+
+.tagline {
+  @include media-breakpoint-up(lg) {
+    display: none;
+  }
+}
+
+
+// #endregion
+
+// -----------------------------------------------------------------------------
+// HERO
+// -----------------------------------------------------------------------------
+// #region
+
+.hero {
+  background-blend-mode: normal, color, normal, normal, normal;
+  background-image:
+    var(--color-primary-scrim),
+    var(--color-primary-scrim-color),
+    url('/projects/hlaclub.com/images/pages/home/man.png'),
+    url('/projects/hlaclub.com/images/pages/home/woman.png'),
+    url('/projects/hlaclub.com/images/pages/home/library.jpg');
+  background-position:
+    center top,
+    center top,
+    left -40px top,
+    right -32px top,
+    center center;
+  background-repeat: no-repeat;
+
+  @include media-breakpoint-up(md) {
+    background-blend-mode: normal;
+    background-image:
+      url('/projects/hlaclub.com/images/pages/home/man.png'),
+      url('/projects/hlaclub.com/images/pages/home/woman.png'),
+      url('/projects/hlaclub.com/images/pages/home/library.jpg');
+    background-position:
+      left top,
+      right top,
+      center center;
+  }
+
+  @include media-breakpoint-up(lg) {
+    background-position:
+      left top,
+      right top,
+      center center;
+  }
+}
+
+.hero__title {
+  margin-top: 0;
+  margin-bottom: 0;
+}
+
+.hero__copy {
+  @include media-breakpoint-up(md) {
+    width: 50%;
+  }
+
+  @include media-breakpoint-up(lg) {
+    width: 33.33%;
+  }
+}
+
+.hero .btn.is-outline {
+  display: none;
+
+  @include media-breakpoint-up(sm) {
+    display: flex;
+    background-color: hsl(var(--color-ink-shadow) / .5);
+    box-shadow: inset 0 0 0 1px var(--color-ink-inverse-3ry);
+    color: var(--color-ink-inverse-base);
+  }
+}
+
+.hero .btn.is-outline .icon {
+  --icon-stroke: var(--color-ink-inverse-2ry);
+}
+// #endregion
+
+// -----------------------------------------------------------------------------
+// DAILY TIP
+// -----------------------------------------------------------------------------
+// #region
+
+.daily-tip {
+  justify-content: center;
+
+  @include media-breakpoint-up(md) {
+    margin-bottom: $size-line * 2;
+  }
+}
+
+.daily-tip__content {
+  background-color: var(--color-background-acrylic);
+  backdrop-filter: var(--color-background-acrylic-backdrop);
+  border-radius: var(--shape-border-radius-base);
+  box-shadow: var(--layer-box-shadow-z3);
+  text-align: center;
+  margin-top: -($size-line * 3);
+  padding: $size-5 $size-2p5 $size-2p5;
+
+  @-moz-document url-prefix() {
+    background-color: hsla(0, 0%, 100%, .92);
+  }
+
+  @include media-breakpoint-up(sm) {
+    text-align: left;
+  }
+
+  @include media-breakpoint-up(md) {
+    padding: $size-5 $size-5 $size-line;
+    width: percentage(math.div(8, 12));
+  }
+
+  @include media-breakpoint-up(lg) {
+    width: percentage(math.div(5, 12));
+  }
+}
+
+.daily-tip__header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-bottom: var(--size-padding-bottom-base);
+
+  p {
+    padding-bottom: 0;
+  }
+
+  @include media-breakpoint-up(sm) {
+    flex-direction: row;
+  }
+}
+
+.daily-tip .icon-badge {
+  flex-shrink: 0;
+  margin-bottom: $size-1;
+
+  @include media-breakpoint-up(sm) {
+    margin-right: $size-line;
+    margin-bottom: 0;
+  }
+}
+
+.daily-tip .h3 {
+  margin-bottom: -$size-2;
+}
+
+.daily-tip__summary {
+  color: var(--color-ink-2ry);
+}
+// #endregion
+
+// -----------------------------------------------------------------------------
+// MAIN
+// -----------------------------------------------------------------------------
+// #region
+.main {
+  padding-right: var(--size-padding-x-container);
+  padding-left: var(--size-padding-x-container);
+
+  @include media-breakpoint-up(md) {
+    padding-top: $size-line * 2;
+  }
+}
+
+// #endregion
+
+// -----------------------------------------------------------------------------
+// BENEFITS
+// -----------------------------------------------------------------------------
+// #region
+
+.section.benefits {
+  --gap: #{$size-2};
+
+  display: grid;
+  grid-gap: var(--gap);
+  grid-template-areas:
+  // 01 02
+    's1 s1'
+    's2 s2'
+    'wm db'
+    's3 s3'
+    's4 s4';
+  padding-bottom: 0;
+
+  grid-template-columns: repeat(2, 1fr);
+
+  @include media-breakpoint-up(sm) {
+    grid-template-areas:
+    // 01 02 03
+      's1 s1 s1'
+      's2 s2 s2'
+      'db db wm'
+      's3 s3 s3'
+      's4 s4 s4';
+
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  @include media-breakpoint-up(md) {
+    grid-auto-rows: minmax(100px, auto);
+    grid-template-areas:
+    // 00 01 02 03 04 05 06 07 08 09 10 11 12 00
+      '.  .  .  s1 s1 s1 s1 s1 s1 s1 s1 .  .  .'
+      '.  .  .  s2 s2 s2 s2 s2 s2 s2 s2 .  .  .'
+      'db db db db db wm wm wm wm ch ch ch ch ch'
+      '.  .  .  s3 s3 s3 s3 s3 s3 s3 s3 .  .  .'
+      '.  .  .  s4 s4 s4 s4 s4 s4 s4 s4 .  .  .';
+    grid-template-columns:
+      // Container padding excluding outer gaps
+      minmax(var(--gap), 1fr)
+      repeat(12, 1fr)
+      minmax(var(--gap), 1fr);
+  }
+
+  @include media-breakpoint-up(lg) {
+    --gap: #{$size-5};
+
+    grid-template-areas:
+    // 01 02 03 04 05 06 07 08 09 10 11 12
+      'db db db db wm wm s1 s1 s1 s1 s1 s1'
+      'db db db db wm wm s2 s2 s2 s2 s2 s2'
+      's3 s3 s3 s3 s3 s3 s3 ch ch ch ch ch'
+      's4 s4 s4 s4 s4 s4 s4 ch ch ch ch ch';
+
+    grid-template-columns: repeat(12, 1fr);
+  }
+
+  @include media-breakpoint-up(xl) {
+    grid-template-areas:
+    // 01 02 03 04 05 06 07 08 09 10 11 12
+      'db db db wm wm wm s1 s1 s1 s1 s1 .'
+      'db db db wm wm wm s2 s2 s2 s2 s2 .'
+      '.  s3 s3 s3 s3 s3 .  ch ch ch ch ch'
+      '.  s4 s4 s4 s4 s4 .  ch ch ch ch ch';
+  }
+}
+
+.subsection__heading {
+  margin-bottom: -$size-2;
+}
+
+.subsection.is-1st {
+  grid-area: s1;
+  align-self: end;
+}
+
+.subsection.is-2nd {
+  grid-area: s2;
+}
+
+.img.is-dashboard {
+  align-self: center;
+  grid-area: db;
+  object-fit: none;
+  object-position: 0 0;
+  width: 27rem;
+  height: 51.5rem;
+
+  @include media-breakpoint-up(md) {
+    object-position: 100% 50%;
+  }
+}
+
+.img.is-woman {
+  grid-area: wm;
+  align-self: center;
+  justify-self: center;
+  object-fit: contain;
+}
+
+.img.is-chat {
+
+  display: none;
+
+  @include media-breakpoint-up(md) {
+    display: block;
+    grid-area: ch;
+    justify-self: center;
+    margin-top: $size-line * 2;
+    margin-bottom: $size-line * 2;
+    object-fit: none;
+    object-position: 0 50%;
+
+    @include media-breakpoint-only(md) {
+      width: 27.3rem;
+      height: 57.6rem;
+    }
+  }
+}
+
+.subsection.is-3rd {
+  grid-area: s3;
+  align-self: end;
+}
+
+.subsection.is-4th {
+  grid-area: s4;
+}
+// #endregion
+
+// -----------------------------------------------------------------------------
+// CENTER PRIM
+// -----------------------------------------------------------------------------
+// #region
+
+.section.prim {
+  display: flex;
+  flex-direction: column;
+  content-visibility: visible;
+
+
+  @include media-breakpoint-up(lg) {
+    padding-right: 0;
+    padding-left: 0;
+  }
+
+  @include media-breakpoint-up(xl) {
+    display: grid;
+    column-gap: $size-5;
+    row-gap: $size-2;
+    grid-template-columns: repeat(12, 1fr);
+    grid-template-areas:
+    // 01 02 03 04 05 06 07 08 09 10 11 12
+      'cd cd cd cd cd cd cd cd cp cp cp cp';
+    padding:
+      $size-line * 2
+      var(--size-padding-x-container)
+      $size-line * 2;
+  }
+}
+
+// #region : cards
+.section.prim .section__cards {
+  display: flex;
+  order: -1;
+
+  @include media-breakpoint-down(md) {
+    @include scroller(22rem);
+
+    margin-right: -$size-2p5;
+    margin-left: -$size-2p5;
+    margin-bottom: $size-line;
+    padding-right: $size-2p5;
+    padding-left: $size-2p5;
+  }
+
+  @include media-breakpoint-up(md) {
+    flex-wrap: wrap;
+    justify-content: center;
+    grid-area: cd;
+    margin-bottom: $size-line;
+  }
+
+  @include media-breakpoint-up(xl) {
+    display: grid;
+    column-gap: $size-5;
+    grid-template-columns: repeat(8, 1fr);
+    grid-template-rows: 3rem repeat(2, #{$size-line * 8}) 3rem;
+    row-gap: $size-1p5;
+  }
+}
+
+.section.prim .card {
+  flex: 1 0 22rem;
+  align-items: center;
+  text-align: center;
+  padding: $size-line $size-2 $size-2;
+  min-height: $size-line * 8;
+
+  @include media-breakpoint-down(md) {
+    box-shadow: none;
+  }
+
+  @include media-breakpoint-up(md) {
+    margin-right: $size-1;
+    margin-bottom: $size-2;
+    margin-left: $size-1;
+    min-width: calc(33.3333% - #{$size-4});
+    max-width: calc(50% - #{$size-2});
+  }
+
+  @include media-breakpoint-up(lg) {
+    flex-grow: 0;
+    max-width: calc(33.3333% - #{$size-4});
+  }
+
+  @include media-breakpoint-up(xl) {
+    margin: 0;
+    max-width: none;
+  }
+}
+
+.section.prim .h4 .link {
+  color: var(--color-ink-title);
+}
+
+.section.prim .icon-badge {
+  margin-bottom: $size-1;
+}
+
+.section.prim .h4 {
+  margin-bottom: -$size-line;
+}
+
+.card.is-healthcare {
+  @include media-breakpoint-up(xl) {
+    grid-column: 1 / span 3;
+    grid-row: 2;
+  }
+}
+
+.card.is-pharmacy {
+  @include media-breakpoint-up(xl) {
+    grid-column: 6 / span 3;
+    grid-row: 2;
+  }
+}
+
+.card.is-programs {
+  @include media-breakpoint-up(xl) {
+    grid-column: 1 / span 3;
+    grid-row: 3;
+  }
+}
+
+// Parent has set to override top padding
+.section.prim .card.is-doctors {
+  @include media-breakpoint-up(xl) {
+    background-color: var(--color-ink-primary-text);
+    background-blend-mode: color, multiply, normal;
+    background-image:
+      linear-gradient(var(--color-primary-base), var(--color-primary-base)),
+      radial-gradient(100% 73% at 50% 27%, rgba(0, 0, 0, 0), rgba(0, 0, 0, .02) 6.52%, rgba(0, 0, 0, .071) 12.2%, rgba(0, 0, 0, .145) 16.17%, rgba(0, 0, 0, .239) 22.86%, rgba(0, 0, 0, .345) 28.73%, rgba(0, 0, 0, .455) 35.57%, rgba(0, 0, 0, .561) 43.82%, rgba(0, 0, 0, .655) 53.94%, rgba(0, 0, 0, .729) 66.37%, rgba(0, 0, 0, .78) 81.58%, rgba(0, 0, 0, .8)),
+      url('/projects/#{$domain}/images/pages/home/doctor-02.png');
+    background-position: center bottom;
+    background-repeat: no-repeat;
+    background-size: auto, auto, cover;
+    box-shadow: none;
+    grid-column: 3 / span 4;
+    grid-row: 1 / span 4;
+    padding-top: 27rem;
+
+    .card__summary {
+      max-width: 21.8rem;
+    }
+
+    .h4,
+    .link {
+      color: var(--color-ink-inverse-max);
+    }
+
+    p {
+      color: var(--color-ink-inverse-base);
+    }
+  }
+}
+
+.card.is-partners {
+  @include media-breakpoint-up(xl) {
+    grid-column: 6 / span 3;
+    grid-row: 3;
+  }
+}
+// #endregion : cards
+
+.section.prim .section__content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  @include media-breakpoint-up(xl) {
+    grid-area: cp;
+    align-self: center;
+    padding-left: $size-5;
+  }
+}
+
+.section.prim .section__heading {
+  @include media-breakpoint-up(md) {
+    text-align: center;
+  }
+
+  @include media-breakpoint-up(xl) {
+    text-align: left;
+  }
+}
+
+.section.prim .section__copy {
+  @include media-breakpoint-up(md) {
+    max-width: 45rem;
+  }
+
+  @include media-breakpoint-up(lg) {
+    max-width: 61.6rem;
+  }
+}
+
+// .section.prim .section__picture {}
+// #endregion
+
+// -----------------------------------------------------------------------------
+// PRICING TABLE
+// -----------------------------------------------------------------------------
+// #region
+.pricing-table {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+}
+
+.pricing-table .section__header {
+  padding-bottom: $size-line;
+}
+
+.pricing-table__plans {
+  @include media-breakpoint-up(md) {
+    display: grid;
+    grid-gap: .1rem;
+    grid-auto-rows: minmax(20px, auto);
+    grid-template-columns: repeat(3, 1fr);
+    grid-template-areas:
+    // 01 02 03
+      '.  h2 .'
+      'h1 h2 h3'
+      'b1 b2 b3';
+    padding-top: $size-line * 2;
+  }
+
+  @include media-breakpoint-only(md) {
+    padding-right: var(--size-padding-x-container);
+    padding-left: var(--size-padding-x-container);
+  }
+
+  @include media-breakpoint-up(lg) {
+    max-width: 78rem;
+  }
+
+  @include media-breakpoint-up(xl) {
+    max-width: 78.6rem;
+  }
+}
+
+.pricing-table__plan-header {
+  background: var(--color-ink-info-fill);
+  border-radius: var(--shape-border-radius-base);
+  color: var(--color-ink-inverse-base);
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  justify-content: flex-end;
+  text-align: center;
+  padding: $size-4 $size-2 $size-2;
+
+  &.is-1st {
+    grid-area: h1;
+  }
+
+  &.is-2nd {
+    grid-area: h2;
+    position: relative;
+
+    .tag {
+      @extend %label;
+
+      box-shadow: var(--layer-box-shadow-z2);
+      padding-top: 1.3rem;
+      padding-bottom: 1.1rem;
+      position: absolute;
+      top: -2rem;
+    }
+  }
+
+  &.is-3rd {
+    grid-area: h3;
+  }
+}
+
+.pricing-table__price {
+  color: var(--color-ink-inverse-max);
+  font-family: var(--font-family-title);
+  font-size: var(--font-size-subhead-h2);
+  font-weight: var(--font-weight-subhead-h2);
+  line-height: var(--font-line-height-subhead-h2);
+  margin-top: -$size-2;
+  padding-top: var(--size-padding-top-subhead-h2);
+  padding-bottom: var(--size-padding-bottom-subhead-h2);
+  white-space: nowrap;
+}
+
+.pricing-table__plan-header small {
+  color: var(--color-ink-inverse-max);
+  font-family: var(--font-family-base);
+  font-size: var(--font-size-base);
+}
+
+.pricing-table__plan-body {
+  padding: $size-2 $size-2 ($size-line * 2);
+
+  &.is-1st {
+    grid-area: b1;
+  }
+
+  &.is-2nd {
+    grid-area: b2;
+  }
+
+  &.is-3rd {
+    grid-area: b3;
+  }
+}
+
+.pricing-table .btn {
+  margin-bottom: $size-line;
+
+  @include media-breakpoint-up(md) {
+    width: math.div(68.8rem, 3);
+  }
+
+  @include media-breakpoint-up(lg) {
+    width: math.div(78rem, 3);
+  }
+
+  @include media-breakpoint-up(xl) {
+    width: math.div(78.6rem, 3);
+  }
+}
+
+.pricing-table .note {
+  margin-top: -$size-line;
+  text-align: center;
+  width: 50%;
+}
+
+// #endregion
+
+// -----------------------------------------------------------------------------
+// PARTNERS
+// -----------------------------------------------------------------------------
+// #region
+.section.partners {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+
+  > * {
+    margin: $size-2;
+  }
+}
+// #endregion

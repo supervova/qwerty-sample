@@ -1,0 +1,29 @@
+// .empty-state__title {
+//   @extend %h2;
+
+//   margin-bottom: $size-line;
+//   padding-left: $size-7;
+//   position: relative;
+
+//   > .icon {
+//     position: absolute;
+//     top: calc(50% + .2rem);
+//     left: 0;
+//     transform: translateY(-50%);
+//   }
+// }
+
+.empty-state__title {
+  @extend %h2;
+
+  display: flex;
+  align-items: center;
+
+  > .icon {
+    margin-right: $size-1;
+  }
+}
+
+.empty-state .buttons {
+  justify-content: center;
+}

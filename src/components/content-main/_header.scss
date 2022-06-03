@@ -1,0 +1,156 @@
+// stylelint-disable selector-no-qualifying-type
+
+// -----------------------------------------------------------------------------
+// LEGACY
+// -----------------------------------------------------------------------------
+// #region
+
+.main__header .page-header {
+  border-bottom: 0 !important;
+  display: flex;
+  align-items: center;
+  font-weight: normal;
+  margin-bottom: .6rem;
+  overflow: visible;
+
+  > a {
+    display: inline-block;
+    padding-right: $size-half;
+  }
+}
+
+.main__header .page-header a,
+main .page-header:first-of-type a {
+  color: var(--color-ink-link);
+
+  &:focus {
+    outline: none;
+  }
+}
+
+.page-header > h3 {
+  font-size: var(--font-size-big);
+  font-weight: var(--font-weight-title) /* !important */;
+  line-height: var(--font-line-height-big) /* !important */;
+
+  @include media-breakpoint-up(md) {
+    font-size: var(--font-size-title);
+    line-height: var(--font-line-height-title) /* !important */;
+    text-transform: none;
+  }
+}
+// #endregion
+
+// -----------------------------------------------------------------------------
+// MODERN
+// -----------------------------------------------------------------------------
+// #region
+
+.main__header > h1 > small,
+.main__header > h1 + small {
+  @extend %tag;
+}
+
+// SINGLE ACTION
+
+.main__header.has-single-action {
+  @include media-breakpoint-up(sm) {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+}
+
+
+// FILTER
+
+.main__header.has-submenu {
+  @include media-breakpoint-up(sm) {
+    display: flex;
+    align-items: flex-end;
+  }
+}
+
+.main__header-submenu {
+  @extend %list-unstyled;
+
+  display: flex;
+  align-items: center;
+  margin-left: auto;
+
+  // HACK: dealing with specificity
+  .icon.icon {
+    margin-right: 0;
+    transform: none;
+  }
+}
+
+
+.main__header-filter {
+  @extend %list-unstyled;
+
+  border-right: .1rem solid var(--color-ink-border);
+  display: flex;
+  margin-right: $size-1;
+  padding-right: $size-2 - .1rem;
+
+
+  > .btn.is-ghost {
+    @include media-breakpoint-up(lg) {
+      display: none;
+    }
+  }
+
+  .dropdown__menu.is-all {
+
+    @include media-breakpoint-between(sm, lg) {
+      left: auto;
+      right: 0;
+    }
+
+    @include media-breakpoint-down(lg) {
+      .dropdown__menu {
+        background-color: rgba(0, 0, 0, 0);
+        box-shadow: none;
+        border-radius: 0;
+        display: flex;
+        padding: 0;
+        opacity: 1;
+        pointer-events: auto;
+        position: static;
+        visibility: visible;
+        width: auto;
+      }
+    }
+
+    @include media-breakpoint-up(lg) {
+      background-color: rgba(0, 0, 0, 0);
+      box-shadow: none;
+      border-radius: 0;
+      display: flex;
+      padding: 0;
+      opacity: 1;
+      pointer-events: auto;
+      position: static;
+      visibility: visible;
+      width: auto;
+
+      li + li {
+        margin-left: $size-2;
+      }
+
+      .dropdown__menu {
+        right: 0;
+        left: auto;
+      }
+    }
+  }
+}
+
+.filter__datalist-input,
+.main__header-filter input[type='number'],
+.main__header-filter input[type='text'] {
+  box-shadow: inset 0 0 0 .1rem var(--color-ink-border);
+}
+// #endregion
+

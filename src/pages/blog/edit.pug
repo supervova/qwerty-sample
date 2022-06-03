@@ -1,0 +1,555 @@
+extends /pages/base/base.pug
+include /pages/base/mixins
+
+//- SETTINGS -------------------------------------------------------------------
+
+append config
+  -
+    const page = {
+      title: site.title.ru,
+      description: site.description,
+      link: site.url,
+      img: site.img,
+      isClean: true,
+      bodyClasses: 'page has-global-alert'
+    }
+
+append head
+  link(rel='stylesheet', href='/css/jquery.toast.min.css')
+  link(rel='stylesheet', href='/js/tinymce/plugins/codesample/prism.css')
+  link(rel='stylesheet', href='/css/smartphoto.min.css')
+  link(rel='stylesheet', href='/css/bootstrap-datetimepicker.min.css')
+  script(src='/js/bootstrap-datetimepicker.js')
+  script(src='/js/locales/bootstrap-datetimepicker.ru.js')
+  script(src='https://cdn.tiny.cloud/1/vrqtoy3xi33har0qbgudh4nn8e3tvpwqwl2krphzh9wjx1k5/tinymce/5/tinymce.min.js' referrerpolicy='origin')
+
+
+
+//- CONTENT --------------------------------------------------------------------
+
+block bodyPrefix
+  include /components/alert/alert-old
+
+
+block content
+
+  input#adperiod(type='hidden' name='adperiod')
+  h1.sr-only Съешь же ещё этих мягких французских булок, да выпей чаю
+
+  .tabs
+    ul.tabs__tablist.pt-2.pb-1(role='tablist')
+      li.tabs__tab.active(role='presentation')
+        a(href='#Mypost' role='tab' data-toggle='tab' aria-expanded='true') Мой пост
+      li.tabs__tab(role='presentation')
+        a(href='#Mypictures' role='tab' data-toggle='tab' aria-expanded='false') Мои фотографии
+
+    .tabs__content
+      .tabs__pane.active#Mypost
+        h2.sr-only Редактировать пост
+        form(action='javascript:void(0);' _lpchecked='1')
+
+          //-  TITLE
+          .form__item#titlediv
+            label.sr-only(for='posttitle') Название
+            input.form__control.is-lg#posttitle(name='posttitle' type='text' value='Съешь же ещё этих мягких французских булок, да выпей чаю' placeholder='Название вашего поста' style='background-image: url(\'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR4nGP6zwAAAgcBApocMXEAAAAASUVORK5CYII=\'); cursor: auto')
+
+          //-  PRICE
+          fieldset#pricediv(style='display: none')
+            .form__item
+              label(for='price') Цена продажи:
+              input#price(name='price' type='number' step='0.01' min='0' placeholder='0,00' value='0.00' onkeyup='this.value = this.value.replace(/[^0-9\.]/g, \'\')')
+            .form__item
+              select#usercurr.form-control(name='usercurr')
+                option(value='AUD') Australian Dollar
+                option(value='BGN') Български лев
+                option(value='BRL') Moeda brasileira
+                option(value='BYN') Беларускі рубель
+                option(value='CAD') Canadian Dollar
+                option(value='CHF') Swiss franc
+                option(value='CNY') 中國元
+                option(value='CZK') Česká Koruna
+                option(value='DKK') Danske kroner
+                option(value='EUR' selected) Euro
+                option(value='GBP') Pound sterling
+                option(value='HKD') 港元
+                option(value='HRK') Kuna
+                option(value='HUF') Forint
+                option(value='IDR') Rupee
+                option(value='ILS') שקל
+                option(value='INR') Indian rupee
+                option(value='ISK') Icelandic krone
+                option(value='JPY') 円
+                option(value='KRW') 원
+                option(value='MXN') Peso mejicano
+                option(value='MYR') Ringgit Malaysia
+                option(value='NOK') Norske kroner
+                option(value='NZD') New Zealand Dollar
+                option(value='PHP') Philippine Peso
+                option(value='PLN') Zloty
+                option(value='RON') Lei
+                option(value='RUB') Российский рубль
+                option(value='SEK') Svenska kronor
+                option(value='SGD') Singapore Dollar
+                option(value='THB') ค้างคาว
+                option(value='TRY') Lyra
+                option(value='UAH') Гривня
+                option(value='USD') US Dollar
+                option(value='WMC') WMProfile Credits
+                option(value='ZAR') Rand
+
+          //-  BODY
+          fieldset
+            label.sr-only(for='editor') Расскажи свою историю...
+            textarea#editor.
+                <p>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Hic ducimus incidunt minima fuga facere, asperiores sunt neque dolorem obcaecati et iste molestias repudiandae unde, commodi nostrum, nesciunt labore? Cumque, officia!</p>
+
+            script.
+              tinymce.init({
+                  selector: 'textarea#editor',
+
+                  skin: 'custom',
+                  toolbar: 'formatselect bold italic forecolor | bullist numlist | link myimage media | table | ltr rtl | code',
+                  plugins: 'directionality, autolink, autosave, code, colorpicker, imagetools, link, lists, media, paste, table',
+                  content_style: 'body { -moz-osx-font-smoothing: grayscale; -webkit-font-smoothing: antialiased; background-color: #fcfcfd; color: #1a2632; font-family: -apple-system, "Helvetica Neue", Roboto, Helvetica, Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji"; font-size: 16px; font-weight: 400; line-height: 24px;  padding-right: 24px; padding-left: 24px; }',
+                  block_formats: 'Paragraph=p; Middle Heading=h2; Small Heading=h3',
+                  invalid_styles: 'background background-color background-iamge color float font font-size width',
+                  invalid_elements: 'style,span',
+                  statusbar: false,
+                  menubar: false,
+                  branding: false,
+                  remove_script_host: true,
+                  relative_urls: false,
+                  height: '600',
+                });
+
+            input#UserFile(type='file' style='display: none' disabled)
+            button#uploadbutton.btn(onclick='uploadclick()')
+              svg.icon.is-left(aria-hidden='true' focusable='false')
+                use(href='/projects/#{ExtraData.domain}/images/base/graphics/sprite.svg#icon-attachment')
+              | Прикрепить файл
+
+          //- TAXONOMY
+          fieldset.form__fieldset
+            legend Категории и теги
+            p.note Теги и категории в сообщениях используются, чтобы помочь читателям находить информацию разными способами. Категории похожи на главы книги; они предоставляют общий обзор тем, о которых вы ведете блог. В то время как теги больше похожи на алфавитный указатель в конце книги и разбивают тему на десятки аспектов.
+            .form__item
+              input#postcategories(type='hidden' name='postcategories' value='|0|')
+              .has-responsive-table#categorylist
+                table.table.table-striped
+                  thead
+                    tr
+                      th
+                      th Название категории
+                      th Порядок сортировки
+                  tbody
+                    tr
+                      td
+                        input#checkcat3157(type='checkbox' onclick='checkcat(3157)')
+                      td
+                        a#catname3157.editable.editable-click(href='#' data-name='name') медицина
+                      td
+                        a#catsort3157.editable.editable-click(href='#' data-name='prioritet') 0
+                      td
+                        button.btn.btn-default.btn-xs(type='button' aria-label='Left Align' onclick='if (confirm(\'Вы действительно хотите удалить эту категорию?\')) { delcat(3157); }' style='margin-right: 30px')
+                          span.glyphicon.glyphicon-trash(aria-hidden='true')
+                    tr
+                      td
+                      td
+                        a#catname0.editable.editable-click(href='#' data-name='name') Создать категорию
+                      td
+                script.
+
+                  $.fn.editable.defaults.mode = 'inline';
+                                    $('#catname0').editable({
+                                      success: function (response, newValue) {
+                                        getcategory();
+                                      },
+                                      error: function (response, newValue) {
+                                        if (response.status === 500) {
+                                          return 'Service unavailable. Please try later.';
+                                        } else {
+                                          return response.responseText;
+                                        }
+                                      },
+                                      type: 'text',
+                                      value: '',
+                                      pk: 0,
+                                      url: 'category.php?community=13017',
+                                    });
+                                    $('#catname3157').editable({
+                                      error: function (response, newValue) {
+                                        if (response.status === 500) {
+                                          return 'Service unavailable. Please try later.';
+                                        } else {
+                                          return response.responseText;
+                                        }
+                                      },
+                                      type: 'text',
+                                      pk: 3157,
+                                      url: 'category.php?community=13017',
+                                    });
+                                    $('#catsort3157').editable({
+                                      success: function (response, newValue) {
+                                        getcategory();
+                                      },
+                                      error: function (response, newValue) {
+                                        if (response.status === 500) {
+                                          return 'Service unavailable. Please try later.';
+                                        } else {
+                                          return response.responseText;
+                                        }
+                                      },
+                                      type: 'number',
+                                      pk: 3157,
+                                      url: 'category.php?community=13017',
+                                    });
+                                    function delcat(catid) {
+                                      $.post('category.php', { pk: catid, community: '13017', do: 'del' }).done(function (data) {
+                                        if (data == 'OK') {
+                                          getcategory();
+                                        } else {
+                                          alert(data);
+                                        }
+                                      });
+                                    }
+
+            .form__item
+              label(for='posttags') Теги:
+              .bootstrap-tagsinput
+                span.tag.label.label-info
+                  | lorem
+                  span(data-role='remove')
+                |
+                input(type='text' placeholder)
+              input#posttags(value='lorem' data-role='tagsinput' style='display: none' type='text')
+              script.
+
+                $('#posttags').tagsinput({
+                                  maxТеги: 15,
+                                });
+                                $('input').on('beforeItemAdd', function (event) {
+                                  canupload = false;
+                                  setTimeout(function () {
+                                    canupload = true;
+                                  }, 1000);
+                                });
+
+          //- ADVANCED
+
+          a.collapse-title.mt-1#collapse-advanced-title(role='button' data-toggle='collapse' href='#collapse-advanced' aria-controls='collapse-advanced' aria-expanded='false')
+            +icon('settings', 'is-settings')
+            | Advanced settings
+            +icon('chevron-down-sm', 'is-sm')
+
+          section.collapse#collapse-advanced(aria-labelledby='collapse-advanced-title')
+
+            //-  Type
+            fieldset.mt-1#posttypediv
+              legend Тип сообщения
+              label.form__item.has-option
+                input#posttype0(name='posttype' type='radio' value='0' checked)
+                span Статья
+              label.form__item.has-option
+                input#posttype1(name='posttype' type='radio' value='1')
+                span Петиция (сбор подписей)
+
+            //-  Time
+            .form__item.mt-1
+              label(for='posttime') Время публикации
+              .form__row.is-solid.is-v-centered.input-group.date.form_datetime.col-md-12(data-link-field='dtp_input1')
+                input.form__input.is-post-date#posttime(size='30' type='text' placeholder='если не указано, то сразу' readonly)
+                .form__item-controls
+                  span.input-group-addon
+                    span.glyphicon.glyphicon-remove
+                  span.input-group-addon
+                    span.glyphicon.glyphicon-th
+              small.font__hint
+                | Your time zone: UTC +2 (
+                a(href='/profile' target='_blank') настройки профиля
+                | )
+              input#dtp_input1(type='hidden')
+              script.
+
+                $('.form_datetime').datetimepicker({
+                                language: 'ru',
+                                weekStart: 1,
+                                todayBtn: 1,
+                                autoclose: 1,
+                                todayHighlight: 1,
+                                startView: 2,
+                                forceParse: 0,
+                                showMeridian: 1,
+                                calendarWeeks: 1,
+                                format: 'yyyy-mm-dd hh:ii',
+                                startDate: '2021-09-17 18:58:03',
+                              });
+
+            //- Description
+            .form__item.mt-1
+              label(for='postdescription') Краткое описание
+              textarea#postdescription(rows='2') This school year, tens of thousands of students will be able to use mobile student IDs on iPhone and Apple Watch to get around campus and make purchases. For the first time, mobile student IDs can be added to the Wallet app in Canada, starting with the University of New Brunswick and Sheridan College this year. In t...
+              ul.form__hint
+                li не более 320 символов
+                li это поле может быть сгенерировано автоматически после написания этого поста
+
+            //- OG Image
+            .form__item
+              div.mb-2s(role='heading', aria-level='3') Изображение для социальных сетей
+              a.image.is-social(href='javascript:void(0)' onclick='gopictab()')
+                span#thumbnailfilename
+              button.btn(type='button' onclick='gopictab()') Галерея
+              button.btn.is-ghost.is-icon(type='button' onclick='selectthumbnail(\'\',\'\');')
+                svg.icon(aria-hidden='true' focusable='false')
+                  use(href='/projects/#{ExtraData.domain}/images/base/graphics/sprite.svg#icon-close')
+
+            //- Location
+            .form__item.mt-1
+              label.sr-only(for='postlocation') Мое местоположение
+              .form__row.is-solid.is-v-centered
+                input.form-control.input-sm#postlocation(name='postlocation' type='text' placeholder='Мое местоположение')
+                .form__item-controls
+                  button.btn.is-ghost.is-icon(onclick='locationdetect(false)')
+                    svg.icon(aria-hidden='true' focusable='false')
+                      use(href='/projects/#{ExtraData.domain}/images/base/graphics/sprite.svg#icon-close')
+                  button.btn.is-ghost.is-location-detection(type='button' onclick='locationdetect(true)')
+                    svg.icon.is-left(aria-hidden='true' focusable='false')
+                      use(href='/projects/#{ExtraData.domain}/images/base/graphics/sprite.svg#icon-pin')
+                    | Авто-обнаружение
+
+              input#latitude(type='hidden' name='latitude')
+              input#longitude(type='hidden' name='longitude')
+
+            //-  Mood
+            .form__item.mt-1
+              .form__row.is-v-centered
+                button.btn(type='button' onclick='choisemood(0)') Мое настроение
+                span#inputemotion(style='display: none')
+                  input#emotiontext(type='hidden' name='emotiontext')
+                input#emotionid(type='hidden' name='emotionid' value='0')
+              .emoticons#moods(style='display: none')
+                .grid
+                  button.btn.is-ghost#emotion1(type='button' onclick='choisemood(1)')
+                    img(src='images/emotions/1.png' width='24' height='24' alt)
+                    span#emotiontext1 плачет
+                  button.btn.is-ghost#emotion2(type='button' onclick='choisemood(2)')
+                    img(src='images/emotions/2.png' width='24' height='24' alt)
+                    span#emotiontext2 с удовольствием
+                  button.btn.is-ghost#emotion3(type='button' onclick='choisemood(3)')
+                    img(src='images/emotions/3.png' width='24' height='24' alt)
+                    span#emotiontext3 удивлен
+                  button.btn.is-ghost#emotion4(type='button' onclick='choisemood(4)')
+                    img(src='images/emotions/4.png' width='24' height='24' alt)
+                    span#emotiontext4 озадачился
+                  button.btn.is-ghost#emotion5(type='button' onclick='choisemood(5)')
+                    img(src='images/emotions/5.png' width='24' height='24' alt)
+                    span#emotiontext5 круто
+                  button.btn.is-ghost#emotion6(type='button' onclick='choisemood(6)')
+                    img(src='images/emotions/6.png' width='24' height='24' alt)
+                    span#emotiontext6 влюбленный
+                  button.btn.is-ghost#emotion7(type='button' onclick='choisemood(7)')
+                    img(src='images/emotions/7.png' width='24' height='24' alt)
+                    span#emotiontext7 шучу
+                  button.btn.is-ghost#emotion8(type='button' onclick='choisemood(8)')
+                    img(src='images/emotions/8.png' width='24' height='24' alt)
+                    span#emotiontext8 флирт
+                  button.btn.is-ghost#emotion9(type='button' onclick='choisemood(9)')
+                    img(src='images/emotions/9.png' width='24' height='24' alt)
+                    span#emotiontext9 Я улыбаюсь
+                  button.btn.is-ghost#emotion10(type='button' onclick='choisemood(10)')
+                    img(src='images/emotions/10.png' width='24' height='24' alt)
+                    span#emotiontext10 разбитое сердце
+                  button.btn.is-ghost#emotion11(type='button' onclick='choisemood(11)')
+                    img(src='images/emotions/11.png' width='24' height='24' alt)
+                    span#emotiontext11 злой
+                  button.btn.is-ghost#emotion12(type='button' onclick='choisemood(12)')
+                    img(src='images/emotions/12.png' width='24' height='24' alt)
+                    span#emotiontext12 печально
+                  button.btn.is-ghost#emotion13(type='button' onclick='choisemood(13)')
+                    img(src='images/emotions/13.png' width='24' height='24' alt)
+                    span#emotiontext13 Я подмигнул
+                  button.btn.is-ghost#emotion14(type='button' onclick='choisemood(14)')
+                    img(src='images/emotions/14.png' width='24' height='24' alt)
+                    span#emotiontext14 Меня смущает
+                  button.btn.is-ghost#emotion15(type='button' onclick='choisemood(15)')
+                    img(src='images/emotions/15.png' width='24' height='24' alt)
+                    span#emotiontext15 Я счастлив
+                  button.btn.is-ghost#emotion16(type='button' onclick='choisemood(16)')
+                    img(src='images/emotions/16.png' width='24' height='24' alt)
+                    span#emotiontext16 Мне скучно
+                  button.btn.is-ghost#emotion17(type='button' onclick='choisemood(17)')
+                    img(src='images/emotions/17.png' width='24' height='24' alt)
+                    span#emotiontext17 Бинго
+                  button.btn.is-ghost#emotion18(type='button' onclick='choisemood(18)')
+                    img(src='images/emotions/18.png' width='24' height='24' alt)
+                    span#emotiontext18 Я думаю
+                  button.btn.is-ghost#emotion19(type='button' onclick='choisemood(19)')
+                    img(src='images/emotions/19.png' width='24' height='24' alt)
+                    span#emotiontext19 занят
+                  button.btn.is-ghost#emotion20(type='button' onclick='choisemood(20)')
+                    img(src='images/emotions/20.png' width='24' height='24' alt)
+                    span#emotiontext20 рад
+                  button.btn.is-ghost#emotion21(type='button' onclick='choisemood(21)')
+                    img(src='images/emotions/21.png' width='24' height='24' alt)
+                    span#emotiontext21 Я сплю
+                  button.btn.is-ghost#emotion22(type='button' onclick='choisemood(22)')
+                    img(src='images/emotions/22.png' width='24' height='24' alt)
+                    span#emotiontext22 раздражает
+                  button.btn.is-ghost#emotion23(type='button' onclick='choisemood(23)')
+                    img(src='images/emotions/23.png' width='24' height='24' alt)
+                    span#emotiontext23 Я в ярости
+                  button.btn.is-ghost#emotion24(type='button' onclick='choisemood(24)')
+                    img(src='images/emotions/24.png' width='24' height='24' alt)
+                    span#emotiontext24 Я смеюсь
+                  button.btn.is-ghost#emotion25(type='button' onclick='choisemood(25)')
+                    img(src='images/emotions/25.png' width='24' height='24' alt)
+                    span#emotiontext25 нет комментариев
+                  button.btn.is-ghost#emotion26(type='button' onclick='choisemood(26)')
+                    img(src='images/emotions/26.png' width='24' height='24' alt)
+                    span#emotiontext26 не понимаю
+                  button.btn.is-ghost#emotion27(type='button' onclick='choisemood(27)')
+                    img(src='images/emotions/27.png' width='24' height='24' alt)
+                    span#emotiontext27 Я в шоке
+                  button.btn.is-ghost#emotion28(type='button' onclick='choisemood(28)')
+                    img(src='images/emotions/28.png' width='24' height='24' alt)
+                    span#emotiontext28 Я пьян
+                  button.btn.is-ghost#emotion29(type='button' onclick='choisemood(29)')
+                    img(src='images/emotions/29.png' width='24' height='24' alt)
+                    span#emotiontext29 Я боюсь
+                  button.btn.is-ghost#emotion30(type='button' onclick='choisemood(30)')
+                    img(src='images/emotions/30.png' width='24' height='24' alt)
+                    span#emotiontext30 в поисках приключений
+                  button.btn.is-ghost#emotion31(type='button' onclick='choisemood(31)')
+                    img(src='images/emotions/31.png' width='24' height='24' alt)
+                    span#emotiontext31 Меня возмущает
+                  button.btn.is-ghost#noemotion(type='button' onclick='choisemood(-1)') Никаких эмоций
+
+            //- Comments
+            fieldset.mt-1
+              legend Комментарии
+              .form__options
+                label.form__item.has-option
+                  input#commentsmode0(name='commentsmode' type='radio' value='0')
+                  span Комментарии разрешены
+                label.form__item.has-option
+                  input#commentsmode1(name='commentsmode' type='radio' value='1')
+                  span Комментарии разрешены
+                  | ,
+                  span без уведомления
+                  |    
+
+                label.form__item.has-option
+                  input#commentsmode2(name='commentsmode' type='radio' value='2')
+                  span Комментарии закрыты
+                label.form__item.has-option
+                  input#showcomments(name='showcomments' type='checkbox')
+                  | Комментарии видны всем (если отключено, комментарии будут видны только вам).
+
+            //- Who can read
+            fieldset.mt-1
+              legend Кто может читать этот пост
+              label.form__item.has-option
+                input#accessmode0(name='accessmode' type='radio' value='0')
+                span Все
+                |    
+
+              label.form__item.has-option
+                input#accessmode1(name='accessmode' type='radio' value='1')
+                span Только я (проект)
+
+            //- Donations
+            fieldset.mt-1
+              legend Получать пожертвования от читателей
+              label.form__item.has-option
+                input#donates1(name='donates' type='radio' value='1')
+                | Да (рекомендуется)
+
+              label.form__item.has-option
+                input#donates0(name='donates' type='radio' value='0')
+                | Нет, не хочу
+
+            //- Pin
+            label.form__item.has-option.mt-1
+              input#attached(name='attached' type='checkbox')
+              b Закрепить этот пост
+
+        .form__actions
+          button.btn.btn-primary#savebutton(type='button' onclick='savepost();') Сохранить пост
+          button.btn.is-ghost(type='button' onclick='deletepost();')
+            svg.icon.is-left.is-dangerous(aria-hidden='true' focusable='false')
+              use(href='/projects/#{ExtraData.domain}/images/base/graphics/sprite.svg#icon-trash')
+            | Удалить
+
+      //- MEDIA LIBRARY
+      .tabs__pane#Mypictures
+        h2 Библиотека ваших изображений
+        .f-group.is-media-library#data-container
+          #img7845d9193a47c30a3463ad9d5665250c(style='display: inline-block; max-width: 90%; width: 350px; height: 350px; margin: 3px; background: #eaeaea; vertical-align: top' align='center')
+            label(style='width: 90%; text-align: left')
+              input#thn7845d9193a47c30a3463ad9d5665250c(type='checkbox' name='isthumbnail' onclick='selectthumbnail(\'7845d9193a47c30a3463ad9d5665250c\',\'7845d9193a47c30a3463ad9d5665250c.jpg\');')
+              |  Использовать в качестве миниатюры-изображения для этой статьи
+            a(href='javascript:void(0);' onclick='editpicture(\'7845d9193a47c30a3463ad9d5665250c.jpg\',\'uploads/files/7/8/4/5/d/7845d9193a47c30a3463ad9d5665250c.jpg\',\'\');' alt)
+              div(style='display: -moz-inline-box; display: inline-block; vertical-align: middle; margin-left: -10px; height: 230px; width: 330px; background: url(\'uploads/files/7/8/4/5/d/7845d9193a47c30a3463ad9d5665250c.jpg\') no-repeat center center; background-size: contain; -moz-background-size: contain; -o-background-size: contain; -webkit-background-size: contain; -khtml-background-size: contain')
+            div(style='margin-top: 5px; height: 30px; vertical-align: bottom')
+              input#img1(type='text' name='copypath' value='https://ru.#{ExtraData.domain}/uploads/files/7/8/4/5/d/7845d9193a47c30a3463ad9d5665250c.jpg' style='min-width: 50px; width: 90%' onsubmit='void(0)')
+              br
+              a(href='javascript:void(0)' onclick='insimage(\'https://ru.#{ExtraData.domain}/uploads/files/7/8/4/5/d/7845d9193a47c30a3463ad9d5665250c.jpg\',\'7845d9193a47c30a3463ad9d5665250c.jpg\')') Вставить изображение в пост
+          #imgb62b8be67c7a6d0cf24bc4b0d13ae3cd(style='display: inline-block; max-width: 90%; width: 350px; height: 350px; margin: 3px; background: #eaeaea; vertical-align: top' align='center')
+            label(style='width: 90%; text-align: left')
+              input#thnb62b8be67c7a6d0cf24bc4b0d13ae3cd(type='checkbox' name='isthumbnail' onclick='selectthumbnail(\'b62b8be67c7a6d0cf24bc4b0d13ae3cd\',\'b62b8be67c7a6d0cf24bc4b0d13ae3cd.jpg\');')
+              |  Использовать в качестве миниатюры-изображения для этой статьи
+            a(href='javascript:void(0);' onclick='editpicture(\'b62b8be67c7a6d0cf24bc4b0d13ae3cd.jpg\',\'uploads/files/b/6/2/b/8/b62b8be67c7a6d0cf24bc4b0d13ae3cd.jpg\',\'\');' alt)
+              div(style='display: -moz-inline-box; display: inline-block; vertical-align: middle; margin-left: -10px; height: 230px; width: 330px; background: url(\'uploads/files/b/6/2/b/8/b62b8be67c7a6d0cf24bc4b0d13ae3cd.jpg\') no-repeat center center; background-size: contain; -moz-background-size: contain; -o-background-size: contain; -webkit-background-size: contain; -khtml-background-size: contain')
+            div(style='margin-top: 5px; height: 30px; vertical-align: bottom')
+              input#img2(type='text' name='copypath' value='https://ru.#{ExtraData.domain}/uploads/files/b/6/2/b/8/b62b8be67c7a6d0cf24bc4b0d13ae3cd.jpg' style='min-width: 50px; width: 90%' onsubmit='void(0)')
+              br
+              a(href='javascript:void(0)' onclick='insimage(\'https://ru.#{ExtraData.domain}/uploads/files/b/6/2/b/8/b62b8be67c7a6d0cf24bc4b0d13ae3cd.jpg\',\'b62b8be67c7a6d0cf24bc4b0d13ae3cd.jpg\')') Вставить изображение в пост
+
+        script.
+          function checkscroll() {
+            if ($('#endofscroll').length > 0) {
+              if ($(document).scrollTop() + $(window).height() > $('#endofscroll').offset().top && $(document).scrollTop() - $('#endofscroll').offset().top < $('#endofscroll').height()) var hideloader = document.getElementById('endofscroll');
+              if (typeof hideloader != 'undefined') {
+                hideloader.setAttribute('id', 'oldloading');
+                if (!endofdata) dataloading.load(0);
+                $('#oldloading').remove();
+              }
+            }
+          }
+          window.onscroll = checkscroll;
+
+        script.
+          var endofdata = false;
+          var dataloading = dataloading || {};
+
+          (function ($, dataloading) {
+            'use strict';
+
+            var page = 1,
+              container = '#data-container';
+
+            //- dataloading.load = function (mpage) {
+            //-   if (mpage > 0) page = mpage;
+            //-   var url = '/loadpictures.php?page=' + page + '&ispostedit=1&filemd5=&postpath=editpost';
+            //-   $.ajax({
+            //-     url: url,
+            //-     success: function (response) {
+            //-       if (!response || response.trim() == 'NONE') {
+            //-         var endofdata = true;
+            //-         return;
+            //-       }
+            //-       appendContests(response);
+            //-     },
+            //-     error: function (response) {
+            //-       alert('К сожалению, есть ошибка в запросе. Пожалуйста, обновите страницу.');
+            //-     },
+            //-   });
+            //- };
+
+            var appendContests = function (response) {
+              $(response).appendTo($(container));
+              page += 1;
+            };
+          })(jQuery, dataloading);
+          dataloading.load(0);
+
+        button.btn#addpicture(type='button' onclick='addpicture(0);') Добавить картинку

@@ -1,0 +1,71 @@
+/* stylelint-disable selector-max-id, selector-no-qualifying-type */
+
+// ☝️🧐 This file uses anti-patterns: the `!important` directive and selector
+// chains. This is only done to rewrite such anti-patterns in existing code.
+// Never repeat this technique. It's always best to refactor and tidy up the code
+
+// -----------------------------------------------------------------------------
+// MISC COMPONENTS
+// -----------------------------------------------------------------------------
+// #region
+// Chat button
+.online-chat-root {
+  opacity: 0 !important;
+  pointer-events: none;
+
+  @include media-breakpoint-up(md) {
+    opacity: 1 !important;
+    pointer-events: auto;
+  }
+}
+
+#supportTrigger {
+  transform: scale(.5) !important;
+  right: $size-half !important;
+  bottom: $size-half !important;
+}
+
+#supportTrigger > .trigger-round-item {
+  filter: hue-rotate(-84deg) saturate(154%);
+
+  > .round-trigger-badge {
+    transform: scale(1.5) !important;
+  }
+}
+
+.online-chat-root .trigger-popup {
+  transform:
+    translateX(-50px)
+    scale(1.5) !important;
+}
+// #endregion
+
+// -----------------------------------------------------------------------------
+// HIDE COMPLEXITY
+// -----------------------------------------------------------------------------
+// #region
+
+// sharing buttons (the 3-item set is the most efficient solution)
+.at-svc-messenger,
+.at-svc-viber,
+.at-svc-whatsapp,
+.at-svc-twitter,
+.at-svc-skype,
+.addthis_inline_share_toolbox_lrmc small,
+
+// Others
+// #aboutdiv,
+// .coverbg + div:not(.main__inner),
+#js-next,
+#js-prev,
+#postsblock .owl-carousel,
+.form-group.form-gorizontal,
+.glyphicon-list-alt + span + a,
+.glyphicon-list-alt + span,
+.online-chat-root .inner,
+[style='text-align: right'] + [style='background: rgb(255, 255, 255); padding: 10px'],
+div[style='height: 50px'],
+p:empty {
+  display: none !important;
+}
+// #endregion

@@ -1,0 +1,227 @@
+.is-user-overview .is-user-details,
+[id='aboutme'] > div:nth-child(1) {
+
+  @include media-breakpoint-up(lg) {
+    display: flex;
+  }
+}
+
+.is-user-overview dd::after,
+.is-user-overview .is-single::after {
+  height: $size-1;
+}
+
+.tabs__pane-section.is-about-me {
+  padding-top: $size-line * 2;
+}
+
+.form__advanced-option.is-facebook {
+  padding-top: var(--size-padding-top-base);
+  padding-bottom: var(--size-padding-bottom-base);
+
+  > div {
+    margin-top: 0 !important;
+  }
+}
+
+// -----------------------------------------------------------------------------
+// AVATAR
+// -----------------------------------------------------------------------------
+
+.is-user-overview .avatar.is-large {
+  @extend %avatar-lg;
+
+  background-image: var(--asset-data-image-user);
+  min-width: 28rem;
+
+
+  @include media-breakpoint-up(lg) {
+    margin-right: $size-4 !important;
+    max-width: calc(33.33333333% - #{$size-4});
+    min-width: calc(33.33333333% - #{$size-4});
+  }
+}
+
+// -----------------------------------------------------------------------------
+// LEGACY: PROFILE
+// -----------------------------------------------------------------------------
+
+[id='Generalsettings'] .header_photo {
+  @extend %avatar-lg;
+
+  // override inline styles
+  margin: 0 0 $size-line !important;
+
+  &::after {
+    display: none;
+  }
+}
+
+[id='Generalsettings'] h3,
+[id='Generalsettings'] h3:not(:first-child) {
+  margin-top: $size-line * 2;
+}
+
+// Some kind of div before the avatar
+/* stylelint-disable selector-max-compound-selectors */
+[id='Generalsettings'] > form > div.file-field > div:nth-child(1) {
+  position: absolute;
+}
+
+// Avatar buttons
+
+[id='selectfile'] {
+  display: flex;
+  flex-direction: column;
+  gap: $size-1;
+
+  @include media-breakpoint-up(sm) {
+    align-items: center;
+    flex-direction: row;
+    flex-wrap: wrap;
+  }
+}
+
+[id='selectfile'] [type='file'] {
+  flex-basis: 33.3333%;
+}
+
+// Birthday
+[id='birthdateday'] {
+  margin-right: $size-1;
+  width: $size-line * 3 !important;
+}
+
+[id='birthdatemonth'] {
+  margin-right: $size-1;
+
+  @include media-breakpoint-down(sm) {
+    width: $size-line * 4;
+  }
+
+  @include media-breakpoint-up(sm) {
+    width: auto;
+  }
+}
+
+[id='birthdateyear'] {
+  width: $size-line * 3 !important;
+
+  @include media-breakpoint-up(sm) {
+    width: $size-line * 4 !important;
+  }
+}
+
+// Change Email and Phone
+[id='changemaillink'],
+[id='changephonelink'] {
+  @include media-breakpoint-down(sm) {
+    margin-bottom: $size-line;
+  }
+}
+
+[id='Generalsettings'] [id='email'],
+[id='Generalsettings'] [id='phone'] {
+  @include media-breakpoint-up(sm) {
+    margin-right: $size-1;
+  }
+}
+
+// WYSIWYG
+
+[id='UserFile_aboutme'],
+[id='uploadbutton_aboutme'] {
+  margin-top: $size-1;
+}
+
+
+.mce-tinymce + [id='aboutme'] {
+  margin-bottom: .6rem + $size-1;
+}
+
+
+[id='notvs'] small {
+  padding-top: var(--size-padding-top-small);
+  padding-bottom: var(--size-padding-bottom-small);
+}
+
+// messenger promo
+
+[id='enterconfirmcode'] + div {
+  background-color: var(--color-background-alt) !important;
+  background-image: none !important;
+  border-radius: var(--shape-border-radius-base);
+  margin-top: $size-line !important;
+  padding: var(--size-padding-x-box) !important;
+}
+
+[onclick='addblog()'],
+[href='https://wmprofile.com/editsite'] {
+  &:not([class])::before {
+    // see _icon
+    content: '';
+    display: inline-block;
+    margin-right: $size-1;
+    vertical-align: middle;
+    margin-top: -.1rem;
+    width: var(--size-height-icon);
+    height: var(--size-height-icon);
+  }
+}
+
+
+// -----------------------------------------------------------------------------
+// LEGACY: USER PAGE
+// -----------------------------------------------------------------------------
+
+// Profile settings link
+
+.affix-content > div > [href='/profile'] {
+  border-radius: var(--shape-border-radius-sm);
+  display: inline-block;
+  padding: 0 $size-2 0 $size-1;
+
+  &:hover {
+    background-color: var(--color-background-alt);
+    text-decoration: none;
+  }
+}
+
+// Community settings link
+
+[href*='/community-'][href*='/settings'] {
+  display: inline-block;
+  margin-left: $size-1;
+}
+
+// Profile details values
+[id='aboutme'] .col-sm-12.col-xs-12.col-md-8.col-lg-9 > div > span {
+  display: inline-block;
+  padding-left: $size-1;
+}
+
+// Avatar
+[id='aboutme'] .col-sm-12.col-xs-12.col-md-4.col-lg-3 {
+  @extend %avatar-lg;
+}
+
+// ABOUT SECTION
+
+[id='aboutme'] > h3:not([class]) {
+  margin-top: $size-line * 2;
+}
+
+// Button
+[id='postsblock'] > div:nth-child(1) {
+  // inline styles override
+  text-align: left !important;
+}
+
+// -----------------------------------------------------------------------------
+// MIGRATED INLINE STYLES
+// -----------------------------------------------------------------------------
+
+
+[id='savephonelink'] {
+  display: none;
+}

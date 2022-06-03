@@ -1,0 +1,435 @@
+// stylelint-disable selector-no-qualifying-type
+
+@use 'sass:math';
+
+// -----------------------------------------------------------------------------
+// CONTAINERS
+// -----------------------------------------------------------------------------
+// #region
+
+// Fieldset and legend
+fieldset {
+  margin-top: $size-line * 2;
+
+  &.is-compact {
+    input,
+    select,
+    textarea {
+      width: auto;
+    }
+  }
+
+}
+
+// Heading for subgroup of form items. The parent group is headed by the `h2`.
+// Child form items are marked with `label`.
+legend {
+  @extend %h3;
+
+  border-bottom: 0;
+}
+
+// Multi input fields (e. g. birthday) container
+.form__row,
+%form-row {
+  // Buttons: clear, calendar, auto-detection
+  > .form__controls {
+    display: flex;
+    align-items: center;
+    flex-shrink: 0;
+  }
+
+  > .form__item,
+  > input:not([type='checkbox']):not([type='radio']) {
+    flex-grow: 1;
+  }
+
+  @include media-breakpoint-up(sm) {
+    display: flex;
+    align-items: center;
+    flex-wrap: nowrap;
+    gap: $size-1;
+  }
+
+  @include media-breakpoint-up(md) {
+    max-width: var(--size-width-readable);
+  }
+}
+
+// Input container
+.form__item,
+.filter__item {
+  position: relative;
+  padding-bottom: var(--size-padding-bottom-form-group);
+}
+
+.form__item.is-labelless {
+  padding-top: 2.9rem;
+}
+
+.form__item.has-addon,
+.form__row.has-addon .form__item {
+  padding-bottom: .6rem;
+}
+
+.form__item.is-half,
+.filter__item.is-half {
+  flex-basis: 50%;
+  flex-shrink: 0;
+}
+// #endregion
+
+// -----------------------------------------------------------------------------
+// INPUT, TEXTAREA, SELECT
+// -----------------------------------------------------------------------------
+// #region
+
+input,
+select,
+textarea {
+  background-color: var(--color-background-alt);
+}
+
+select,
+textarea,
+input[type='text'],
+input[type='password'],
+input[type='email'],
+input[type='tel'],
+input[type='number'],
+input[type='search'],
+input[type='url'],
+input[type='date'],
+input[type='datetime-local'],
+input[type='month'],
+input[type='week'],
+input[type='time'],
+.form-control,
+%input {
+  appearance: none;
+  background-clip: padding-box;
+  border-radius: var(--shape-border-radius-base);
+  border: 0;
+  color: var(--color-ink-2ry);
+  display: block;
+  font-size: var(--font-size-base);
+  margin: 0;
+  padding-top: var(--size-padding-y-input);
+  padding-right: var(--size-padding-right-input);
+  padding-bottom: var(--size-padding-y-input);
+  padding-left: var(--size-padding-left-input);
+  overflow: visible;
+  transition: border-color var(--motion-easing-base) var(--motion-duration-sm);
+  width: 100%;
+  max-width: 100%;
+  min-height: $size-line * 2;
+
+  &:focus {
+    color: var(--color-ink-base);
+    border-color: var(--color-primary-base);
+    box-shadow: var(--layer-box-shadow-focus-outline);
+    outline: 0;
+  }
+
+  // Placeholder
+  &::placeholder {
+    color: var(--color-ink-3ry);
+    // Override Firefox's unusual default opacity
+    opacity: 1;
+  }
+
+  @include media-breakpoint-up(md) {
+    max-width: var(--size-width-readable);
+  }
+}
+
+textarea {
+  // In textarea, we cannot control the bottom padding. But we can add whitespace
+  // from above
+  padding-top: calc(var(--size-padding-y-input) + .9rem);
+}
+
+input[type='text'],
+input[type='password'],
+input[type='email'],
+input[type='tel'],
+input[type='number'],
+input[type='search'],
+input[type='url'],
+textarea,
+%input {
+  // override lastpass inline styles
+  background-image: none !important;
+}
+
+// DATE
+
+input[type='date'],
+input[type='datetime-local'] {
+  background-image: var(--asset-data-image-calendar);
+  background-position: center right 1.4rem;
+  background-size: var(--icon-width) auto;
+  background-repeat: no-repeat;
+}
+
+::-webkit-calendar-picker-indicator {
+  cursor: pointer;
+  opacity: 0;
+}
+
+// MODIFICATIONS
+
+.form__input.is-lg {
+  font-size: var(--font-size-subhead-h2);
+}
+
+// STATES
+
+[disabled],
+[readonly],
+%input-disabled {
+  cursor: not-allowed;
+  background-color: var(--color-background-alt);
+}
+
+// #endregion
+
+// -----------------------------------------------------------------------------
+// HINTS
+// -----------------------------------------------------------------------------
+// #region
+
+.form__hint,
+%form-hint {
+  color: var(--color-ink-2ry);
+  font-size: var(--font-size-small);
+  padding-top: var(--size-padding-top-small);
+  padding-bottom: var(--size-padding-bottom-small);
+  max-width: var(--size-width-readable);
+}
+
+ul.form__hint {
+  padding-left: $size-2;
+}
+// #endregion
+
+// -----------------------------------------------------------------------------
+// BUTTONS
+// -----------------------------------------------------------------------------
+// #region
+
+.form__actions {
+
+  .btn {
+    margin-bottom: $size-2;
+  }
+
+  @include media-breakpoint-up(md) {
+    display: flex;
+    align-items: center;
+    padding-top: var(--size-padding-top-form-actions);
+    padding-bottom: var(--size-padding-bottom-form-actions);
+
+    .btn:not(:last-child) {
+      margin-right: $size-2;
+    }
+
+    .btn.is-right {
+      margin-left: auto;
+    }
+  }
+}
+// #endregion
+
+// -----------------------------------------------------------------------------
+// OVERRIDES
+// -----------------------------------------------------------------------------
+// #region
+
+// ⚠️ Don't clean up until refactoring finish
+
+.input-group {
+  // inline styles override
+  display: block;
+  margin-top: 0 !important;
+  padding-bottom: var(--size-padding-bottom-form-group);
+  position: relative;
+}
+
+.input-group .form-control {
+  display: inline-block;
+  float: none;
+}
+
+// Help text
+.input-group + cite {
+  color: var(--color-ink-2ry);
+  display: block;
+  font-style: normal;
+  padding-top: $size-2;
+  padding-bottom: var(--size-padding-bottom-form-group);
+
+  @include media-breakpoint-up(md) {
+    padding-top: 0;
+    margin-top: -$size-2;
+  }
+}
+
+// Labels are used as addons
+.form__item:not(.has-option) > span,
+.input-group-addon {
+  @extend %label;
+
+  background-color: transparent;
+  border-radius: 0;
+  border: 0;
+  color: var(--color-ink-2ry);
+  display: block;
+  text-align: left;
+  margin: 0;
+  padding:
+    var(--size-padding-top-label)
+    0
+    var(--size-padding-bottom-label)
+    0;
+  width: auto;
+
+  &:last-child {
+    // BS override
+    border: 0 !important;
+  }
+}
+
+// Inputs next to labels are used as addons
+.input-group .form-control:last-child {
+  border-top-left-radius: var(--shape-border-radius-base);
+  border-bottom-left-radius: var(--shape-border-radius-base);
+}
+
+.input-group .form-control:first-child,
+.input-group .form-control:last-child,
+.input-group-addon:not(:first-child):not(:last-child),
+.input-group .form-control:not(:first-child):not(:last-child) {
+  border-radius: var(--shape-border-radius-base);
+}
+
+.form-inline .radio input[type='radio'],
+.form-inline .checkbox input[type='checkbox'] {
+  margin-top: -.1rem;
+}
+
+.form-control[disabled],
+.form-control[readonly],
+fieldset[disabled] .form-control,
+html input[disabled] {
+  @extend %input-disabled;
+}
+
+// SPECIALS
+
+[id='firstname'] {
+  margin-right: $size-1;
+}
+
+[id='surname'] {
+  margin-right: $size-1;
+}
+
+.form-inline .input-group + .checkbox,
+[id='Generalsettings'] .checkbox {
+  display: block;
+  margin-top: -$size-2 !important;
+  padding-bottom: var(--size-padding-bottom-form-group);
+}
+
+// Country
+[id='cclist'] {
+  margin-right: $size-1;
+}
+
+// City
+.form-inline [id='user_region_lng'] {
+  border-top-right-radius: var(--shape-border-radius-base);
+  border-bottom-right-radius: var(--shape-border-radius-base);
+  border: 0;
+  float: none;
+  padding-left: $size-line;
+  height: $size-line * 2;
+}
+
+// Timezone
+.form-control[id='userUTC'] {
+  max-width: var(--size-width-readable);
+}
+
+// Autocomplete (Typehead)
+.typeahead__field {
+  position: relative;
+}
+
+.typeahead__field input,
+.typeahead__field textarea,
+.typeahead__field [contenteditable],
+.typeahead__field .typeahead__hint {
+  border-radius: var(--shape-border-radius-base);
+  border: 0;
+  padding-top: var(--size-padding-y-input);
+  padding-right: var(--size-padding-right-input);
+  padding-bottom: var(--size-padding-y-input);
+  padding-left: var(--size-padding-left-input);
+  overflow: visible;
+  transition: border-color var(--motion-easing-base) var(--motion-duration-sm);
+  width: 100%;
+  min-height: $size-line * 2;
+}
+
+.typeahead__cancel-button {
+  opacity: .54;
+  position: absolute;
+  right: $size-2;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 10;
+}
+
+// WYSIWYG
+// !important is for override styles loaded via js:
+// /js/tinymce/skins/lightgray/skin.min.css
+.mce-tinymce,
+.tox-tinymce {
+  border-radius: var(--shape-border-radius-base) !important;
+  border: 0 !important;
+  box-shadow: none !important;
+  color: var(--color-ink-base) !important;
+  overflow: hidden;
+  margin-top: $size-1 !important;
+  margin-bottom: .6rem + $size-1 !important;
+}
+
+.mce-container,
+.mce-container *,
+.mce-widget,
+.mce-widget *,
+.mce-reset {
+  font-size: var(--font-size-base) !important;
+  max-width: var(--size-width-readable);
+}
+
+.mce-panel {
+  border: 0 !important;
+}
+
+.mce-top-part::before {
+  box-shadow: 0 .1rem 0 var(--color-ink-border) !important;
+}
+
+.mce-btn-group:not(:first-child) {
+  border-left: 0;
+}
+
+// LASTPASS
+
+[id^='__lp'] {
+  display: none;
+}
+// #endregion

@@ -1,0 +1,38 @@
+.menu__item,
+%menu-item {
+  padding-top: 0;
+  padding-bottom: 0;
+}
+
+.menu__item > a,
+%menu-link {
+  @extend %label;
+
+  border-radius: var(--shape-border-radius-sm);
+  color: var(--color-ink-2ry);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  text-decoration: none;
+  padding: .2rem $size-2 .2rem;
+  transition: background var(--motion-duration-sm);
+  width: 100%;
+  min-height: $size-5;
+
+  &:hover,
+  &:focus {
+    background-color: var(--color-ink-accent);
+    text-decoration: none;
+  }
+
+  .icon {
+    margin-right: $size-2;
+    transform: translateY(-.1rem);
+  }
+
+  > .label {
+    @extend %text-truncate;
+    transform: translateY(.1rem);
+  }
+}

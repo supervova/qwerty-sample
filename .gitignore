@@ -1,0 +1,95 @@
+# Vendor (e.g. Composer)
+vendor/*
+!vendor/.gitkeep
+
+# Project Source Files
+/CNAME
+/assets
+/backup
+templates/*~.tpl
+
+# Databases
+*.sql
+*.sqlite
+
+# Styles & Markup
+*.css
+!css/project.css
+*.html
+
+# Misc
+sitemap.xml
+sitemap.xml.gz
+
+
+# ------------------------------------------------------------------------------
+# LOCAL DEVELOPMENT
+# ------------------------------------------------------------------------------
+
+# Editors
+.vscode/*
+!.vscode/extensions.json
+!.vscode/launch.json
+!.vscode/settings.json
+!.vscode/tasks.json
+*.code-workspace
+*_notes
+
+
+#Build generated
+*.sass-cache*
+.cache
+.eslintcache
+.tmp
+build/
+dist/
+
+# Logs, backups
+*.bak
+*.log
+*.swp
+
+# Package managers
+.npm
+.yarn-integrity
+jspm_packages
+node_modules
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+# All yarn.lock files should be checked into source control
+
+# dotenv environment variables file(s)
+.env
+.env.*
+!.env.example
+
+# Serverless generated files
+.serverless/
+
+# SYSTEM FILES
+.DS_Store
+*.app
+
+# Windows thumbnail cache files
+Thumbs.db
+ehthumbs.db
+ehthumbs_vista.db
+
+# Folder config file
+Desktop.ini
+
+# Recycle Bin used on file shares
+$RECYCLE.BIN/
+
+# Thumbnails
+._*
+
+# Files that might appear in the root of a volume
+.DocumentRevisions-V100
+.fseventsd
+.Spotlight-V100
+.TemporaryItems
+.Trashes
+.VolumeIcon.icns
+.com.apple.timemachine.donotpresent

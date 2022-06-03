@@ -1,0 +1,88 @@
+.logo {
+  // reset main.css
+  all: unset;
+  margin-right: auto;
+
+  &:hover {
+    text-decoration: none;
+  }
+
+  @include media-breakpoint-up(sm) {
+    display: flex;
+    align-items: center;
+  }
+
+  @include media-breakpoint-up(md) {
+    align-items: center;
+    flex-direction: column;
+    width: $size-line * 4;
+  }
+
+  @include media-breakpoint-up(xl) {
+    flex-direction: row;
+    width: 19.2rem;
+  }
+}
+
+.logo__mark {
+  margin-right: $size-2;
+
+  @include media-breakpoint-up(md) {
+    margin-bottom: 1.4rem;
+    margin-right: 0;
+  }
+
+  @include media-breakpoint-up(xl) {
+    margin-right: 1rem;
+    margin-bottom: 0;
+  }
+}
+
+.logo__copy {
+  @include media-breakpoint-between(md, xl) {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+}
+
+.logo__type {
+  display: none;
+
+  @include media-breakpoint-up(sm) {
+    display: block;
+  }
+
+  @include media-breakpoint-up(xl) {
+    width: 14.1rem;
+    height: 3.5rem;
+  }
+}
+
+.tagline {
+  color: var(--color-ink-2ry);
+  font-size: var(--font-size-small);
+  line-height: var(--font-size-small);
+  transform: translateY(-.1rem);
+  margin-top: .35rem;
+
+  @include media-breakpoint-down(sm) {
+    display: none;
+  }
+
+  @include media-breakpoint-up(xl) {
+    display: none;
+  }
+}
+
+// -----------------------------------------------------------------------------
+// HEADER LOGO
+// -----------------------------------------------------------------------------
+
+// Hide .header__logo on .is-app pages
+.header__logo:not(.entity.is-home .header__logo) {
+  @include media-breakpoint-up(md) {
+    display: none;
+  }
+}

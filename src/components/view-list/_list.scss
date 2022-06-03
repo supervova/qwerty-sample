@@ -1,0 +1,174 @@
+.view-list__items {
+  padding-top: $size-line;
+  padding-bottom: $size-line * 2;
+}
+
+// -----------------------------------------------------------------------------
+// COLLECTION HEADER
+// -----------------------------------------------------------------------------
+
+// LEGACY
+
+.makepost {
+  text-align: left;
+
+  @include media-breakpoint-up(sm) {
+    // main.css overrides
+    float: left;
+    position: static;
+    margin-top: 0;
+  }
+}
+
+
+// -----------------------------------------------------------------------------
+// MEDIA OBJECT
+// -----------------------------------------------------------------------------
+
+// LEGACY
+
+.postspost {
+  background: none !important;
+  box-shadow: none;
+  overflow: visible;
+  margin-top: $size-line;
+  padding: 0;
+}
+
+.postspost + .postspost {
+  margin-top: 1.2rem + $size-line * 2;
+}
+
+.postspost > [style*='overflow:'] {
+  overflow: visible !important;
+}
+
+// White block - owl-carousel
+.searchform + [style*='background:#fff'],
+.searchform + [style*='background: #fff'] {
+  display: none;
+}
+
+.postspost .page-header {
+  display: flex;
+  flex-direction: column;
+  margin-top: 0 !important;
+}
+
+.postspost .page-header > div:first-child {
+  display: flex !important;
+  align-items: center;
+  padding-bottom: $size-1 + .1rem;
+}
+
+.postspost h3 {
+  margin-top: 0 !important;
+  margin-bottom: -$size-2;
+}
+
+.postspost [data-original-title^='The number of view'] {
+  display: none;
+}
+
+.postdescription {
+  display: flex;
+  align-items: center;
+  max-width: calc(var(--size-width-readable) + 9.6rem + #{$size-line});
+}
+
+.postdescription .postdescription {
+  @include multiline-truncate;
+}
+
+// More link
+.postdescription + span {
+  display: none;
+}
+
+.postthumbnail {
+  display: none;
+
+  @include media-breakpoint-up(sm) {
+    border-radius: var(--shape-border-radius-base);
+    float: none;
+    display: block;
+    margin: 0 $size-line 0 0;
+    object-fit: cover;
+    width: 9.6rem;
+    height: 10.4rem;
+    max-height: none;
+  }
+}
+
+.postspost [style*='text-align'] {
+  text-align: left !important;
+}
+
+.postspost > span:last-child {
+  display: inline-block;
+  padding-top: .6rem + $size-1;
+}
+
+
+// MARKUP
+// article.view-list__item
+//   a.view-list__wrapper-link
+//     figure.view-list__item-img
+//       img
+//     .view-list__item-copy
+//       h3.view-list__item-title
+//       p.view-list__item-summary
+
+.view-list__item + .view-list__item {
+  @include media-breakpoint-down(lg) {
+    margin-top: $size-5;
+  }
+}
+
+.view-list__wrapper-link {
+  @extend %standard-focus;
+
+  display: flex;
+  // We used it to make sure that image doesn’t stretch out.
+  align-items: flex-start;
+  position: relative;
+}
+
+.view-list__item-img {
+  @extend %border;
+  display: none;
+
+  @include media-breakpoint-up(sm) {
+    border-radius: var(--shape-border-radius-base);
+    background: var(--color-primary-base) var(--asset-data-image-logo-inverse) no-repeat 50% 50%;
+    display: table;
+    margin-right: var(--size-padding-x-box);
+    margin-bottom: 0;
+    overflow: hidden;
+    width: 9.6rem;
+    height: 10.4rem;
+  }
+}
+
+.view-list__item-copy {
+  @include multiline-truncate(4, 2.4rem, .5rem);
+  flex: 1;
+}
+
+.view-list__item-title {
+  font-size: var(--font-size-big);
+  font-weight: 500;
+  line-height: 24 / 21;
+  text-transform: none;
+  margin-bottom: -$size-line;
+  padding-top: .5rem;
+  padding-bottom: 1.9rem;
+
+  .view-list__wrapper-link:hover & {
+    color: var(--color-ink-link);
+  }
+}
+
+.view-list__item-summary {
+  color: var(--color-ink-2ry);
+}

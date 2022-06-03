@@ -1,0 +1,226 @@
+extends /pages/base/base.pug
+include /pages/base/mixins
+
+//- SETTINGS -------------------------------------------------------------------
+
+append config
+  -
+    const page = {
+      title: site.title.ru,
+      description: site.description,
+      link: site.url,
+      img: site.img
+    }
+
+append head
+  link(rel='stylesheet', href='/css/jquery.toast.min.css')
+  link(rel='stylesheet', href='/js/tinymce/plugins/codesample/prism.css')
+  link(rel='stylesheet', href='/css/smartphoto.min.css')
+  style.
+    .cover__logo,
+    .communitylogo {
+      --asset-background-image-section-header-logo-user: url('https://unsplash.it/300?image=306');
+    }
+
+
+//- CONTENT --------------------------------------------------------------------
+
+
+
+block content
+  //- Parent: .bodybg > .containerbg > .affix-row
+  //- Main content: .global-nav + .affix-content or .main - .col-sm-9.col-md-10.affix-content(style='padding: 0; float: right;')
+
+  //-  COVER
+  .coverbg#coverbg(style='height: 173.75px;')
+    a(href='/community-12056/')
+      h2.communityname(itemprop='name') Сообщество собирателей инвестиций
+      .communitylogo#communitylogo(style='height: 83.4px; width: 83.4px;')
+      .communitydescr#communitydescr(itemprop='description') Соберем инвестиции для проекта , бизнеса, идеи
+    #subscribes(style='position: absolute; width: 100%; margin-left: -20px; top: 143.75px;', align='center')
+      #unsubscribediv(style='display:none')
+        a.btn.btn-default(href='javascript:void(0)', onclick='subscribe(12056)') Покинуть сообщество
+      #subscribediv(style='display:block')
+        a#btnsubscribe.btn.btn-success(href='javascript:void(0)', onclick='subscribe(12056)') Присоединиться к сообществу
+        #waitsubscribe(style='display:none')
+          img(src='/images/loading.gif', width='50', height='50', data-pagespeed-url-hash='89929728', onload='pagespeed.CriticalImages.checkImageForCriticality(this);', alt='Loading...')
+
+  .cover#coverbg
+    figure.cover__logo#communitylogo
+    h2.cover__title Lorem ipsum dolor
+    .cover__description#communitydescr Sit amet consectetur adipisicing elit. Libero, iure.
+
+  .main__inner
+    article
+      header.main__header.page-header
+        .page-header
+          a(href='https://en.#{ExtraData.domain}/user/1042861', target='_blank')
+            .post_avatar
+              img.post_avatar(src='./images/profile_nophoto.jpg', alt)
+            | Vladimir Nikishin·
+          span.date(style='white-space: nowrap;') 2021-06-01 13:02
+
+        h1 The widespread electrification of the southern provinces will give a powerful impetus to the rise of agriculture
+          small(style='background: green; color: #fff; white-space: nowrap;') Published
+
+      .main__body
+        p <b>This is an automatic translation.</b><br>
+          a(href='https://en.#{ExtraData.domain}/7269825/?readlng=ru') Click here to read the publication in the original language.
+        p Lorem ipsum dolor sit amet consectetur adipisicing elit. Pariatur, adipisci, optio blanditiis incidunt nisi vero, assumenda laudantium nemo cum quasi quibusdam delectus. Hic quaerat alias repellendus quia ducimus, iusto sed?
+        p: a.js-smartPhoto(href='https://en.#{ExtraData.domain}/uploads/files/7/8/4/5/d/7845d9193a47c30a3463ad9d5665250c.jpg', target='_blank', rel='noopener', data-group='nogroup', data-id='0', data-index='0')
+            img(style='max-width: 90%; max-height: 250px; margin: 5px;', src='https://en.#{ExtraData.domain}/uploads/files/7/8/4/5/d/7845d9193a47c30a3463ad9d5665250c.jpg', alt)
+        p Ullam porro ipsum officia ducimus cum beatae corrupti quia adipisci enim dolores blanditiis reiciendis, nam consequuntur animi ex debitis impedit sit a, sapiente praesentium sed laudantium. Nostrum debitis explicabo in.
+        p Placeat magni iusto at vel ab eveniet dicta, debitis necessitatibus quidem, animi et tempore, labore nam adipisci ex sunt aliquam totam maxime qui saepe. Odit pariatur eos quibusdam distinctio harum.
+        p Error, in blanditiis ratione cum numquam aperiam eos alias veritatis repellat magni, aliquam maiores quae hic explicabo porro harum officiis minus atque odit. Iste tempore beatae, veniam tempora laudantium alias.
+        p Amet, cum illum, saepe doloribus deserunt beatae eum corrupti eos debitis esse, provident ex voluptatem quos laboriosam. Atque excepturi id saepe blanditiis optio, sunt esse, iure officia labore consequuntur veritatis?
+        p <b>This is an automatic translation.</b><br>
+          a(href='https://en.#{ExtraData.domain}/7269825/?readlng=ru') Click here to read the publication in the original language.
+        p <b>This post is available in the following languages:</b><br>
+          a(href='https://en.#{ExtraData.domain}/7269825/?readlng=en', style='white-space: nowrap;')
+            img(src='/images/flags/32/GB.png', alt)
+            | English
+          a(href='https://en.#{ExtraData.domain}/7269825/?readlng=ru', style='white-space: nowrap;')
+            img(src='/images/flags/32/RU.png', alt)
+            | Русский
+
+      footer.main__footer
+        p.post-tag
+          a(href='/tag/ipsum') ipsum
+          |
+          a(href='/tag/lorem') lorem
+          |
+          a(href='/tag/placeholder') placeholder
+
+    //-  ARTICLE TOOLS
+    aside.main__tools.page-footer
+      button.btn.is-primary(onclick='buyform()')
+        svg.icon.is-left(aria-hidden='true', focusable='false')
+          use(href='/projects/#{ExtraData.domain}/images/base/graphics/sprite.svg#icon-shopping-bag')
+        | Buy it now
+
+      .main__rating
+        span.postrating
+          span#postpluscount(style='color: green') 40
+        a(href='javascript:void(0)', onclick='votepost(7269825,1)')
+          span.glyphicon.glyphicon-thumbs-up.postvote#thumbsup(aria-hidden='true', title='Like!')
+        span.postrating
+          span#postminuscount(style='color: red') 2
+        a(href='javascript:void(0)', onclick='votepost(7269825,0)')
+          span.glyphicon.glyphicon-thumbs-down.postvote#thumbsdown(aria-hidden='true', title='Dislike!')
+        a(href='/donate?touserid=1042861', target='_blank')
+          img(src='/images/donateico.png', style='width:32px;height:32px;border:none;vertical-align:top;', alt='Financial support', title='Financial support')
+
+      //-  ARTICLE TOOLS POPOVER
+      .dropup
+        button.btn.is-icon.is-ghost(type='button', data-toggle='dropdown', aria-haspopup='true', aria-expanded='false', aria-label='More')
+          svg.icon(aria-hidden='true', focusable='false')
+            use(href='/projects/#{ExtraData.domain}/images/base/graphics/sprite.svg#icon-more-horizontal')
+        ul.dropdown__menu(role='menu', aria-label='Post commands and stats')
+          li(role='none')
+            small.note The number of views and unique users (when the reader was stayed more than 20 seconds)
+            .main__stats
+              figure
+                svg.icon(aria-hidden='true', focusable='false')
+                  use(href='/projects/#{ExtraData.domain}/images/base/graphics/sprite.svg#icon-group')
+                | 0
+
+              figure
+                svg.icon(aria-hidden='true', focusable='false')
+                  use(href='/projects/#{ExtraData.domain}/images/base/graphics/sprite.svg#icon-eye')
+                | 1
+          li.dropdown__divider(role='separator')
+          li.dropdown__item#dropdown-menu-edit(role='menuitem')
+            | &nbsp;
+            a(href='/editpost/7269825' data-animation='true' data-placement='bottom')
+              img(src='https://ru.#{ExtraData.domain}/images/editpost.png', alt='')
+              small Редактировать
+            | &nbsp;
+          li.dropdown__item(role='menuitem')
+            button.btn.is-ghost(onclick='$(\'#letspromo\').show();')
+              svg.icon(aria-hidden='true', focusable='false')
+                use(href='/projects/#{ExtraData.domain}/images/base/graphics/sprite.svg#icon-star')
+              | Promote!
+          li.dropdown__item(role='menuitem')
+            button.btn.is-ghost.is-abuse(type='button', onclick='abusepost()')
+              svg.icon(aria-hidden='true', focusable='false')
+                use(href='/projects/#{ExtraData.domain}/images/base/graphics/sprite.svg#icon-frown')
+              | Report abuse
+          li.dropdown__divider(role='separator')
+          li(role='menuitem')
+            //- Go to www.addthis.com/dashboard to customize your tools
+            script(async src='https://s7.addthis.com/js/300/addthis_widget.js#pubid=ra-5bbc687b13c1de74')
+            .main__social-buttons.addthis_inline_share_toolbox
+
+  //- COMMENTS
+  section.main__comments#commentsblock(style='margin-top: -15px')
+    .comments
+      h3.title-comments Комментарии (1)
+      button#postcomment.btn.btn-default(type='button', style='margin-bottom: 10px; margin-top: 0px; display: none', onclick='replyto(0)') Оставить комментарий
+      span#replyto0
+        textarea#editor(aria-hidden='true')
+        div(style='display: block')
+          label
+            input#privatecomment(type='checkbox')
+            |  Приватный комментарий
+          |
+          a(href='javascript:void(0);', data-toggle='tooltip', style='font-weight: 600', data-original-title='Приватные комментарии доступны только автору публикации и вам.')
+            small ?
+        button#savecomment.btn.btn-primary(type='button', style='display: inline-block; margin-top: 5px; margin-bottom: 10px', onclick='savecomment(0,0);') Сохранить комментарий
+        br
+      .comment.comment29914140(style='margin-top: 10px; min-width: 50% !important; padding-right: 1px !important; margin-right: 1px !important; padding-left: calc(0 * 5%); width: 100%')
+        div(style='padding: 5px; border-radius: 8px')
+          input#score29914140(type='hidden', value='0')
+          div(style='display: inline-block')
+            a(href='https://ru.b2bingo.com/user/1042830', target='_blank')
+              .post_avatar
+                img.post_avatar(src='https://en.#{ExtraData.domain}/uploads/files/d/9/a/4/2/boxd9a4245b7c219ce0c23c085d5d52bd53.png', border='0')
+          div(style='white-space: normal; display: inline-block; vertical-align: bottom')
+            .author
+              a#author29914140(href='https://ru.b2bingo.com/user/1042830', target='_blank') Денис Малиновский
+            br
+            .metadata
+              a(href='javascript:void(0)', onclick='copycommentlink(29914140);')
+                | 2 месяцев назад,
+                span#cdate29914140(style='white-space: nowrap') 21.03.2021, 02:51:30
+              a(name='comment29914140', style='display: block; content: \'\'; height: 75px; margin: -75px 0 0; float: left')
+          #textcomment29914140.media-text.text-justify(style='min-width: 200px') Как с вами связяться?
+          .footer-comment
+            span.rating
+              font(color='green')
+                span#pluscount29914140
+            a(href='javascript:void(0)', onclick='votecomment(29914140,\'posts7261338\',1)')
+              span#thumbsup29914140.glyphicon.glyphicon-thumbs-up.vote(aria-hidden='true', title='Нравится!')
+            span.rating
+              font(color='red')
+                span#minuscount29914140
+            a(href='javascript:void(0)', onclick='votecomment(29914140,\'posts7261338\',0)')
+              span#thumbsdown29914140.glyphicon.glyphicon-thumbs-down.vote(aria-hidden='true', title='Не нравится!')
+            |
+
+            span.comment-reply
+              a.reply(href='javascript:void(0)', onclick='replyto(29914140)')
+                | Ответить
+                img(src='./images/reply.png', width='20px', height='20px', border='0')
+            div(style='display: inline-block; float: right')
+              .btn-group.dropup
+                a.dropdown-toggle#dLabel(role='button', data-toggle='dropdown', data-target='#', href='javascript:void(0)')
+                  span.glyphicon.glyphicon-list(aria-hidden='true')
+                  b.caret
+                ul.dropdown-menu(role='menu', aria-labelledby='dLabel', style='left: auto; right: 100%; z-index: 100000')
+                  li.dropdown-submenu
+                    a(href='javascript:void(0)', onclick='copycommentlink(29914140);') Копировать ссылку
+                  li.dropdown-submenu
+                    a(href='javascript:void(0)', onclick='abusecomment(29914140)') Сообщить о нарушении
+        span#replyto29914140
+    script(type='text/javascript').
+
+      replyto(0);
+
+    input#commentscore(type='hidden', name='commentscore', value='0')
+
+  .main__loading-comments#loadingcomments(style='display: none;')
+    span Loading...
+    br
+    img(src='/images/loading.gif', width='50', height='50', alt='Loading...')
+    br
+    a(href='https://en.#{ExtraData.domain}/7269825') Click here if comments are not loaded

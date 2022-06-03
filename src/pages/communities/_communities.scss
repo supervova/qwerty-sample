@@ -1,0 +1,138 @@
+.main__row.is-communities-lead {
+  @extend %main-row-lg;
+}
+
+.main__row.is-communities-lead > img {
+  display: none;
+
+  @include media-breakpoint-up(md) {
+    // override inline styles
+    float: none !important;
+    object-fit: contain;
+  }
+}
+
+.form.is-create-community {
+  padding-top: $size-line * 2;
+}
+
+.img.is-community-cover {
+  margin-bottom: $size-line;
+  width: 100%;
+}
+
+[id='aboutdiv'] {
+  color: var(--color-ink-2ry);
+  text-align: center;
+}
+
+[id='aboutdiv'] .text-truncate {
+  @extend %text-truncate;
+
+  @include media-breakpoint-down(sm) {
+    display: inline-block;
+    vertical-align: middle;
+    max-width: 28rem;
+  }
+}
+
+[id='aboutlink'] {
+  display: block;
+  text-align: center;
+  // margin-bottom: $size-line * 2;
+}
+
+
+// -----------------------------------------------------------------------------
+// SETTINGS
+// -----------------------------------------------------------------------------
+
+.tabs__pane.is-vip {
+  h4[align='center'] {
+    text-align: left;
+  }
+
+  [style*='margin-bottom: 10px'] {
+    border-radius: var(--shape-border-radius-base);
+    box-shadow: var(--layer-box-shadow-z2);
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    // Override inline styles
+    margin-bottom: $size-2 !important;
+    padding:
+      var(--size-padding-x-box)
+      var(--size-padding-x-box)
+      var(--size-padding-x-box)
+      $size-7;
+    position: relative;
+    min-height: $size-6;
+
+    &::before {
+      background: var(--asset-data-image-shopping) no-repeat 50%;
+      content: '';
+      position: absolute;
+      top: 50%;
+      left: $size-1 * 2.5;
+      transform: translateY(-50%);
+      transition: background-color var(--motion-duration-sm);
+      width: var(--size-height-icon);
+      height: var(--size-height-icon);
+    }
+
+    span:nth-child(2n) {
+      @extend %text-truncate;
+
+      max-width: 100%;
+    }
+
+    &:hover {
+      background-color: var(--color-background-alt);
+    }
+  }
+
+  [style*='margin-bottom: 10px'] a::after {
+    border-radius: var(--shape-border-radius-base);
+    content: '';
+    opacity: 1;
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+  }
+
+  h4 + [style*='margin-bottom: 10px'] {
+    box-shadow: none;
+    padding: var(--size-padding-top-base) 0;
+
+    &::before,
+    a::after {
+      display: none;
+    }
+  }
+}
+
+.form__fieldset.is-community-prices {
+  display: flex;
+  gap: $size-2;
+  padding-bottom: $size-line;
+
+  @include media-breakpoint-down(sm) {
+    flex-wrap: wrap;
+
+    > * {
+      flex-basis: calc(50% - #{$size-2});
+    }
+  }
+}
+
+// -----------------------------------------------------------------------------
+// MIGRATED INLINE STYLES
+// -----------------------------------------------------------------------------
+
+[id='loadingcommunities'] {
+  text-align: center;
+}
+

@@ -1,0 +1,129 @@
+// -----------------------------------------------------------------------------
+// DETAILS/SUMMARY
+// -----------------------------------------------------------------------------
+// #region
+
+// <details> also can be used for native accordion and other disclosure
+// components as collapsible panels and tabs
+
+$details-animation-speed: var(--motion-duration-base);
+
+// PARENT
+
+.accordion {
+  background-color: var(--color-background-alt);
+  border-bottom: 1px solid var(--color-ink-border);
+  overflow: hidden;
+  transition: height $details-animation-speed var(--motion-easing-base);
+}
+
+.accordion + :not(.accordion) {
+  margin-top: $size-line;
+
+  @include media-breakpoint-up(md) {
+    margin-top: $size-line * 2;
+  }
+}
+
+// HEADER
+
+.accordion__header {
+  // cursor: pointer set in normalize
+  // Hide the summary marker in non-Webkit
+  display: list-item;
+  list-style: none;
+  font-weight: bold;
+  padding:
+    2.3rem
+    $size-2
+    $size-3
+    $size-5;
+  position: relative;
+  transition: color $details-animation-speed var(--motion-easing-base);
+
+  .accordion[open] & {
+    color: var(--color-ink-primary-text);
+    // margin-bottom: $size-line;
+  }
+
+  &:focus {
+    outline: none;
+  }
+
+  // Hide the marker in Webkit
+  &::-webkit-details-marker {
+    display: none;
+  }
+}
+
+// CHEVRON
+.accordion__header::after {
+  background-color: transparent;
+  background-image: var(--asset-data-image-chevron-down);
+  background-position: 0 0;
+  background-repeat: no-repeat;
+  content: '';
+  opacity: .54;
+  position: absolute;
+  top: 2.8rem;
+  left: $size-2;
+  width: var(--size-height-icon);
+  height: var(--size-height-icon);
+}
+
+[open] > .accordion__header::before {
+  transform: scaleY(-1);
+}
+
+// BODY
+
+.accordion__body {
+  margin-top: -3.1rem;
+  margin-bottom: -.1rem;
+  padding-top: 0;
+  padding-right: $size-2;
+  padding-bottom: 0;
+  padding-left: $size-5;
+}
+
+.accordion__header,
+.accordion__body {
+  @include media-breakpoint-up(md) {
+    padding-right: $size-line;
+  }
+}
+// #endregion
+
+// -----------------------------------------------------------------------------
+// LEGACY: BS3
+// -----------------------------------------------------------------------------
+// #region
+
+.collapse-title {
+  @extend %h4;
+
+  color: var(--color-ink-base);
+  display: block;
+  text-decoration: none;
+}
+
+// Settings Icon
+.collapse-title .icon.is-settings {
+  margin-right: $size-1;
+  vertical-align: middle;
+  transform: translateY(-.1rem);
+}
+
+// Chevron
+.collapse-title .icon.is-sm {
+  vertical-align: -.3rem;
+  transform: rotate(.5turn);
+  transition: transform var(--motion-duration-sm) var(--motion-easing-base);
+}
+
+.collapse-title.collapsed .icon.icon.is-sm,
+.collapse-title[aria-expanded='false'] .icon.is-sm {
+  vertical-align: -.2rem;
+  transform: none;
+}
+// #endregion

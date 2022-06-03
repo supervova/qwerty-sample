@@ -1,0 +1,259 @@
+@font-face {
+  font-display: swap;
+  font-family: 'DewiExt';
+  font-style: normal;
+  font-weight: 400;
+  src:
+    url('/projects/#{$domain}/fonts/RFDewiExpanded-Regular.woff2') format('woff2'),
+    url('/projects/#{$domain}/fonts/RFDewiExpanded-Regular.woff') format('woff');
+}
+
+@font-face {
+  font-display: swap;
+  font-family: 'DewiExt';
+  font-style: normal;
+  font-weight: 600;
+  src:
+    url('/projects/#{$domain}/fonts/RFDewiExpanded-Semibold.woff2') format('woff2'),
+    url('/projects/#{$domain}/fonts/RFDewiExpanded-Semibold.woff') format('woff');
+}
+
+
+
+// -----------------------------------------------------------------------------
+// DOCUMENT
+// -----------------------------------------------------------------------------
+
+body {
+  background-color: var(--color-background-base);
+  color: var(--color-ink-base);
+
+  // Use flex to distribute blocks across the entire height of the screen
+  // setting central area flex-growth to 1.
+  // display: flex;
+  // flex-direction: column;
+  font-family: var(--font-family-base);
+  font-size: var(--font-size-base);
+  font-weight: normal;
+  line-height: var(--font-line-height-base);
+  text-align: left;
+  min-height: 100%;
+}
+
+// -----------------------------------------------------------------------------
+// BODY COPY
+// -----------------------------------------------------------------------------
+
+// LINKS
+
+a { text-decoration: none; }
+
+.link.is-standard,
+%standard-focus {
+  &:focus {
+    outline: .4rem solid hsl(var(--h-blue) var(--s) 41% / .5);
+    outline-offset: .2rem;
+  }
+}
+
+
+a:not([class]) {
+  @extend %standard-focus;
+
+  color: var(--color-ink-link);
+  transition: color var(--motion-duration-sm) var(--motion-easing-base);
+  word-break: break-word;
+
+  &:hover {
+    text-decoration: underline;
+    // Place below descenders
+    text-underline-offset: .2rem;
+
+    // Allow breaks for descenders where supported
+    @supports (text-decoration-skip-ink: auto) {
+      text-underline-offset: .08em;
+
+      // Already default in up-to-date Chrome, Firefox
+      text-decoration-skip-ink: auto;
+    }
+  }
+}
+
+// a.link.is-cta[href='']>svg+{Buy}
+.link.is-cta {
+  color: var(--color-ink-link);
+  display: block;
+  padding-top: var(--size-padding-top-base);
+  padding-bottom: var(--size-padding-bottom-base);
+  position: relative;
+  width: fit-content;
+
+  &:visited {
+    color: var(--color-ink-link);
+  }
+
+  &:focus::after {
+    background-color: hsl(var(--h-blue) var(--s) 41% / .5);
+    content: '';
+    position: absolute;
+    bottom: $size-1;
+    left: 0;
+    right: 0;
+    height: .4rem;
+  }
+
+  &.is-centered {
+    text-align: center;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .icon {
+    transform: translateY(.2rem);
+  }
+}
+
+.link.is-forward {
+  @extend %label;
+
+  background: var(--asset-data-image-chevron-right) no-repeat 100% calc(50% - .1rem);
+  display: inline-block;
+  padding-right: $size-2p5;
+
+  p + & {
+    background-position: 100% .9rem;
+    display: table;
+    margin-top: -$size-2;
+    padding-top: 1.2rem;
+    padding-bottom: $size-2p5;
+  }
+}
+
+.link.is-expanded,
+%link-expanded {
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+  }
+}
+
+// BLOCKS
+
+address,
+dl,
+p,
+pre,
+%body-copy {
+  margin-top: 0;
+  margin-bottom: 0;
+  padding-top: var(--size-padding-top-base);
+  padding-bottom: var(--size-padding-bottom-base);
+}
+
+// Override main.css
+p {
+  font-family: var(--font-family-base);
+  font-size: var(--font-size-base);
+  font-weight: normal;
+  line-height: var(--font-line-height-base);
+}
+
+.main [align='right'] {
+  text-align: left;
+}
+
+.lead,
+%lead {
+  font-size: var(--font-size-big);
+  font-weight: var(--font-weight-big);
+  line-height: var(--font-line-height-big);
+  padding-top: var(--size-padding-top-big);
+  padding-bottom: var(--size-padding-bottom-big);
+}
+
+.petit,
+%petit {
+  font-size: var(--font-size-small);
+  line-height: var(--font-line-height-small);
+  padding-top: var(--size-padding-top-small);
+  padding-bottom: var(--size-padding-bottom-small);
+}
+
+// QUOTES
+
+blockquote {
+  // override inline styles
+  background: var(--color-background-info) !important;
+  border: 0;
+  border-radius: var(--shape-border-radius-base);
+  box-shadow: none;
+  color: var(--color-ink-info-text);
+  font-family: var(--font-family-base);
+  font-size: var(--font-size-base);
+  font-style: normal;
+  line-height: var(--font-line-height-base);
+  margin: 0 0 $size-line;
+  padding:
+    var(--size-padding-x-box)
+    var(--size-padding-x-box)
+    var(--size-padding-x-box)
+    #{$size-7};
+
+  &::after {
+    display: none;
+  }
+
+  &::before {
+    background: rgba(0, 0, 0, 0) var(--asset-data-image-info) no-repeat;
+    content: '';
+    margin: 0;
+    top: $size-2;
+    left: $size-3;
+    width: $size-3;
+    height: $size-3;
+  }
+
+  @include media-breakpoint-up(md) {
+    &::before {
+      top: $size-3;
+    }
+  }
+
+  @include media-breakpoint-up(xl) {
+    &::before {
+      top: $size-4;
+    }
+  }
+}
+
+// INLINE
+b,
+strong {
+  font-weight: 500;
+}
+
+mark {
+  background-color: var(--color-background-success);
+  border-radius: var(--shape-border-radius-sm);
+  color: var(--color-ink-base);
+  padding: 0 .2rem;
+}
+
+small,
+.note {
+  color: var(--color-ink-2ry);
+  font-size: 100%;
+}
+
+// DIVIDERS
+
+hr {
+  border: 0;
+  border-top: var(--size-border-width) solid var(--color-ink-border);
+  margin-top: $size-line * 3 - .1rem;
+  margin-bottom: $size-line * 3;
+}

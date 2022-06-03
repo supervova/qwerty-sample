@@ -1,0 +1,115 @@
+.tag,
+%tag {
+  background-color: var(--color-background-alt);
+  border-radius: var(--shape-border-radius-pill);
+  color: var(--color-ink-2ry);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-feature-settings: 'tnum';
+  font-size: var(--font-size-small);
+  font-variant: tabular-nums;
+  font-weight: 500;
+  letter-spacing: .05rem;
+  line-height: 1;
+  text-decoration: none;
+  text-overflow: ellipsis;
+  text-transform: uppercase;
+  white-space: nowrap;
+  word-break: break-word;
+  margin: 0 $size-1 $size-1 0;
+  padding: $size-half ($size-1 * 1.5);
+  outline: none;
+  overflow: hidden;
+  position: relative;
+  transition: background-color var(--motion-duration-sm) var(--motion-easing-base);
+  vertical-align: baseline; // or middle
+  max-width: 16rem;
+  min-width: 2rem;
+  min-height: $size-line;
+
+
+  &[href]:hover {
+    // Override main
+    background-color: var(--color-background-alt);
+    color: var(--color-ink-success-text);
+    text-decoration: none;
+  }
+
+  &:focus {
+    box-shadow: var(--layer-box-shadow-focus-outline);
+    outline: none;
+  }
+
+  h1 &,
+  h2 &,
+  h3 & {
+    font-size: calc(100% / var(--font-scale-factor));
+    font-weight: normal;
+    letter-spacing: 0;
+    text-transform: none;
+    margin-left: $size-1;
+    max-width: none;
+
+    // Alternative. Keep the font-size, but raise it
+    // margin-top: -$size-half;
+    // vertical-align: super;
+  }
+}
+
+.tag.is-error {
+  background: var(--color-background-error-dark);
+  color: var(--color-ink-inverse-base);
+}
+
+.tag.is-right,
+.tag + .tag {
+  margin-left: $size-1;
+}
+
+.tag.is-bottom {
+  margin-top: $size-1;
+}
+
+.tag__remover {
+  @extend %btn;
+
+  background: transparent;
+  border-radius: var(--shape-border-radius-sm);
+  font-size: var(--font-size-base);
+  margin-right: -$size-half;
+  margin-left: $size-half;
+  transform: translateY(-.2rem);
+  padding: 0;
+  width: $size-2;
+  height: $size-2;
+
+  &:hover {
+    background-color: var(--color-ink-shadow);
+  }
+}
+
+// -----------------------------------------------------------------------------
+// OVERRIDES
+// -----------------------------------------------------------------------------
+
+.bootstrap-tagsinput {
+  border: .1rem solid var(--color-ink-border);
+  background: var(--color-background-alt);
+  box-shadow: none;
+  padding: $size-half $size-1;
+  border-radius: var(--shape-border-radius-pill);
+  line-height: auto;
+
+  .tag {
+    @extend %tag;
+
+    margin: 0;
+    vertical-align: middle;
+  }
+
+  input {
+    display: inline-block;
+  }
+}
+

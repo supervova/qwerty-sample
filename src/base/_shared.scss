@@ -1,0 +1,61 @@
+// stylelint-disable selector-no-qualifying-type
+
+.label,
+%label {
+  font-size: var(--font-size-small);
+  font-weight: 400;
+  letter-spacing: .05rem;
+  line-height: var(--font-line-height-small);
+  text-transform: uppercase;
+}
+
+.is-section-search,
+%section-search {
+  padding-top: $size-line;
+  padding-bottom: .4rem + ($size-line * 2);
+
+  .form__row {
+    position: relative;
+  }
+
+  input[type='text'],
+  input[type='search'] {
+    padding-right: $size-7;
+  }
+
+  .btn.is-search {
+    background: transparent;
+    position: absolute;
+    padding: 0 $size-2;
+    right: 0;
+
+    &:hover {
+      box-shadow: none;
+    }
+  }
+}
+
+.is-section-search.has-filter .btn.is-search {
+  right: $size-6;
+}
+
+// Backdrop / scrim / overlay
+.backdrop,
+.scrim,
+%backdrop {
+  background-color: var(--color-scrim-base);
+  opacity: 0;
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  transition: opacity var(--motion-duration-base);
+  z-index: var(--layer-zindex-scrim);
+
+  &.is-on,
+  &.in,
+  &.show {
+    opacity: 1;
+  }
+}

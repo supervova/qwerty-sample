@@ -1,0 +1,123 @@
+extends /pages/base/base.pug
+include /pages/base/mixins
+
+//- SETTINGS -------------------------------------------------------------------
+
+append config
+  -
+    const page = {
+      title: 'Contact Us',
+      description: site.description,
+      link: site.url,
+      img: site.img,
+      isClean: true
+    }
+
+//- CONTENT --------------------------------------------------------------------
+
+
+
+block content
+  h1.mb-1 Contacts
+
+  //- {$addcontacts}
+
+  .main__body.is-contacts
+
+    section.main__section.is-emails
+      h2.h3 Email
+      dl
+        dt Support team:
+        dd
+          a(href='mailto:support@qwertynetworks.com')
+            span.nottranslate support@qwertynetworks.com
+        dt Legal department:
+        dd
+          a(href='mailto:abuse@qwertynetworks.com')
+            span.nottranslate law@qwertynetworks.com
+        dt Become an investor:
+        dd
+          a(href='mailto:investment@qwertynetworks.com')
+            span.nottranslate investment@qwertynetworks.com
+
+    section.main__section.is-phones
+      h2.h3 Phones
+
+      dl
+        dt USA:
+        dd
+          a(href='tel:+12134863535')
+            span.nottranslate +1 213 486 35 35
+        dt Russia:
+        dd
+          a(href='tel:+78002008266')
+            span.nottranslate 8 800 200 82 66
+        dt Montenegro:
+        dd
+          a(href='tel:+38268543077')
+            span.nottranslate +382 68 543 077
+
+    section.main__section.is-messengers
+      h2.h3 Messengers
+
+      dl
+        dt
+          +icon('brand-telegram', 'is-left')
+          span.nottranslate Telegram:
+        dd
+          a(href='https://t.me/SocNet', rel='nofollow noopener noreferrer', target='_blank')
+            span.nottranslate @SocNet
+        dt
+          +icon('brand-skype', 'is-left')
+          span.nottranslate Skype:
+        dd
+          a(href='skype:softtrade')
+            span.nottranslate softtrade
+        dt.pb-2s
+          +icon('brand-viber', 'is-left')
+          span.nottranslate Viber QR Code:
+        dd
+          img.d-block(src='/images/qwertynetworksviber.png', alt='Viber QR Code')
+
+    section.main__section.is-social-accounts
+      h2.h3 Join us on social networks:
+
+      ul
+        li
+          a(href='https://www.facebook.com/QwertyNetworksOfficial', rel='nofollow noopener noreferrer', target='_blank')
+            +icon('brand-facebook')
+            span.nottranslate.sr-only Facebook: @qwertynetworks
+        li
+          a(href='https://t.me/SocNet', rel='nofollow noopener noreferrer', target='_blank')
+            +icon('brand-telegram')
+            span.nottranslate.sr-only Telegram: @SocNet
+
+    .main__section.is-form
+      p For questions about using the portal, as well as for technical support, please contact through the feedback form:
+
+      form.form
+        .form__item
+          +formItem('Your name:', uname, 'text', 'is-required')(value='{$userdata[name]}', maxlength='128', pattern='[A-Za-z -]+', required=true)
+
+        .form__item
+          +formItem('Email to contact you:', 'umail', 'email', 'is-required')(inputmode='email', value='{$userdata[email]}', maxlength='128', required=true)
+
+        .form__item
+          +formItem('Skype (if any):', 'skype')(maxlength='32', pattern="^[a-z0-9-_\.,]{6,32}$", placeholder='optional field')
+
+        .form__item
+          label.is-required(for='topic') Topic:
+          select#topic(name='topic')
+            option(value, selected) Choose the topic of your message
+            option(value='Question on using the portal') Question on using the portal
+            option(value='Error detected') Error detected
+            option(value='Advertising cooperation') Advertising cooperation
+            option(value='A complaint') A complaint
+            option(value='Other question') Other question
+
+        .form__item
+          label.is-required(for='mailtext') Message:
+          textarea#mailtext(required, placeholder='Describe the essence of the problem or question')
+
+        .form__actions
+          button.btn(onclick='mailsupport()') Submit

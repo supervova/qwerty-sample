@@ -1,0 +1,94 @@
+
+.date__setter,
+.date__remover {
+  @extend %btn, %btn-base;
+
+  flex-shrink: 0;
+  padding-left: $size-1;
+  padding-right: $size-1;
+  transition: background-color var(--motion-duration-sm);
+
+  &:hover {
+    background-color: var(--color-background-alt);
+  }
+}
+
+.date__remover {
+  color: var(--color-ink-3ry);
+  font-size: var(--font-size-big);
+  position: absolute;
+  right: $size-7;
+}
+
+.form__item.startdate {
+  margin-right: $size-2;
+}
+
+
+// -----------------------------------------------------------------------------
+// LEGACY
+// -----------------------------------------------------------------------------
+// stylelint-disable selector-max-compound-selectors, selector-no-qualifying-type
+
+// CALENDAR
+
+.datetimepicker table tr td.active,
+.datetimepicker table tr td span.active {
+  // Override initial selector
+  &.active,
+  &:active,
+  &.disabled.active,
+  &.disabled:active {
+    background-color: var(--color-background-primary-dark);
+    background-image:
+      linear-gradient(
+        var(--color-primary-base),
+        var(--color-background-primary-dark)
+      );
+  }
+}
+
+.datetimepicker-dropdown-bottom-right + .datetimepicker-dropdown-bottom-right {
+  left: auto !important;
+  right: 10rem !important;
+}
+
+// IN ROW: SELECT + DATAPICKER ICONS
+
+.input-group.date {
+  display: inline-flex;
+  align-items: center;
+  padding-top: $size-1;
+  padding-bottom: $size-1;
+
+  &:first-of-type {
+    margin-right: $size-half;
+  }
+
+  &:nth-child(2) {
+    @include media-breakpoint-up(sm) {
+      margin-left: $size-half;
+    }
+  }
+}
+
+.input-group.date .form-control {
+  margin-right: $size-half;
+}
+
+.input-group.date .input-group-addon {
+  padding: 0;
+}
+
+.input-group.date .input-group-addon .glyphicon {
+  width: $size-4;
+  height: $size-4;
+}
+
+.date > .form__row {
+  align-items: center;
+}
+
+.date.input-group.has-labels {
+  display: block;
+}

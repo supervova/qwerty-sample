@@ -1,0 +1,65 @@
+.footer {
+  // main.css override
+  font-family: var(--font-family-base);
+  font-size: var(--font-size-base);
+  line-height: var(--font-line-height-base);
+  // padding-top: var(--size-space-base);
+  padding-bottom: calc(var(--size-space-base) * 4);
+
+  &,
+  ul {
+    font-weight: normal;
+  }
+
+  @include media-breakpoint-up(md) {
+    padding-bottom: var(--size-space-base);
+  }
+}
+
+.footer__container {
+  @extend %q-container, %q-container-base;
+
+  border-top: .1rem solid var(--color-ink-border);
+  padding-top: calc(var(--size-space-base) - .1rem);
+}
+
+.footer__nav {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  list-style: none;
+  padding-left: 0;
+  margin-right: auto;
+  margin-bottom: $size-line;
+  margin-left: auto;
+
+  @include media-breakpoint-up(md) {
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+    white-space: nowrap;
+
+    li + li {
+      margin-left: $size-line;
+    }
+  }
+}
+
+// Copyright, powered by
+.footer__site-credits {
+  color: var(--color-ink-2ry);
+  text-align: center;
+  padding-top: $size-line;
+  padding-bottom: 0;
+
+  // Roscomnadzor
+  + div {
+    text-align: center;
+  }
+}
+
+.footer__logo {
+  display: block;
+  margin: ($size-line * 2) auto $size-line;
+}
+

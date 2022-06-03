@@ -1,0 +1,437 @@
+// stylelint-disable
+
+// -----------------------------------------------------------------------------
+// ADD-ONS TO NORMALIZE 3.0.3 WHICH IS USING IN QWERTY BOOTSTRAP VERSION (3.3.7)
+// -----------------------------------------------------------------------------
+
+// #region
+
+/**
+ * 1. Remove the bottom border in Chrome 57-
+ * 2. Add the correct text decoration in Chrome, Edge, IE, Opera, and Safari.
+ */
+abbr[title] {
+  border-bottom: none; /* 1 */
+  text-decoration: underline; /* 2 */
+  text-decoration: underline dotted; /* 2 */
+}
+
+button,
+input,
+optgroup,
+select,
+textarea {
+  font-size: 100%; /* 1 */
+  line-height: 1.15; /* 1 */
+}
+
+/**
+ * Show the overflow in IE.
+ * 1. Show the overflow in Edge.
+ */
+
+input { /* 1 */
+  overflow: visible;
+}
+
+button:-moz-focusring,
+[type="button"]:-moz-focusring,
+[type="reset"]:-moz-focusring,
+[type="submit"]:-moz-focusring {
+  outline: 1px dotted ButtonText;
+}
+
+/**
+ * Correct the padding in Firefox.
+ */
+
+fieldset {
+  padding: 0.35em 0.75em 0.625em;
+}
+
+/**
+ * 1. Correct the text wrapping in Edge and IE.
+ * 2. Correct the color inheritance from `fieldset` elements in IE.
+ * 3. Remove the padding so developers are not caught out when they zero out
+ *    `fieldset` elements in all browsers.
+ */
+
+legend {
+  box-sizing: border-box; /* 1 */
+  color: inherit; /* 2 */
+  display: table; /* 1 */
+  max-width: 100%; /* 1 */
+  white-space: normal; /* 1 */
+}
+
+/**
+ * Add the correct vertical alignment in Chrome, Firefox, and Opera.
+ */
+
+progress {
+  vertical-align: baseline;
+}
+
+/**
+ * 1. Correct the odd appearance in Chrome and Safari.
+ * 2. Correct the outline style in Safari.
+ */
+
+[type="search"] {
+  outline-offset: -2px; /* 2 */
+}
+
+/**
+ * 1. Correct the inability to style clickable types in iOS and Safari.
+ * 2. Change font properties to `inherit` in Safari.
+ */
+
+::-webkit-file-upload-button {
+  -webkit-appearance: button; /* 1 */
+  font: inherit; /* 2 */
+}
+
+/* Interactive
+   ========================================================================== */
+
+/*
+ * Add the correct display in Edge, IE 10+, and Firefox.
+ */
+
+details {
+  display: block;
+}
+
+/*
+ * Add the correct display in all browsers.
+ */
+
+summary {
+  display: list-item;
+}
+
+/* Misc
+   ========================================================================== */
+
+/**
+ * Add the correct display in IE 10+.
+ */
+
+template {
+  display: none;
+}
+
+/**
+ * Add the correct display in IE 10.
+ */
+
+[hidden] {
+  display: none;
+}
+
+[disabled] {
+  cursor: not-allowed;
+}
+
+// stylelint-enable
+// #endregion
+
+// -----------------------------------------------------------------------------
+// OVERRIDES AND ADD-ONS
+// -----------------------------------------------------------------------------
+
+// stylelint-disable selector-list-comma-newline-after
+
+// GENERIC
+
+*,
+*::before,
+*::after {
+  border-style: solid;
+  border-width: 0;
+  box-sizing: border-box;
+}
+
+[tabindex='-1']:focus:not(:focus-visible) {
+  outline: 0 !important;
+}
+
+// DOCUMENT
+
+html {
+  font-size: 62.5%;
+  text-size-adjust: 100%;
+  overflow-y: scroll;
+  scroll-behavior: smooth;
+  min-height: 100%;
+}
+
+// stylelint-disable at-rule-no-vendor-prefix
+@at-root {
+  @-ms-viewport {
+    width: device-width;
+  }
+}
+// stylelint-enable at-rule-no-vendor-prefix
+
+body {
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-font-smoothing: antialiased;
+  margin: 0;
+  text-align: left;
+}
+
+// -----------------------------------------------------------------------------
+
+// BODY COPY
+
+// stylelint-disable property-no-vendor-prefix
+
+::selection {
+  background: var(--color-background-primary-dark);
+  color: var(--color-ink-inverse-base);
+  text-shadow: none;
+}
+
+a {
+  -webkit-text-decoration-skip: objects;
+
+  &:active,
+  &:hover,
+  &:focus {
+    outline: 0;
+  }
+
+  &:not([href]):not([tabindex]) {
+    color: inherit;
+    text-decoration: none;
+
+    &:focus,
+    &:hover {
+      text-decoration-skip-ink: auto;
+    }
+  }
+}
+
+a[href^='tel:']:hover {
+  text-decoration: none;
+}
+
+abbr[title] {
+  cursor: help;
+  text-decoration-skip-ink: none;
+}
+
+address {
+  font-style: normal;
+  line-height: inherit;
+}
+
+blockquote, q {
+  quotes: none;
+}
+
+nav {
+  ol,
+  ul,
+  ul:not([class]) {
+    list-style: none;
+  }
+}
+
+pre,
+code,
+kbd,
+samp {
+  font-family: $font-family-monospace;
+}
+
+pre {
+  -ms-overflow-style: scrollbar;
+  overflow: auto;
+}
+
+table {
+  border-collapse: collapse;
+  // table-layout: fixed;
+  width: 100%;
+}
+
+th {
+  text-align: inherit;
+}
+
+// -----------------------------------------------------------------------------
+
+// MEDIA
+
+audio,
+canvas,
+iframe,
+img,
+svg,
+video {
+  vertical-align: middle;
+  max-width: 100%;
+}
+
+audio {
+  :not([controls]) {
+    display: none;
+  }
+}
+
+figure {
+  margin-right: 0;
+  margin-left: 0;
+}
+
+iframe {
+  border: 0;
+}
+
+img {
+  display: inline-block;
+
+  // Offset 'alt' text from surrounding copy.
+  font-style: italic;
+  height: auto;
+}
+
+svg {
+  vertical-align: middle;
+}
+
+// -----------------------------------------------------------------------------
+
+// FORMS
+
+fieldset {
+  border: 0;
+  margin: 0;
+  padding: 0;
+  min-width: 0;
+}
+
+legend {
+  line-height: inherit;
+  width: 100%;
+}
+
+button * {
+  pointer-events: none;
+}
+
+label {
+  display: inline-block;
+}
+
+input,
+button,
+select,
+optgroup,
+textarea {
+  font-family: inherit;
+  font-size: inherit;
+  line-height: inherit;
+}
+
+input[type='date'],
+input[type='time'],
+input[type='datetime-local'],
+input[type='month'] {
+  appearance: listbox;
+}
+
+// Remove the dropdown arrow in Chrome from inputs built with datalists.
+// See https://stackoverflow.com/a/54997118
+
+[list]::-webkit-calendar-picker-indicator {
+  display: none;
+}
+
+// Remove the inheritance of word-wrap in Safari.
+// See https://github.com/twbs/bootstrap/issues/24990
+
+select {
+  word-wrap: normal;
+}
+
+// hide Select default icon on IE
+select::-ms-expand {
+  display: none;
+}
+
+textarea {
+  resize: vertical;
+}
+
+[type='number'] {
+  width: auto;
+}
+
+[type='search'] {
+  appearance: none;
+}
+
+[type='search']::-webkit-search-cancel-button {
+  appearance: none;
+}
+
+// -----------------------------------------------------------------------------
+
+// INTERACTIVE
+
+a,
+area,
+button,
+[role='button'],
+input,
+label,
+select,
+summary,
+textarea {
+  touch-action: manipulation;
+}
+
+[role='button'] {
+  cursor: pointer;
+}
+
+output {
+  display: inline-block;
+}
+
+progress {
+  display: inline-block;
+}
+
+summary {
+  cursor: pointer;
+  display: block;
+}
+
+// -----------------------------------------------------------------------------
+
+// ACCESSIBILITY
+
+[aria-busy='true'] {
+  cursor: progress;
+}
+
+[aria-controls] {
+  cursor: pointer;
+}
+
+[aria-disabled] {
+  cursor: default;
+}
+
+// Remove animations and transitions for people that prefer not to see them
+// @media (prefers-reduced-motion: reduce) {
+//   * {
+//     animation-play-state: paused !important;
+//     transition: none !important;
+//     scroll-behavior: auto !important;
+//   }
+// }

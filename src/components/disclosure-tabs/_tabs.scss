@@ -1,0 +1,232 @@
+$tab-height: 4.4rem;
+$tab-gap: $size-half;
+
+// -----------------------------------------------------------------------------
+// BASE
+// -----------------------------------------------------------------------------
+// #region
+
+.tabs__tablist {
+  list-style: none;
+  display: flex;
+  gap: $tab-gap;
+  margin: 0;
+  padding: 0;
+}
+
+.tabs__tab {
+  @include media-breakpoint-down(md) {
+    // minus more width minus double gap and divide by two
+    max-width: calc((100% - #{$tab-height} - #{$tab-gap * 2}) / 2);
+  }
+}
+
+// Style the buttons that are used to open the tab content
+.tabs__tab > a,
+.tabs__tab > span,
+%tab-label {
+  border-radius: var(--shape-border-radius-base);
+  color: var(--color-ink-primary-text);
+  display: block;
+  padding: 1rem $size-2;
+  transition: background-color var(--motion-duration-sm);
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+  width: 100%;
+
+  &:hover {
+    background-color: var(--color-background-alt);
+    color: var(--color-ink-primary-text);
+    text-decoration: none;
+  }
+
+  &:focus {
+    box-shadow: var(--layer-box-shadow-focus-outline);
+    outline: none;
+  }
+}
+
+.tabs__tab > a,
+%tab-label {
+  &:hover {
+    background-color: var(--color-background-alt);
+    color: var(--color-ink-primary-text);
+    text-decoration: none;
+  }
+
+  &:focus {
+    box-shadow: var(--layer-box-shadow-focus-outline);
+    outline: none;
+  }
+}
+
+.tabs__tab.is-active > a,
+.tabs__tab.active > a,
+.tabs__tab.active > a:focus,
+.tabs__tab.is-active > span {
+  background-color: var(--color-ink-accent);
+  cursor: default;
+  pointer-events: none;
+}
+
+// DROPDOWN IN TABS
+
+.tabs__tab.dropdown {
+  max-width: none;
+
+  @include media-breakpoint-down(sm) {
+    margin-left: auto;
+  }
+}
+
+.tabs__tab .dropdown-toggle {
+  --icon: var(--asset-data-image-more);
+
+  background-position: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  width: $tab-height;
+  height: $tab-height;
+}
+
+.tabs__tab .dropdown-menu {
+  left: auto;
+  right: 0;
+}
+
+// PANES
+
+// Hide tabbable panes to start, show them when `.active`
+.tabs__pane {
+  display: none;
+
+  &.active,
+  &.is-active {
+    display: block;
+  }
+}
+// #endregion
+
+// -----------------------------------------------------------------------------
+// LEGACY
+// -----------------------------------------------------------------------------
+// #region
+
+// NAVBAR
+
+.navbar-nav {
+  // margin: 7.5px -15px;
+
+  @include media-breakpoint-up(md) {
+    display: flex;
+    align-items: center;
+    gap: $size-1;
+    // float: left;
+    // margin: 0;
+  }
+}
+
+.navbar-left {
+  @include media-breakpoint-up(md) {
+    float: none;
+  }
+}
+
+.container-fluid {
+  display: flex;
+  padding-right: 0;
+  padding-left: 0;
+}
+
+.container-fluid > .navbar-collapse {
+  @include media-breakpoint-up(md) {
+    margin-left: auto;
+  }
+}
+
+// NAVBAR HEADER
+
+.navbar-header {
+  > h2 {
+    margin: 0 !important;
+    padding: .6rem $size-2 0 0;
+  }
+
+  > h2 > span {
+    margin-left: $size-2;
+    vertical-align: -$size-1;
+  }
+
+  @include media-breakpoint-up(md) {
+    float: none;
+  }
+}
+
+// TABS
+
+.nav-tabs {
+  border-bottom: 0;
+  @include media-breakpoint-up(sm) {
+    display: flex;
+    gap: .4rem;
+  }
+}
+
+.nav-tabs > li {
+  float: none;
+  margin-bottom: 0;
+}
+
+.nav > li > a {
+  @extend %tab-label;
+
+  &:hover,
+  &:focus {
+    background-color: var(--color-background-alt);
+  }
+}
+
+.nav-tabs > li > a {
+  background: transparent;
+  border-radius: var(--shape-border-radius-base);
+  border: 0;
+  line-height: var(--font-line-height-base);
+  margin-right: 0;
+}
+
+// use qualifying selector to override BS
+/* stylelint-disable selector-no-qualifying-type */
+.nav-tabs > li.active > a,
+.nav-tabs > li.active > a:hover,
+.nav-tabs > li.active > a:focus {
+  background-color: var(--color-ink-accent);
+  border: 0;
+  color: var(--color-ink-primary-text);
+  cursor: default;
+  pointer-events: none;
+}
+
+
+// NAVBAR ITEMS
+.navbar li {
+  @include media-breakpoint-up(md) {
+    float: none;
+  }
+}
+
+.navbar-nav > li > a {
+  @extend %tab-label;
+}
+
+// PROFILE EDIT
+
+.tabs__tab.dropdown .is-settings a {
+  .glyphicons-settings {
+    display: none;
+  }
+}
+
+// #endregion

@@ -1,0 +1,101 @@
+[data-tooltip] {
+  --background-color: var(--color-scrim-contrast);
+  --color: var(--color-ink-inverse-max);
+
+  position: relative;
+
+  &:not(a):not(button):not(input):not(label):not(label span) {
+    border-bottom: .1rem dotted var(color-ink-border);
+    cursor: help;
+    text-decoration: none;
+  }
+
+  &::before,
+  &::after {
+    background: var(--background-color);
+    border-radius: var(--shape-border-radius-base);
+    color: var(--color);
+    content: attr(data-tooltip);
+    display: block;
+    font-size: var(--font-size-small);
+    font-style: normal;
+    font-weight: 400;
+    text-transform: none;
+    text-decoration: none;
+    padding: $size-1 $size-1p5;
+    opacity: 0;
+    overflow: hidden;
+    pointer-events: none;
+    position: absolute;
+    bottom: 100%;
+    left: 50%;
+    transform: translate(-50%, -#{$size-half});
+    width: max-content;
+    max-width: var(--size-width-sm);
+    z-index: var(--layer-zindex-tooltip);
+  }
+
+  // Caret
+  &::after {
+    background-color: transparent;
+    border-left: $size-half solid transparent;
+    border-radius: 0;
+    border-right: $size-half solid transparent;
+    border-top: $size-half solid;
+    color: var(--background-color);
+    content: '';
+    padding: 0;
+    transform: translate(-50%, 0);
+  }
+
+  // Display
+  &:focus,
+  &:hover {
+    &::before,
+    &::after {
+      opacity: 1;
+    }
+  }
+
+  // Animations, excluding touch devices
+  @media (hover: hover) and (pointer: fine) {
+    &:focus,
+    &:hover {
+      &::before,
+      &::after {
+        animation-duration: var(--motion-duration-sm);
+        animation-name: slide;
+      }
+
+      &::after {
+        animation-name: slideCaret;
+      }
+    }
+  }
+}
+
+// Animations
+@keyframes slide {
+  from {
+    transform: translate(-50%, #{$size-1p5});
+    opacity: 0;
+  }
+  to {
+    transform: translate(-50%, -#{$size-half});
+    opacity: 1;
+  }
+}
+
+@keyframes slideCaret {
+  from {
+    opacity: 0;
+  }
+  50% {
+    transform: translate(-50%, -#{$size-half});
+    opacity: 0;
+  }
+  to {
+    transform: translate(-50%, 0);
+    opacity: 1;
+  }
+}

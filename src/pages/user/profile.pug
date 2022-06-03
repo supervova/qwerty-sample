@@ -1,0 +1,832 @@
+extends /pages/base/base.pug
+include /pages/base/mixins
+
+//- SETTINGS -------------------------------------------------------------------
+
+append config
+  -
+    const page = {
+      lang: 'ru',
+      title: 'Profile',
+      description: site.description,
+      link: site.url,
+      img: site.img,
+      isClean: true
+    }
+
+//- CONTENT --------------------------------------------------------------------
+
+block content
+
+  script.
+    $(document).ready(function() {
+          userphone = '';
+          if (document.location.href.indexOf('wmprofile.com') != -1) {
+            document.getElementById('notwmprofile').style.display = 'none';
+            document.getElementById('myblogstab').style.display = 'none';
+          } else {
+            const notWmProfile = document.getElementById('notwmprofile');
+            if (notWmProfile) {
+              notWmProfile.style.display = 'block';
+            }
+          }
+          if (document.location.href.indexOf('visitorsale.com') != -1) {
+            document.getElementById('notvs').style.display = 'none';
+            document.getElementById('notificationstab').style.display = 'none';
+            document.getElementById('myblogstab').style.display = 'none';
+          } else {
+            document.getElementById('notvs').style.display = 'block';
+          }
+          if (document.location.href.indexOf('hightech.edu.eu') != -1) {
+            document.getElementById('myblogstab').style.display = 'none';
+            document.getElementById('sitestab').style.display = 'none';
+          }
+          if (document.location.href.indexOf('icg') != -1) {
+            document.getElementById('myblogstab').style.display = 'none';
+            document.getElementById('sitestab').style.display = 'none';
+          }
+          if (document.location.href.indexOf('wmworker.com') != -1) {
+            document.getElementById('myblogstab').style.display = 'none';
+          } else {
+            document.getElementById('wmworkerletters').style.display = 'none';
+          }
+          if (document.location.href.indexOf('worldvet') != -1) {
+            document.getElementById('myblogstab').style.display = 'none';
+            document.getElementById('sitestab').style.display = 'none';
+            document.getElementById('wmworkerletters').style.display = 'none';
+          }
+          document.getElementById("birthdatemonth")
+            .options[10].selected = true;
+          document.getElementById("gender")
+            .options[0].selected = true;
+          document.getElementById('checkip').checked = false;
+          document.getElementById('birthdateshow').checked = false;
+          document.getElementById('hidelocation').checked = false;
+          document.getElementById('notify1').checked = true;
+          document.getElementById('notify2').checked = true;
+          document.getElementById('notify3').checked = true;
+          document.getElementById('notify4').checked = true;
+          document.getElementById('notify5').checked = true;
+          document.getElementById('notify6').checked = true;
+          clienttime = new Date();
+          ClientTimeZoneOffset = -clienttime.getTimezoneOffset() / 60;
+          tinymce.remove();
+          tinymce.init({
+            selector: '#aboutme',
+            skin: 'custom',
+            toolbar: 'undo redo | myimage | ltr rtl',
+            plugins: 'directionality',
+            content_style: 'body { -moz-osx-font-smoothing: grayscale; -webkit-font-smoothing: antialiased; background-color: #fcfcfd; color: #1a2632; font-family: -apple-system, "Helvetica Neue", Roboto, Helvetica, Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji"; font-size: 16px; font-weight: 400; line-height: 24px;  padding-right: 24px; padding-left: 24px; }',
+            invalid_elements: 'style,span,a',
+            statusbar: false,
+            menubar: false,
+            branding: false,
+            remove_script_host: true,
+            relative_urls: false,
+            keep_styles: false,
+          });
+          searchcities('ME');
+          $('#cclist').change(function() {
+            var usercountry = document.getElementById('cclist').value;
+            if (usercountry != 'ME') {
+              document.getElementById('user_region').value = '';
+              document.getElementById('user_region_lng').value = '';
+            } else {
+              document.getElementById('user_region').value = 'Podgorica';
+              document.getElementById('user_region_lng').value = 'Подгорица';
+            }
+            searchcities(usercountry);
+          });
+          mailretry = 0;
+        });
+
+        function resizeFile(file, profilephoto, b64field) {
+          $('#p_prldr').show();
+          var reader = new FileReader();
+          reader.onloadend = function() {
+            var tempImg = new Image();
+            tempImg.src = reader.result;
+            tempImg.onload = function() {
+              var tempW = tempImg.width;
+              var tempH = tempImg.height;
+              imgcrop(this, tempW, tempH, 300, 300, b64field);
+              $(profilephoto).attr('src', $(b64field).val());
+              $(profilephotosmall).attr('src', $(b64field).val());
+              $('#p_prldr').delay(100).fadeOut('slow');
+            }
+          }
+          reader.readAsDataURL(file);
+        }
+
+        function imgcrop(image, tempW, tempH, maxW, maxH, elem) {
+          var sourceX = 0;
+          var sourceY = 0;
+          var destWidth = tempW;
+          var destHeight = tempH;
+          if (tempW > maxW) {
+            var destWidth = maxW;
+            var destHeight = destHeight * (maxW / tempW);
+          }
+          if (destHeight > maxH) {
+            var destWidth = tempW;
+            var destHeight = tempH;
+            var destHeight = maxH;
+            var destWidth = destWidth * (maxH / tempH);
+          }
+          var destX = 0;
+          var destY = 0;
+          var canvas = document.createElement('canvas');
+          canvas.width = destWidth;
+          canvas.height = destHeight;
+          var ctx = canvas.getContext("2d");
+          ctx.fillStyle = "#FFFFFF";
+          ctx.fillRect(0, 0, destWidth, destHeight);
+          ctx.drawImage(image, sourceX, sourceY, tempW, tempH, destX, destY, destWidth, destHeight);
+          var dataURL = canvas.toDataURL("image/jpeg");
+          $(elem).val(dataURL);
+        }
+
+        function showprofilephoto() {
+          var image = $("#PhotoFile");
+          if (image[0].files && image[0].files[0]) {
+            resizeFile(image[0].files[0], $('#profilephoto'), $('#photo_b64'))
+          }
+        }
+
+        function deletephoto() {
+          document.getElementById('profilephoto').src = './images/profile_nophoto.jpg';
+          document.getElementById('profilephotosmall').src = './images/profile_nophoto.jpg';
+          document.getElementById('photo_b64').value = 'delete';
+          document.getElementById('PhotoFile').value = '';
+        }
+
+        function changemail() {
+          document.getElementById('email').disabled = false;
+          document.getElementById('email').focus();
+          document.getElementById('changemaillink').style.display = "none";
+          document.getElementById('savemaillink').style.display = "inline-block";
+        }
+
+        function changephone() {
+          document.getElementById('smscode').value = '';
+          document.getElementById('phone').disabled = false;
+          document.getElementById('phone').focus();
+
+          document.querySelectorAll('[data-role="change-phone"]')
+            .forEach((el) => {
+              el.style.display = "none";
+            });
+
+          document.getElementById('savephonelink').style.display = "inline-block";
+          document.getElementById('phonetext').style.display = "block";
+        }
+
+        function cancelsavemail() {
+          document.getElementById('email').value = "nickysheen@yandex.ru";
+          document.getElementById('email').disabled = true;
+          document.getElementById('changemaillink').style.display = "inline-block";
+          document.getElementById('savemaillink').style.display = "none";
+        }
+
+        function cancelsavephone() {
+          document.getElementById('phone').value = userphone;
+          document.getElementById('smscode').value = '';
+          document.getElementById('phone').disabled = true;
+
+          document.querySelectorAll('[data-role="change-phone"]')
+            .forEach((el) => {
+              el.style.display = "inline-block";
+            });
+
+          document.getElementById('savephonelink').style.display = "none";
+          document.getElementById('phonetext').style.display = "none";
+          document.getElementById('enterconfirmcode').style.display = "none";
+        }
+
+        function savemail() {
+          mailfunc = 'savemail()';
+          mailretry = mailretry + 1;
+          var newmail = document.getElementById('email').value;
+          if (newmail != "nickysheen@yandex.ru" && newmail != '') {
+            document.getElementById('email').disabled = true;
+            document.getElementById('changemaillink').style.display = "none";
+            document.getElementById('savemaillink').style.display = "none";
+            $.post("./savesettings.php", {
+                email: newmail,
+                lng: "ru",
+                mailretry: mailretry,
+                checkID: 1628347653
+              })
+              .done(function(data) {
+                if (data != 'OK') {
+                  document.getElementById('email').value = "nickysheen@yandex.ru";
+                  bootpopup.alert(data, 'Ошибка');
+                } else {
+                  mailmsg(mailretry);
+                }
+                document.getElementById('email').disabled = true;
+                document.getElementById('changemaillink').style.display = "inline-block";
+                document.getElementById('savemaillink').style.display = "none";
+              });
+          } else {
+            document.getElementById('email').disabled = true;
+            document.getElementById('changemaillink').style.display = "inline-block";
+            document.getElementById('savemaillink').style.display = "none";
+          }
+        }
+
+        function savephone() {
+          var newphone = document.getElementById('phone').value;
+          var smscode = document.getElementById('smscode').value;
+          document.getElementById('smscode').value = '';
+          if (newphone != userphone && newphone != '') {
+            document.getElementById('phone').disabled = true;
+
+            document.querySelectorAll('[data-role="change-phone"]')
+              .forEach((el) => {
+                el.style.display = "none";
+              });
+
+            document.getElementById('savephonelink').style.display = "none";
+            document.getElementById('enterconfirmcode').style.display = "none";
+            $.post("./confirmphone.php", {
+                phone: newphone,
+                smscode: smscode,
+                lng: "ru",
+                checkID: 1628347653
+              })
+              .done(function(data) {
+                if (data != 'OK') {
+                  bootpopup.alert(data, 'Ошибка');
+                  if (smscode == '') {
+                    document.getElementById('phone').value = userphone;
+                    document.getElementById('enterconfirmcode').style.display = "none";
+                  } else {
+                    document.getElementById('enterconfirmcode').style.display = "block";
+                  }
+                } else {
+                  if (smscode == '') {
+                    bootpopup.alert('SMS-сообщение с кодом подтверждения будет выслано на Ваш номер телефона.', 'Пожалуйста, обратите внимание');
+                    document.getElementById('enterconfirmcode').style.display = "block";
+                  } else {
+                    userphone = newphone;
+                    bootpopup.alert('Новый номер телефона успешно сохранен', 'Пожалуйста, обратите внимание');
+                  }
+                }
+                document.getElementById('phone').disabled = true;
+
+                document.querySelectorAll('[data-role="change-phone"]')
+                  .forEach((el) => {
+                    el.style.display = "inline-block";
+                  });
+
+                document.getElementById('savephonelink').style.display = "none";
+                document.getElementById('phonetext').style.display = "none";
+              });
+          } else {
+            document.getElementById('phone').disabled = true;
+
+            document.querySelectorAll('[data-role="change-phone"]')
+              .forEach((el) => {
+                el.style.display = "inline-block";
+              });
+
+            document.getElementById('savephonelink').style.display = "none";
+            document.getElementById('enterconfirmcode').style.display = "none";
+            document.getElementById('phonetext').style.display = "none";
+          }
+        }
+
+        function savesettings() {
+          tinymce.get('aboutme').save();
+          $('#', + 'aboutme').html(tinymce.get('aboutme').getContent());
+          var aboutmehtml = $('#aboutme').val();
+          if (aboutmehtml.length > 60000) {
+            bootpopup.alert('Длина текста «Обо мне» должна быть не более 60000 символов! Текущая длина текста - ', + aboutmehtml.length, 'Пожалуйста, обратите внимание');
+            return;
+          }
+          var photo_b64 = document.getElementById('photo_b64').value;
+          var firstname = document.getElementById('firstname').value;
+          var surname = document.getElementById('surname').value;
+          var nickname = document.getElementById('nickname').value;
+          var birthdateday = document.getElementById('birthdateday').value;
+          var birthdatemonth = document.getElementById('birthdatemonth').value;
+          var birthdateyear = document.getElementById('birthdateyear').value;
+          var gender = document.getElementById('gender').value;
+          var userUTC = document.getElementById('userUTC').value;
+          var usercountry = document.getElementById('cclist').value;
+          var user_region = document.getElementById('user_region').value;
+          var user_region_lng = document.getElementById('user_region_lng').value;
+          var oldpwd = document.getElementById('oldpwd').value;
+          var newpwd1 = document.getElementById('newpwd1').value;
+          var newpwd2 = document.getElementById('newpwd2').value;
+          var checkip = document.getElementById('checkip').checked;
+          var birthdateshow = document.getElementById('birthdateshow').checked;
+          var hidelocation = document.getElementById('hidelocation').checked;
+          var notify1 = document.getElementById('notify1').checked;
+          var notify2 = document.getElementById('notify2').checked;
+          var notify3 = document.getElementById('notify3').checked;
+          var notify4 = document.getElementById('notify4').checked;
+          var notify5 = document.getElementById('notify5').checked;
+          var notify6 = document.getElementById('notify6').checked;
+          $('#p_prldr').show();
+          $.post("./savesettings.php", {
+              photo_b64: photo_b64,
+              firstname: firstname,
+              surname: surname,
+              nickname: nickname,
+              gender: gender,
+              birthdateday: birthdateday,
+              birthdatemonth: birthdatemonth,
+              birthdateyear: birthdateyear,
+              userUTC: userUTC,
+              usercountry: usercountry,
+              user_region: user_region,
+              user_region_lng: user_region_lng,
+              oldpwd: oldpwd,
+              newpwd1: newpwd1,
+              newpwd2: newpwd2,
+              checkip: checkip,
+              birthdateshow: birthdateshow,
+              hidelocation: hidelocation,
+              aboutmehtml: aboutmehtml,
+              notify1: notify1,
+              notify2: notify2,
+              notify3: notify3,
+              notify4: notify4,
+              notify5: notify5,
+              notify6: notify6,
+              lng: "ru",
+              checkID: 1628347653
+            })
+            .done(function(data) {
+              $('#p_prldr').delay(100).fadeOut('slow');
+              if (data != 'OK') {
+                bootpopup.alert(data, 'Ошибка');
+              } else {
+                window.scrollTo(0, 0);
+                $.toast({
+                  text: 'Успешно сохранено!',
+                  textAlign: 'center',
+                  position: 'mid-center',
+                  icon: 'success',
+                  showHideTransition: 'fade',
+                  hideAfter: 3000,
+                  loader: true,
+                  stack: 5
+                });
+              }
+            });
+        }
+
+        function addblog() {
+          $('#addblogform').modal('show');
+        }
+
+        function showaddress(LastKeyCode) {
+          if (LastKeyCode != 13) {
+            var newblog = document.getElementById('blogname').value;
+            document.getElementById("message").innerHTML = '';
+            if (newblog != '') {
+              fontpt = 20;
+              if (newblog.length > 5) fontpt = 16;
+              if (newblog.length > 10) fontpt = 14;
+              if (newblog.length > 13) fontpt = 12;
+              if (newblog.length > 17) fontpt = 10;
+              if (newblog.length > 24) fontpt = 8;
+              document.getElementById('newaddress').innerHTML = '<span style="font-family: Courier; font-size: ', + fontpt + 'px; color: var(--color-ink-base);">', + newblog + '.qwerty.blog</span>';
+            } else {
+              document.getElementById('newaddress').innerHTML = '';
+            }
+          }
+        }
+
+        function regblog() {
+          var newblog = document.getElementById('blogname').value;
+          if (newblog != '') {
+            $('#p_prldr').show();
+            $.post("register.php", {
+                blogname: newblog,
+                lng: "ru",
+                checkID: 1628347653,
+                userUTC: ClientTimeZoneOffset
+              })
+              .done(function(data) {
+                if (data.indexOf(newblog) + 1) {
+                  location.href = data;
+                } else {
+                  $('#p_prldr').delay(100).fadeOut('slow');
+                  document.getElementById("message").innerHTML = '<font color="red">', + data + '</font>';
+                  document.getElementById('newaddress').innerHTML = '';
+                }
+              });
+          }
+        }
+
+        function mailcountdown(stopsec) {
+          var seconds = parseInt(new Date().getTime() / 1000);
+          showsec = stopsec - seconds;
+          if (showsec <= 0 || stopsend == 1) {
+            $('#waitsend').hide();
+            if (mailretry > 1) {
+              $('#difemail').show();
+            }
+            if (mailretry > 2) {
+              $('#resend').hide();
+            } else {
+              $('#resend').show();
+            }
+            return;
+          }
+          $('#waitsec').html(showsec);
+          timer = setTimeout(function() {
+            mailcountdown(stopsec);
+          }, 1000);
+        }
+
+        function mailmsg(argretry) {
+          if (argretry == 0) {
+            mailretry = argretry;
+            stopsend = 1;
+            $('#sended').hide();
+          } else {
+            $('#difemail').hide();
+            stopsend = 0;
+            showsec = 60;
+            $('#waitsec').html(showsec);
+            $('#resend').hide();
+            $('#waitsend').show();
+            $('#sended').show();
+            var seconds = parseInt(new Date().getTime() / 1000) + showsec;
+            mailcountdown(seconds);
+          }
+        }
+
+  h1.sr-only Настройки профиля
+  .tabs
+
+    ul.tabs__tablist
+      li.tabs__tab.active
+        a(href='#Generalsettings', data-toggle='tab', aria-expanded='false') Персональные настройки
+      li.tabs__tab#notificationstab
+        a(href='#notifications', data-toggle='tab', aria-expanded='false') Уведомления
+      li.tabs__tab
+        a(href='#accesslog', data-toggle='tab', aria-expanded='true') Журнал доступа
+
+    .tabs__content
+
+      //-  GENERAL
+      section.tabs__pane.active#Generalsettings
+        h2 Персональные настройки
+        form.form(action='javascript:void(0);')
+          fieldset.form__fieldset.is-user-overview
+            legend.form__legend Фото профиля (аватар):
+            figure.avatar.is-large
+              img#profilephoto(src='./images/profile_nophoto.jpg', alt)
+            .form__row#selectfile
+              button.btn(onclick='$(\'#PhotoFile\').click()') Изменить фотографию
+              br
+              input#PhotoFile(type='file', name='PhotoFile', onchange='showprofilephoto();', style='display: none')
+              input#photo_b64(type='hidden', name='photo_b64')
+              a(href='javascript:void(0)', onclick='deletephoto();') Удалить фото профиля
+
+          fieldset.form__fieldset
+            legend.form__legend Общие параметры:
+
+            .form__row
+              .form__item
+                label(for='firstname') Ваше Имя:
+                input#firstname(name='firstname', type='text', value='Vladimir', placeholder='Обязательное поле', style='background-image: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR4nGP6zwAAAgcBApocMXEAAAAASUVORK5CYII=");')
+              .form__item
+                label(for='surname') Фамилия:
+                input#surname(name='surname', type='text', value='Nikishin', placeholder='Обязательное поле')
+
+            .form__item
+              label(for='nickname') Псевдоним:
+              input.w-auto#nickname(type='text', name='nickname')
+              .form__hint Если псевдоним не указан, то все Ваши сообщения будут подписаны вашим именем.
+
+            .form__item
+              label(for='gender') Пол:
+              select.w-auto#gender(name='gender')
+                option(value='m') мужской
+                option(value='f') женский
+                option(value='n') не выбран
+
+            .form__item.has-addon
+              label(for='birthdateday') Дата рождения:
+              .form__row
+                input#birthdateday(type='text', name='birthdateday', value='31')
+                select.w-auto#birthdatemonth(name='birthdatemonth')
+                  option(value='0') Месяц
+                  option(value='1') Январь
+                  option(value='2') Февраль
+                  option(value='3') Март
+                  option(value='4') Апрель
+                  option(value='5') Май
+                  option(value='6') Июнь
+                  option(value='7') Июль
+                  option(value='8') Август
+                  option(value='9') Сентябрь
+                  option(value='10') Октябрь
+                  option(value='11') Ноябрь
+                  option(value='12') Декабрь
+                input#birthdateyear(name='birthdateyear', type='text', value='1970')
+
+            label.form__item.has-option
+              input#birthdateshow(type='checkbox', name='birthdateshow')
+              | Скрывать свою дату рождения
+
+            .form__item
+              label(for='userUTC') Часовой пояс:
+              select#userUTC.form-control(name='userUTC')
+                option(value='-11') (UTC-11) Alofi
+                option(value='-10') (UTC-10) Avarua, Aitutaki, Honolulu, Mililani, Kapolei, Papeete, Bora-Bora, Maupiti
+                option(value='-7') (UTC-7) Hermosillo, Puerto Penasco, Nogales
+
+            .form__row.has-addon
+              .form__item
+                label(for='cclist') Страна:
+                select#cclist.form-control(name='cclist', onchange='getnew()')
+                  option(value) Не выбрано
+                  option(value='AU') Австралия
+                  option(value='AT') Австрия
+
+              .form__item
+                label(for='user_region_lng') Город:
+                .typeahead__container
+                  .typeahead__field
+                    span.typeahead__query
+                      input#user_region_lng(name='user_region_lng', type='text', value='Подгорица', placeholder='Поиск города...', autocomplete='off', onchange='checkregion()')
+                input#user_region(type='hidden', name='user_region', value='Podgorica')
+            label.form__item.has-option
+              input#hidelocation(name='hidelocation', type='checkbox')
+              | Скрывать местонахождение
+
+          fieldset.form__fieldset#notvs(style='display: block;')
+            legend.form__legend Несколько слов о себе:
+            small Этот блок будет опубликован на вашей странице:
+            #mceu_8.mce-tinymce.mce-container.mce-panel(hidefocus='1', tabindex='-1', role='application', style='visibility: hidden; border-width: 1px; width: 100%;')
+              #mceu_8-body.mce-container-body.mce-stack-layout
+                #mceu_9.mce-top-part.mce-container.mce-stack-layout-item.mce-first
+                  #mceu_9-body.mce-container-body
+                    #mceu_10.mce-toolbar-grp.mce-container.mce-panel.mce-first.mce-last(hidefocus='1', tabindex='-1', role='group')
+                      #mceu_10-body.mce-container-body.mce-stack-layout
+                        #mceu_11.mce-container.mce-toolbar.mce-stack-layout-item.mce-first.mce-last(role='toolbar')
+                          #mceu_11-body.mce-container-body.mce-flow-layout
+                            #mceu_12.mce-container.mce-flow-layout-item.mce-first.mce-btn-group(role='group')
+                              #mceu_12-body
+                                #mceu_0.mce-widget.mce-btn.mce-first.mce-disabled(tabindex='-1', role='button', aria-label='Undo', aria-disabled='true')
+                                  button#mceu_0-button(role='presentation', type='button', tabindex='-1')
+                                    i.mce-ico.mce-i-undo
+                                #mceu_1.mce-widget.mce-btn.mce-last.mce-disabled(tabindex='-1', role='button', aria-label='Redo', aria-disabled='true')
+                                  button#mceu_1-button(role='presentation', type='button', tabindex='-1')
+                                    i.mce-ico.mce-i-redo
+                            #mceu_13.mce-container.mce-flow-layout-item.mce-btn-group(role='group')
+                              #mceu_13-body
+                                #mceu_2.mce-widget.mce-btn.mce-first.mce-last(tabindex='-1', role='button', aria-label='Emoticons', aria-haspopup='true')
+                                  button#mceu_2-button(role='presentation', type='button', tabindex='-1')
+                                    i.mce-ico.mce-i-emoticons
+                            #mceu_14.mce-container.mce-flow-layout-item.mce-btn-group(role='group')
+                              #mceu_14-body
+                                #mceu_3.mce-widget.mce-btn.mce-first(tabindex='-1', aria-pressed='false', role='button', aria-label='Insert/edit link')
+                                  button#mceu_3-button(role='presentation', type='button', tabindex='-1')
+                                    i.mce-ico.mce-i-link
+                                #mceu_4.mce-widget.mce-btn(tabindex='-1', aria-pressed='false', role='button', aria-label='Insert/edit image')
+                                  button#mceu_4-button(role='presentation', type='button', tabindex='-1')
+                                    i.mce-ico.mce-i-image
+                                #mceu_5.mce-widget.mce-btn.mce-last(tabindex='-1', aria-pressed='false', role='button', aria-label='Insert/edit media')
+                                  button#mceu_5-button(role='presentation', type='button', tabindex='-1')
+                                    i.mce-ico.mce-i-media
+                            #mceu_15.mce-container.mce-flow-layout-item.mce-last.mce-btn-group(role='group')
+                              #mceu_15-body
+                                #mceu_6.mce-widget.mce-btn.mce-first(tabindex='-1', aria-pressed='false', role='button', aria-label='Left to right')
+                                  button#mceu_6-button(role='presentation', type='button', tabindex='-1')
+                                    i.mce-ico.mce-i-ltr
+                                #mceu_7.mce-widget.mce-btn.mce-last(tabindex='-1', aria-pressed='false', role='button', aria-label='Right to left')
+                                  button#mceu_7-button(role='presentation', type='button', tabindex='-1')
+                                    i.mce-ico.mce-i-rtl
+                #mceu_16.mce-edit-area.mce-container.mce-panel.mce-stack-layout-item.mce-last(hidefocus='1', tabindex='-1', role='group', style='border-width: 1px 0px 0px;')
+                  iframe#aboutme_ifr(frameborder='0', allowtransparency='true', title='Текстовое поле. Нажмите ALT-F9 чтобы вызвать меню, ALT-F10 панель инструментов, ALT-0 для вызова помощи.', style='width: 100%; height: 100px; display: block;')
+            textarea#aboutme(style='display: none;', aria-hidden='true')
+
+          fieldset.form__fieldset
+            legend.form__legend Настройки безопасности:
+            .form__item
+              label(for='email')
+                span.nottranslate E-Mail:
+              .form__row
+                input#email(name='email', type='text', value='nickysheen@yandex.ru', disabled)
+                #changemaillink
+                  a.btn(href='javascript:void(0);', onclick='changemail();') Изменить
+                .form__row#savemaillink(style='display: none;')
+                  a.btn(href='javascript:void(0);', onclick='savemail();') Сохранить изменения
+                  a.btn(href='javascript:void(0);', onclick='cancelsavemail();') Отменить изменения
+
+            .form__item
+              label(for='phone') Номер телефона:
+              .form__row
+                input#phone(name='phone' type='text' disabled)
+                a.btn(href='javascript:void(0);' onclick='changephone();' data-role='change-phone') Изменить
+                .form__row#savephonelink(style='display: none')
+                  a.btn(href='javascript:void(0);' onclick='savephone();') Отправить SMS
+                  a.btn(href='javascript:void(0);' onclick='cancelsavephone();') Отменить изменения
+              .form__hint#phonetext(style='display: none;') Введите номер мобильного телефона в международном формате (начиная с "+")
+
+            .form__item#enterconfirmcode(style='display: none;')
+              label(for='smscode') SMS-код:
+              .form__row
+                input#smscode(name='smscode' type='text')
+                .form__row(data-role='change-phone')
+                  a.btn(href='javascript:void(0);' onclick='savephone();') Проверить и сохранить
+                  a.btn(href='javascript:void(0);' onclick='cancelsavephone();') Отменить изменения
+
+          .alert.is-info(role='alert')
+            strong Свяжите свой аккаунт с мессенджером!
+            |
+            span Получать важные уведомления через мессенджер - это удобно! Кроме того, вы можете общаться с искусственным интеллектом Qwerty Networks, узнавать у него информацию о погоде и просить вас напоминать вам о важных вещах или делах. Чтобы связать свою учетную запись с Telegram, отправьте следующий код из вашего мессенджера:
+            h2 CODE320939
+            | Следующим ботам:
+
+            ul.nottranslate.list.is-unstyled
+              li Telegram -
+                a(href='https://t.me/QwertyAIbot', target='_blank') https://t.me/QwertyAIbot
+                |  (@QwertyAIbot)
+              li Viber -
+                a(href='https://qwertynetworks.com/l/QwertyAI', target='_blank') http://qwertynetworks.com/l/QwertyAI
+            small *
+              span ссылка должна быть открыта в браузере вашего мобильного устройства
+            br
+            small **
+              span вы можете подключить один или несколько мессенджеров.
+
+          fieldset.form__fieldset
+            legend.form__legend Смена пароля
+            .form__item
+              label(for='oldpwd') Старый пароль
+              input#oldpwd(type='password', name='oldpwd')
+            .form__item
+              label(for='newpwd1') Новый пароль:
+              input#newpwd1(name='newpwd1', type='password')
+            .form__item
+              label(for='newpwd2') Повторите пароль:
+              input#newpwd2(name='newpwd2', type='password')
+
+            label.form__item.has-option
+              input#checkip(name='checkip', type='checkbox')
+              span Требовать пароль при изменении
+              span.nottranslate  IP
+
+          .form__advanced-option.is-facebook
+            a(href='/oauthfb') Нажмите здесь, чтобы связать Ваш аккаунт с аккаунтом в Facebook
+
+      //-  NOTIFICATIONS
+      section.tabs__pane#notifications
+        h2 Настройки уведомлений
+        ul.list.is-unstyled.is-compact
+          li
+            label.form__item.has-option
+              input#notify1(type='checkbox', name='notify1')
+              | Системные уведомления
+
+          li
+            label.form__item.has-option
+              input#notify2(name='notify2', type='checkbox')
+              | Уведомить о новых комментариях к моим сообщениям
+
+          li
+            label.form__item.has-option
+              input#notify3(name='notify3', type='checkbox')
+              | Уведомлять о новых ответах на мои комментарии
+
+          li
+            label.form__item.has-option
+              input#notify4(name='notify4', type='checkbox')
+              | Уведомлять о новых личных сообщениях
+
+          li
+            label.form__item.has-option#wmworkerletters(style='display: none;')
+              input#notify5(name='notify5', type='checkbox')
+              span Я согласен получать письма, за которые мне платят
+              span.nottranslate.nobr (wmworker.com - 0,03 WMC / 1 email)
+          li
+            label.form__item.has-option
+              input#notify6(name='notify6', type='checkbox')
+              | Важные критические уведомления
+
+      //-  LOG
+      section.tabs__pane#accesslog
+        h2 Журнал доступа
+        table.table.is-zebra
+          thead
+            tr
+              th Последний доступ
+              th Первый доступ
+              th IP
+              th Страна
+              th Области
+              th Браузер (ОС)
+          tbody
+            tr
+              td 2021-08-07 16:47:23
+              td 2021-07-30 22:21:18
+              td 79.140.150.88
+              td ME
+              td
+              td Chrome 0.0 (MacOSX)
+
+            tr
+              td 2021-08-06 18:06:58
+              td 2021-08-06 15:48:17
+              td 79.140.150.233
+              td ME
+              td
+              td Chrome 0.0 (MacOSX)
+
+            tr
+              td 2021-08-06 13:24:13
+              td 2021-08-02 10:13:21
+              td 95.155.62.151
+              td ME
+              td Podgorica
+              td Chrome 0.0 (MacOSX)
+
+            tr
+              td 2021-08-05 20:11:37
+              td 2021-08-04 20:46:10
+              td 79.140.150.72
+              td ME
+              td
+              td Chrome 0.0 (MacOSX)
+
+            tr
+              td 2021-08-05 17:47:29
+              td 2021-08-05 09:46:36
+              td 79.140.150.9
+              td ME
+              td
+              td Chrome 0.0 (MacOSX)
+
+            tr
+              td 2021-08-04 08:12:58
+              td 2021-08-04 07:46:44
+              td 79.140.150.103
+              td ME
+              td
+              td Chrome 0.0 (MacOSX)
+
+            tr
+              td 2021-08-03 21:58:14
+              td 2021-08-03 20:14:36
+              td 79.140.150.197
+              td ME
+              td Podgorica
+              td Chrome 0.0 (MacOSX)
+
+            tr
+              td 2021-08-02 07:07:54
+              td 2021-08-01 16:51:23
+              td 79.140.150.221
+              td ME
+              td Podgorica
+              td Chrome 0.0 (MacOSX)
+
+            tr
+              td 2021-08-01 13:04:11
+              td 2021-08-01 12:27:07
+              td 79.140.150.198
+              td ME
+              td Podgorica
+              td Chrome 0.0 (MacOSX)
+
+            tr
+              td 2021-07-31 20:45:17
+              td 2021-06-12 09:29:35
+              td 79.140.150.248
+              td ME
+              td
+              td Chrome 0.0 (MacOSX)
+
+  button.btn.is-primary#savebutton(type='button', onclick='savesettings();').
+    Сохранить настройки
+
+  .dm-overlay#sended(role='dialog')
+    .dm-table
+      .dm-cell
+        .dm-modal
+          h2 Пожалуйста, обратите внимание
+          .alert.alert-success(role='alert')
+            p Мы отправили вам ссылку для подтверждения вашего адреса электронной почты.
+            p Не забудьте проверить папку «Спам». Если сообщение попало в эту папку, нажмите «Не спам! ".
+          p Если вы не получили электронное письмо со ссылкой на активацию в течение следующей минуты, нажмите здесь:
+          #waitsend
+            h4
+              | Пожалуйста, подождите
+              span#waitsec
+              |  сек.
+          .alert.alert-info#difemail(role='alert').
+            Если эта попытка также не удалась, мы рекомендуем использовать другой адрес электронной почты для регистрации.
+
+          #resend
+            button.btn.btn-info(onclick='eval(mailfunc);') Отправить через другой сервер
+            button.btn(onclick='mailmsg(0)') Близко
