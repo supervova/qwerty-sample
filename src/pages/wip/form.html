@@ -1,0 +1,176 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <!-- TODO: таблица и форма -->
+  <meta charset="utf-8">
+  <title>Form</title>
+  <meta name="description" content="">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="../../css/theme.css">
+  <style>
+
+    body:hover {
+      background: transparent url('data:image/svg+xml;charset=UTF-8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%228%22%20height%3D%2224%22%20viewBox%3D%220%200%208%2024%22%3E%3Cg%20fill%3D%22none%22%20fill-rule%3D%22evenodd%22%3E%3Crect%20width%3D%228%22%20height%3D%221%22%20y%3D%2223%22%20fill%3D%22%23000%22%20fill-opacity%3D%22.24%22%2F%3E%3Crect%20width%3D%228%22%20height%3D%221%22%20y%3D%2215%22%20fill%3D%22%23F0F%22%20fill-opacity%3D%22.12%22%2F%3E%3Crect%20width%3D%228%22%20height%3D%221%22%20y%3D%227%22%20fill%3D%22%23F0F%22%20fill-opacity%3D%22.12%22%2F%3E%3C%2Fg%3E%3C%2Fsvg%3E') repeat;
+    }
+
+    /* Main content container */
+    .article {
+      text-align: left;
+      padding: 0 1.6rem;
+    }
+
+    @media only screen and (min-width: 768px) {
+      .article {
+        margin: 0 auto;
+        max-width: 70ch;
+      }
+    }
+
+    p:hover {
+      background: hsla(240, 100%, 50%, .24);
+    }
+
+    label.has-option:hover {
+      background: hsla(240, 100%, 50%, .24);
+    }
+
+    body:hover input {
+      background: rgba(255, 255, 255, .5);
+      box-shadow: inset 0 0 0 1px rgba(0, 0, 0, .12);
+    }
+
+    @media only screen and (max-width: 568px) {
+      body {
+        background: transparent url('data:image/svg+xml;charset=UTF-8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%228%22%20height%3D%2224%22%20viewBox%3D%220%200%208%2024%22%3E%3Cg%20fill%3D%22none%22%20fill-rule%3D%22evenodd%22%3E%3Crect%20width%3D%228%22%20height%3D%221%22%20y%3D%2223%22%20fill%3D%22%23000%22%20fill-opacity%3D%22.24%22%2F%3E%3Crect%20width%3D%228%22%20height%3D%221%22%20y%3D%2215%22%20fill%3D%22%23F0F%22%20fill-opacity%3D%22.12%22%2F%3E%3Crect%20width%3D%228%22%20height%3D%221%22%20y%3D%227%22%20fill%3D%22%23F0F%22%20fill-opacity%3D%22.12%22%2F%3E%3C%2Fg%3E%3C%2Fsvg%3E') repeat;
+      }
+
+      .d-xs-none {
+        display: none;
+      }
+    }
+
+  </style>
+</head>
+
+<body>
+
+  <article class="article">
+
+    <h2>Обратная связь</h2>
+    <p class="note">Напишите нам или оставьте номер — свяжемся</p>
+
+    <form action="/" method="post">
+
+      <div class="form__row">
+
+        <div class="form__item">
+          <label for="firstname">First name</label>
+          <input type="text" id="firstname" name="firstname" placeholder="First name" required>
+        </div>
+
+        <div class="form__item">
+          <label for="lastname">Last name</label>
+          <input type="text" id="lastname" name="lastname" placeholder="Last name" required>
+        </div>
+
+      </div>
+
+      <div class="form__item">
+        <label for="email">Email address</label>
+        <input type="email" id="email" name="email" placeholder="Email address" required>
+        <p class="form__hint">We'll never share your email with anyone else.</p>
+      </div>
+
+      <!-- Select -->
+      <div class="form__item">
+        <label for="fruit">Fruit</label>
+        <select id="fruit" required>
+          <option value="" selected>Select a fruit…</option>
+          <option>…</option>
+        </select>
+      </div>
+
+      <!-- Radios -->
+      <fieldset>
+        <legend>Size</legend>
+        <label class="form__item has-option" for="small">
+          <input type="radio" id="small" name="size" value="small" checked>
+          Small
+        </label>
+        <label class="form__item has-option" for="medium">
+          <input type="radio" id="medium" name="size" value="medium">
+          Medium
+        </label>
+        <label class="form__item has-option" for="large">
+          <input type="radio" id="large" name="size" value="large">
+          Large
+        </label>
+        <label class="form__item has-option" for="extralarge">
+          <input type="radio" id="extralarge" name="size" value="extralarge" disabled>
+          Extra Large
+        </label>
+      </fieldset>
+
+      <!-- Checkboxes -->
+      <fieldset>
+        <label class="form__item has-option" for="terms">
+          <input type="checkbox" id="terms" name="terms">
+          I agree to the Terms and Conditions
+        </label>
+        <label class="form__item has-option" for="terms_sharing">
+          <input type="checkbox" id="terms_sharing" name="terms_sharing" disabled checked>
+          I agree to share my information with partners
+        </label>
+      </fieldset>
+
+      <!-- Switches -->
+      <fieldset>
+        <label class="form__item has-switch" for="switch">
+          <input type="checkbox" id="switch" name="switch" role="switch">
+          Publish on my profile
+        </label>
+      </fieldset>
+
+      <div class="mb-1">
+        <input id="volume" name="volume" type="range" min="0" max="12">
+      </div>
+
+      <!-- States -->
+      <div class="form__item">
+        <input type="text" placeholder="Valid" aria-invalid="false">
+      </div>
+
+      <div class="form__item">
+        <input type="text" placeholder="Invalid" aria-invalid="true">
+      </div>
+
+      <div class="form__item">
+        <input type="text" placeholder="Disabled" disabled>
+      </div>
+
+      <div class="form__item">
+        <input type="text" value="Readonly" readonly>
+      </div>
+
+      <label class="form__item has-option mb-2s" data-tooltip="Hidden comments are available only to the author of the publication and you.">
+        <input id="form-mailchimp-mailchimp-signup" type="checkbox" name="submitted[form_mailchimp][mailchimp_signup]" value="1" checked="">
+        Подписаться на блог о PR и event-менеджменте
+      </label>
+
+      <div class="mb-2">
+        <input type="checkbox" role="switch">
+      </div>
+
+      <div class="form__actions">
+        <input class="btn is-primary" type="submit" name="op" value="Отправить">
+      </div>
+
+      <p class="form__hint">Нажимая на кнопку, вы даете<br><a href="/ru/company/privacy-policy#consent" target="_blank">согласие на обработку своих персональных данных</a></p>
+
+    </form>
+
+  </article>
+
+</body>
+
+</html>

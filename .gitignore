@@ -16,6 +16,8 @@ templates/*~.tpl
 *.css
 !css/project.css
 *.html
+!src/pages/wip/form.html
+!src/pages/wip/rhythm.html
 
 # Misc
 sitemap.xml
