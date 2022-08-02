@@ -1,0 +1,14 @@
+  <!--googleoff: all-->
+  <!--noindex-->
+  <noscript>
+    <div class="alert is-warning is-global" role="alert">
+      <p>
+        {% include "base/icon.twig" with { name: "warning" } %}
+        {% apply trans|raw %}
+          JavaScript is currently disabled. The site requires JavaScript to function correctly. Please <a href="http://enable-javascript.com/" target="_blank" rel="noopener noreferrer nofollow">enable Javascript in your browser</a>.
+        {% endapply %}
+      </p>
+    </div>
+  </noscript>
+  <!--/noindex-->
+  <!--googleon: all-->

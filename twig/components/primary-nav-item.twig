@@ -1,0 +1,18 @@
+<li class="
+  {% if dropdown %}dropdown__item{% else %}menu__item{% endif %}
+  {% if item_class %}{{ item_class }}{% endif %}
+"
+role="none"
+>
+  <a
+    class="
+      {% if dropdown %}dropdown__link{% else %}menu__link{% endif %}
+      {% if link_class %} {{ link_class }}{% endif %}
+    "
+    href="{{ link }}"
+    role="menuitem"
+  >
+    {% include "base/icon.twig" with { name: icon } %}
+    <span class="label">{{ label|trans }}</span>
+  </a>
+</li>

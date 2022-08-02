@@ -1,0 +1,596 @@
+
+{% extends "clean_page.twig" %}
+
+{% block config %}
+  {{ parent() }}
+
+  {% set ExtraData = ExtraData|merge(
+    {
+      title: "Тестовая страница",
+      is_dev: true
+    }
+  ) %}
+
+  {% if not user %}{% set user = 1 %}{% endif %}
+{% endblock %}
+
+{# MAIN CONTENT ------------------------------------------------------------- #}
+{% block content %}
+
+  <h1 class="sr-only">Новая публикация</h1>
+  <div class="tabs">
+    <ul class="tabs__tablist pt-2 pb-1" role="tablist">
+      <li class="tabs__tab active" role="presentation">
+        <a href="#Mypost" role="tab" data-toggle="tab">Мой пост</a>
+      </li>
+      <li class="tabs__tab" role="presentation">
+        <a href="#Mypictures" role="tab" data-toggle="tab">Мои фотографии</a>
+      </li>
+    </ul>
+    <div class="tabs__content">
+      <div class="tabs__pane active" id="Mypost">
+        <h2 class="sr-only">Редактировать пост</h2>
+        <form action="javascript:void(0);">
+          <!-- TITLE -->
+          <div class="form__item" id="titlediv">
+            <label class="sr-only" for="posttitle">Название</label>
+            <input class="form__input is-lg" id="posttitle" name="posttitle" type="text" value="" placeholder="Название вашего поста">
+          </div>
+          <!-- PRICE -->
+          <fieldset id="pricediv" style="display: none">
+            <div class="form__item">
+              <label for="price">Цена продажи:</label>
+              <input id="price" name="price" type="number" step="0.01" min="0" placeholder="0,00" value="" onkeyup="this.value = this.value.replace(/[^0-9\.]/g, '')">
+            </div>
+            <div class="form__item">
+              <select name="usercurr" id="usercurr">
+                <option value="AUD">Australian Dollar</option>
+                <option value="BGN">Български лев</option>
+                <option value="BRL">Moeda brasileira</option>
+                <option value="BTC">Bitcoin</option>
+                <option value="BYN">Беларускі рубель</option>
+                <option value="CAD">Canadian Dollar</option>
+                <option value="CHF">Swiss franc</option>
+                <option value="CNY">中國元</option>
+                <option value="CZK">Česká Koruna</option>
+                <option value="DKK">Danske kroner</option>
+                <option value="EUR" selected="">Euro</option>
+                <option value="GBP">Pound sterling</option>
+                <option value="HKD">港元</option>
+                <option value="HRK">Kuna</option>
+                <option value="HUF">Forint</option>
+                <option value="IDR">Rupee</option>
+                <option value="ILS">שקל</option>
+                <option value="INR">Indian rupee</option>
+                <option value="ISK">Icelandic krone</option>
+                <option value="JPY">円</option>
+                <option value="KRW">원</option>
+                <option value="MXN">Peso mejicano</option>
+                <option value="MYR">Ringgit Malaysia</option>
+                <option value="NOK">Norske kroner</option>
+                <option value="NZD">New Zealand Dollar</option>
+                <option value="PHP">Philippine Peso</option>
+                <option value="PLN">Zloty</option>
+                <option value="RON">Lei</option>
+                <option value="RUB">Российский рубль</option>
+                <option value="SEK">Svenska kronor</option>
+                <option value="SGD">Singapore Dollar</option>
+                <option value="THB">ค้างคาว</option>
+                <option value="TRY">Lyra</option>
+                <option value="UAH">Українська гривня</option>
+                <option value="USD">US Dollar</option>
+                <option value="WMC">WMProfile Credits</option>
+                <option value="ZAR">Rand</option>
+              </select>
+            </div>
+          </fieldset>
+          <!-- BODY -->
+          <fieldset>
+            <label class="sr-only" for="editor">Расскажи свою историю...</label>
+            <div id="mceu_23" class="mce-tinymce mce-container mce-panel" hidefocus="1" tabindex="-1" role="application" style="visibility: hidden; border-width: 1px; width: 100%;"><div id="mceu_23-body" class="mce-container-body mce-stack-layout"><div id="mceu_24" class="mce-top-part mce-container mce-stack-layout-item mce-first"><div id="mceu_24-body" class="mce-container-body"><div id="mceu_25" class="mce-container mce-menubar mce-toolbar mce-first" role="menubar" style="border-width: 0px 0px 1px;"><div id="mceu_25-body" class="mce-container-body mce-flow-layout"><div id="mceu_26" class="mce-widget mce-btn mce-menubtn mce-flow-layout-item mce-first mce-btn-has-text" tabindex="-1" aria-labelledby="mceu_26" role="menuitem" aria-haspopup="true"><button id="mceu_26-open" role="presentation" type="button" tabindex="-1"><span class="mce-txt">Файл</span> <i class="mce-caret"></i></button></div><div id="mceu_27" class="mce-widget mce-btn mce-menubtn mce-flow-layout-item mce-btn-has-text" tabindex="-1" aria-labelledby="mceu_27" role="menuitem" aria-haspopup="true"><button id="mceu_27-open" role="presentation" type="button" tabindex="-1"><span class="mce-txt">Изменить</span> <i class="mce-caret"></i></button></div><div id="mceu_28" class="mce-widget mce-btn mce-menubtn mce-flow-layout-item mce-btn-has-text" tabindex="-1" aria-labelledby="mceu_28" role="menuitem" aria-haspopup="true"><button id="mceu_28-open" role="presentation" type="button" tabindex="-1"><span class="mce-txt">Вид</span> <i class="mce-caret"></i></button></div><div id="mceu_29" class="mce-widget mce-btn mce-menubtn mce-flow-layout-item mce-btn-has-text" tabindex="-1" aria-labelledby="mceu_29" role="menuitem" aria-haspopup="true"><button id="mceu_29-open" role="presentation" type="button" tabindex="-1"><span class="mce-txt">Вставить</span> <i class="mce-caret"></i></button></div><div id="mceu_30" class="mce-widget mce-btn mce-menubtn mce-flow-layout-item mce-btn-has-text" tabindex="-1" aria-labelledby="mceu_30" role="menuitem" aria-haspopup="true"><button id="mceu_30-open" role="presentation" type="button" tabindex="-1"><span class="mce-txt">Формат</span> <i class="mce-caret"></i></button></div><div id="mceu_31" class="mce-widget mce-btn mce-menubtn mce-flow-layout-item mce-btn-has-text" tabindex="-1" aria-labelledby="mceu_31" role="menuitem" aria-haspopup="true"><button id="mceu_31-open" role="presentation" type="button" tabindex="-1"><span class="mce-txt">Инструменты</span> <i class="mce-caret"></i></button></div><div id="mceu_32" class="mce-widget mce-btn mce-menubtn mce-flow-layout-item mce-last mce-btn-has-text" tabindex="-1" aria-labelledby="mceu_32" role="menuitem" aria-haspopup="true"><button id="mceu_32-open" role="presentation" type="button" tabindex="-1"><span class="mce-txt">Таблица</span> <i class="mce-caret"></i></button></div></div></div><div id="mceu_33" class="mce-toolbar-grp mce-container mce-panel mce-last" hidefocus="1" tabindex="-1" role="group"><div id="mceu_33-body" class="mce-container-body mce-stack-layout"><div id="mceu_34" class="mce-container mce-toolbar mce-stack-layout-item mce-first mce-last" role="toolbar"><div id="mceu_34-body" class="mce-container-body mce-flow-layout"><div id="mceu_35" class="mce-container mce-flow-layout-item mce-first mce-btn-group" role="group"><div id="mceu_35-body"><div id="mceu_0" class="mce-widget mce-btn mce-first mce-last mce-disabled" tabindex="-1" role="button" aria-label="Restore last draft" aria-disabled="true"><button id="mceu_0-button" role="presentation" type="button" tabindex="-1"><i class="mce-ico mce-i-restoredraft"></i></button></div></div></div><div id="mceu_36" class="mce-container mce-flow-layout-item mce-btn-group" role="group"><div id="mceu_36-body"><div id="mceu_1" class="mce-widget mce-btn mce-first mce-disabled" tabindex="-1" role="button" aria-label="Undo" aria-disabled="true"><button id="mceu_1-button" role="presentation" type="button" tabindex="-1"><i class="mce-ico mce-i-undo"></i></button></div><div id="mceu_2" class="mce-widget mce-btn mce-last mce-disabled" tabindex="-1" role="button" aria-label="Redo" aria-disabled="true"><button id="mceu_2-button" role="presentation" type="button" tabindex="-1"><i class="mce-ico mce-i-redo"></i></button></div></div></div><div id="mceu_37" class="mce-container mce-flow-layout-item mce-btn-group" role="group"><div id="mceu_37-body"></div></div><div id="mceu_38" class="mce-container mce-flow-layout-item mce-btn-group" role="group"><div id="mceu_38-body"><div id="mceu_3" class="mce-widget mce-btn mce-first" tabindex="-1" aria-pressed="false" role="button" aria-label="Bold"><button id="mceu_3-button" role="presentation" type="button" tabindex="-1"><i class="mce-ico mce-i-bold"></i></button></div><div id="mceu_4" class="mce-widget mce-btn" tabindex="-1" aria-pressed="false" role="button" aria-label="Italic"><button id="mceu_4-button" role="presentation" type="button" tabindex="-1"><i class="mce-ico mce-i-italic"></i></button></div><div id="mceu_5" class="mce-widget mce-btn mce-splitbtn mce-colorbutton" role="button" tabindex="-1" aria-haspopup="true" aria-label="Text color"><button role="presentation" hidefocus="1" type="button" tabindex="-1"><i class="mce-ico mce-i-forecolor"></i><span id="mceu_5-preview" class="mce-preview"></span></button><button type="button" class="mce-open" hidefocus="1" tabindex="-1"> <i class="mce-caret"></i></button></div><div id="mceu_6" class="mce-widget mce-btn mce-splitbtn mce-colorbutton" role="button" tabindex="-1" aria-haspopup="true" aria-label="Background color"><button role="presentation" hidefocus="1" type="button" tabindex="-1"><i class="mce-ico mce-i-backcolor"></i><span id="mceu_6-preview" class="mce-preview"></span></button><button type="button" class="mce-open" hidefocus="1" tabindex="-1"> <i class="mce-caret"></i></button></div><div id="mceu_7" class="mce-widget mce-btn mce-last mce-btn-has-text" tabindex="-1" role="button"><button id="mceu_7-button" role="presentation" type="button" tabindex="-1"><span class="mce-txt">😀 </span></button></div></div></div><div id="mceu_39" class="mce-container mce-flow-layout-item mce-btn-group" role="group"><div id="mceu_39-body"><div id="mceu_8" class="mce-widget mce-btn mce-first" tabindex="-1" aria-pressed="false" role="button" aria-label="Insert/edit link"><button id="mceu_8-button" role="presentation" type="button" tabindex="-1"><i class="mce-ico mce-i-link"></i></button></div><div id="mceu_9" class="mce-widget mce-btn" tabindex="-1" role="button" aria-label="Загрузить изображение"><button id="mceu_9-button" role="presentation" type="button" tabindex="-1"><i class="mce-ico mce-i-image"></i></button></div><div id="mceu_10" class="mce-widget mce-btn mce-last" tabindex="-1" aria-pressed="false" role="button" aria-label="Insert/edit media"><button id="mceu_10-button" role="presentation" type="button" tabindex="-1"><i class="mce-ico mce-i-media"></i></button></div></div></div><div id="mceu_40" class="mce-container mce-flow-layout-item mce-btn-group" role="group"><div id="mceu_40-body"><div id="mceu_11" class="mce-widget mce-btn mce-first" tabindex="-1" aria-pressed="false" role="button" aria-label="Align left"><button id="mceu_11-button" role="presentation" type="button" tabindex="-1"><i class="mce-ico mce-i-alignleft"></i></button></div><div id="mceu_12" class="mce-widget mce-btn" tabindex="-1" aria-pressed="false" role="button" aria-label="Align center"><button id="mceu_12-button" role="presentation" type="button" tabindex="-1"><i class="mce-ico mce-i-aligncenter"></i></button></div><div id="mceu_13" class="mce-widget mce-btn mce-last" tabindex="-1" aria-pressed="false" role="button" aria-label="Align right"><button id="mceu_13-button" role="presentation" type="button" tabindex="-1"><i class="mce-ico mce-i-alignright"></i></button></div></div></div><div id="mceu_41" class="mce-container mce-flow-layout-item mce-btn-group" role="group"><div id="mceu_41-body"><div id="mceu_14" class="mce-widget mce-btn mce-splitbtn mce-menubtn mce-first" role="button" aria-pressed="false" tabindex="-1" aria-label="Bullet list" aria-haspopup="true"><button type="button" hidefocus="1" tabindex="-1"><i class="mce-ico mce-i-bullist"></i></button><button type="button" class="mce-open" hidefocus="1" tabindex="-1"> <i class="mce-caret"></i></button></div><div id="mceu_15" class="mce-widget mce-btn mce-splitbtn mce-menubtn" role="button" aria-pressed="false" tabindex="-1" aria-label="Numbered list" aria-haspopup="true"><button type="button" hidefocus="1" tabindex="-1"><i class="mce-ico mce-i-numlist"></i></button><button type="button" class="mce-open" hidefocus="1" tabindex="-1"> <i class="mce-caret"></i></button></div><div id="mceu_16" class="mce-widget mce-btn" tabindex="-1" role="button" aria-label="Decrease indent"><button id="mceu_16-button" role="presentation" type="button" tabindex="-1"><i class="mce-ico mce-i-outdent"></i></button></div><div id="mceu_17" class="mce-widget mce-btn mce-last" tabindex="-1" role="button" aria-label="Increase indent"><button id="mceu_17-button" role="presentation" type="button" tabindex="-1"><i class="mce-ico mce-i-indent"></i></button></div></div></div><div id="mceu_42" class="mce-container mce-flow-layout-item mce-btn-group" role="group"><div id="mceu_42-body"><div id="mceu_18" class="mce-widget mce-btn mce-menubtn mce-first mce-last" tabindex="-1" aria-labelledby="mceu_18" role="button" aria-label="Table" aria-haspopup="true"><button id="mceu_18-open" role="presentation" type="button" tabindex="-1"><i class="mce-ico mce-i-table"></i> <i class="mce-caret"></i></button></div></div></div><div id="mceu_43" class="mce-container mce-flow-layout-item mce-btn-group" role="group"><div id="mceu_43-body"><div id="mceu_19" class="mce-widget mce-btn mce-first" tabindex="-1" aria-pressed="false" role="button" aria-label="Left to right"><button id="mceu_19-button" role="presentation" type="button" tabindex="-1"><i class="mce-ico mce-i-ltr"></i></button></div><div id="mceu_20" class="mce-widget mce-btn mce-last" tabindex="-1" aria-pressed="false" role="button" aria-label="Right to left"><button id="mceu_20-button" role="presentation" type="button" tabindex="-1"><i class="mce-ico mce-i-rtl"></i></button></div></div></div><div id="mceu_44" class="mce-container mce-flow-layout-item mce-last mce-btn-group" role="group"><div id="mceu_44-body"><div id="mceu_21" class="mce-widget mce-btn mce-first" tabindex="-1" role="button" aria-label="Source code"><button id="mceu_21-button" role="presentation" type="button" tabindex="-1"><i class="mce-ico mce-i-code"></i></button></div><div id="mceu_22" class="mce-widget mce-btn mce-last" tabindex="-1" role="button" aria-label="Insert/Edit code sample"><button id="mceu_22-button" role="presentation" type="button" tabindex="-1"><i class="mce-ico mce-i-codesample"></i></button></div></div></div></div></div></div></div></div></div><div id="mceu_45" class="mce-edit-area mce-container mce-panel mce-stack-layout-item" hidefocus="1" tabindex="-1" role="group" style="border-width: 1px 0px 0px;"><iframe id="editor_ifr" frameborder="0" allowtransparency="true" title="Текстовое поле. Нажмите ALT-F9 чтобы вызвать меню, ALT-F10 панель инструментов, ALT-0 для вызова помощи." style="width: 100%; height: 328px; display: block;"></iframe></div><div id="mceu_46" class="mce-statusbar mce-container mce-panel mce-stack-layout-item mce-last" hidefocus="1" tabindex="-1" role="group" style="border-width: 1px 0px 0px;"><div id="mceu_46-body" class="mce-container-body mce-flow-layout"><div id="mceu_47" class="mce-path mce-flow-layout-item mce-first"><div role="button" class="mce-path-item mce-last" data-index="0" tabindex="-1" id="mceu_47-0" aria-level="1">p</div></div><span id="mceu_49" class="mce-wordcount mce-widget mce-label mce-flow-layout-item">0 words</span><div id="mceu_48" class="mce-flow-layout-item mce-resizehandle mce-last"><i class="mce-ico mce-i-resize"></i></div></div></div></div></div>
+            <textarea id="editor" style="display: none" aria-hidden="true"></textarea>
+            <div id="previewmodal" class="modal fade">
+              <div class="modal-content">
+                <div class="modal-header"><span id="previewtitle"></span><button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button></div>
+                <div id="result"></div>
+                <div class="modal-footer">
+                  <button type="button" class="btn" data-dismiss="modal">Закрыть предварительный просмотр</button>
+                </div>
+              </div>
+            </div>
+            <script>
+              $(document).on('focusin', function (e) {
+                if ($(e.target).closest('.mce-window, .moxman-window').length) {
+                  e.stopImmediatePropagation();
+                }
+              });
+            </script>
+            <input type="file" id="UserFile" style="display: none" disabled="">
+            <button id="uploadbutton" class="btn is-2ry" onclick="uploadclick()">
+              {% include "base/icon.twig" with {name: "attachment"} %}
+              Прикрепить файл
+            </button>
+          </fieldset>
+
+          <!-- TAXONOMY -->
+          <fieldset>
+            <legend>Категории и теги</legend>
+            <p class="note">Теги и категории в сообщениях используются, чтобы помочь читателям находить информацию разными способами. Категории похожи на главы книги; они предоставляют общий обзор тем, о которых вы ведете блог. В то время как теги больше похожи на алфавитный указатель в конце книги и разбивают тему на десятки аспектов.</p>
+            <div class="form__item">
+              <input type="hidden" id="postcategories" name="postcategories" value="">
+              <div class="has-responsive-table" id="categorylist"></div>
+            </div>
+            <div class="form__item">
+              <label for="posttags">Теги</label>
+              <div class="bootstrap-tagsinput"><input type="text" placeholder=""></div>
+              <input id="posttags" value="" data-role="tagsinput" style="display: none" type="text">
+              <script>
+                $('#posttags').tagsinput({ maxТеги: 15 });
+                $('input').on('beforeItemAdd', function (event) {
+                  canupload = false;
+                  setTimeout(function () {
+                    canupload = true;
+                  }, 1000);
+                });
+              </script>
+            </div>
+          </fieldset>
+
+          <!-- ADVANCED -->
+          <section class="collapse" id="collapse-advanced" aria-labelledby="collapse-advanced-title">
+            <!-- Type -->
+            <fieldset class="mt-1" id="posttypediv">
+              <legend>Тип сообщения</legend>
+              <label class="form__item has-option">
+                <input id="posttype0" name="posttype" type="radio" value="0" checked="">
+                <span>Статья</span>
+              </label>
+              <label class="form__item has-option">
+                <input id="posttype1" name="posttype" type="radio" value="1">
+                <span>Петиция (сбор подписей)</span>
+              </label>
+            </fieldset>
+            <!-- Time -->
+            <div class="form__item mt-1">
+              <label for="posttime">Время публикации</label>
+              <div class="form__item" data-link-field="dtp_input1">
+                <input id="posttime" type="date" value="" readonly>
+              </div>
+              <small class="font__hint">Your time zone: UTC +2 (<a href="/ru/profile" target="_blank">настройки профиля</a>)</small>
+              <input type="hidden" id="dtp_input1" value="">
+              <script>
+                $('.form_datetime').datetimepicker({ language: 'ru', weekStart: 1, todayBtn: 1, autoclose: 1, todayHighlight: 1, startView: 2, forceParse: 0, showMeridian: 1, calendarWeeks: 1, format: 'yyyy-mm-dd hh:ii', startDate: '2022-03-10 11:16:24' });
+              </script>
+            </div>
+            <!-- Description -->
+            <div class="form__item mt1">
+              <label for="postdescription">Краткое описание</label>
+              <textarea id="postdescription" rows="2"></textarea>
+              <ul class="form__hint">
+                <li>не более 320 символов</li>
+                <li>это поле может быть сгенерировано автоматически после написания этого поста</li>
+              </ul>
+            </div>
+            <!-- OG Image -->
+            <div class="form__item">
+              <div class="mb-2s" role="heading" aria-level="3">Изображение для социальных сетей</div>
+              <a class="image is-social" href="javascript:void(0)" onclick="gopictab()">
+                <figure id="thumbnailfilename"></figure>
+              </a>
+              <button class="btn" type="button" onclick="gopictab()">Галерея</button>
+              <button class="btn is-ghost is-icon" type="button" onclick="selectthumbnail('','');">
+                {% include "base/icon.twig" with {name: "x-mark"} %}
+              </button>
+            </div>
+            <!-- Location -->
+            <div class="form__item mt-1">
+              <label class="sr-only" for="postlocation">Мое местоположение</label>
+              <div class="form__row">
+                <input id="postlocation" name="postlocation" type="text" value="" placeholder="Мое местоположение">
+                <div class="form__controls">
+                  <button class="btn is-ghost is-icon" onclick="locationdetect(false)">
+                    {% include "base/icon.twig" with {name: "x-mark"} %}
+                  </button>
+                  <button class="btn is-ghost is-location-detection" type="button" onclick="locationdetect(true)">
+                    {% include "base/icon.twig" with {name: "pin"} %}
+                    Авто-обнаружение
+                  </button>
+                </div>
+              </div>
+              <input type="hidden" name="latitude" id="latitude" value="">
+              <input type="hidden" name="longitude" id="longitude" value="">
+            </div>
+            <!-- Mood -->
+            <div class="form__item mt-1">
+              <div class="form__row">
+                <button class="btn" type="button" onclick="choisemood(0)">Мое настроение</button>
+                <span id="inputemotion" style="display: none">
+                  <input type="hidden" name="emotiontext" id="emotiontext" value="">
+                </span>
+                <input type="hidden" id="emotionid" name="emotionid" value="0">
+              </div>
+              <div class="emoticons" id="moods" style="display: none">
+                <div class="grid">
+                  <button class="btn is-ghost" type="button" id="emotion1" onclick="choisemood(1)">
+                    <img width="24" height="24" alt="" data-pagespeed-url-hash="1495572004" src="images/emotions/1.png" onerror="this.onerror=null;pagespeed.lazyLoadImages.loadIfVisibleAndMaybeBeacon(this);">
+                    <span id="emotiontext1">плачет</span>
+                  </button>
+                  <button class="btn is-ghost" type="button" id="emotion2" onclick="choisemood(2)">
+                    <img width="24" height="24" alt="" data-pagespeed-url-hash="1790071925" src="images/emotions/2.png" onerror="this.onerror=null;pagespeed.lazyLoadImages.loadIfVisibleAndMaybeBeacon(this);">
+                    <span id="emotiontext2">с удовольствием</span>
+                  </button>
+                  <button class="btn is-ghost" type="button" id="emotion3" onclick="choisemood(3)">
+                    <img width="24" height="24" alt="" data-pagespeed-url-hash="2084571846" src="images/emotions/3.png" onerror="this.onerror=null;pagespeed.lazyLoadImages.loadIfVisibleAndMaybeBeacon(this);">
+                    <span id="emotiontext3">удивлен</span>
+                  </button>
+                  <button class="btn is-ghost" type="button" id="emotion4" onclick="choisemood(4)">
+                    <img width="24" height="24" alt="" data-pagespeed-url-hash="2379071767" src="images/emotions/4.png" onerror="this.onerror=null;pagespeed.lazyLoadImages.loadIfVisibleAndMaybeBeacon(this);">
+                    <span id="emotiontext4">озадачился</span>
+                  </button>
+                  <button class="btn is-ghost" type="button" id="emotion5" onclick="choisemood(5)">
+                    <img width="24" height="24" alt="" data-pagespeed-url-hash="2673571688" src="images/emotions/5.png" onerror="this.onerror=null;pagespeed.lazyLoadImages.loadIfVisibleAndMaybeBeacon(this);">
+                    <span id="emotiontext5">круто</span>
+                  </button>
+                  <button class="btn is-ghost" type="button" id="emotion6" onclick="choisemood(6)">
+                    <img width="24" height="24" alt="" data-pagespeed-url-hash="2968071609" src="images/emotions/6.png" onerror="this.onerror=null;pagespeed.lazyLoadImages.loadIfVisibleAndMaybeBeacon(this);">
+                    <span id="emotiontext6">влюбленный</span>
+                  </button>
+                  <button class="btn is-ghost" type="button" id="emotion7" onclick="choisemood(7)">
+                    <img width="24" height="24" alt="" data-pagespeed-url-hash="3262571530" src="images/emotions/7.png" onerror="this.onerror=null;pagespeed.lazyLoadImages.loadIfVisibleAndMaybeBeacon(this);">
+                    <span id="emotiontext7">шучу</span>
+                  </button>
+                  <button class="btn is-ghost" type="button" id="emotion8" onclick="choisemood(8)">
+                    <img width="24" height="24" alt="" data-pagespeed-url-hash="3557071451" src="images/emotions/8.png" onerror="this.onerror=null;pagespeed.lazyLoadImages.loadIfVisibleAndMaybeBeacon(this);">
+                    <span id="emotiontext8">флирт</span>
+                  </button>
+                  <button class="btn is-ghost" type="button" id="emotion9" onclick="choisemood(9)">
+                    <img width="24" height="24" alt="" data-pagespeed-url-hash="3851571372" src="images/emotions/9.png" onerror="this.onerror=null;pagespeed.lazyLoadImages.loadIfVisibleAndMaybeBeacon(this);">
+                    <span id="emotiontext9">Я улыбаюсь</span>
+                  </button>
+                  <button class="btn is-ghost" type="button" id="emotion10" onclick="choisemood(10)">
+                    <img width="24" height="24" alt="" data-pagespeed-url-hash="3087065382" src="images/emotions/10.png" onerror="this.onerror=null;pagespeed.lazyLoadImages.loadIfVisibleAndMaybeBeacon(this);">
+                    <span id="emotiontext10">разбитое сердце</span>
+                  </button>
+                  <button class="btn is-ghost" type="button" id="emotion11" onclick="choisemood(11)">
+                    <img width="24" height="24" alt="" data-pagespeed-url-hash="3381565303" src="images/emotions/11.png" onerror="this.onerror=null;pagespeed.lazyLoadImages.loadIfVisibleAndMaybeBeacon(this);">
+                    <span id="emotiontext11">злой</span>
+                  </button>
+                  <button class="btn is-ghost" type="button" id="emotion12" onclick="choisemood(12)">
+                    <img width="24" height="24" alt="" data-pagespeed-url-hash="3676065224" src="images/emotions/12.png" onerror="this.onerror=null;pagespeed.lazyLoadImages.loadIfVisibleAndMaybeBeacon(this);">
+                    <span id="emotiontext12">печально</span>
+                  </button>
+                  <button class="btn is-ghost" type="button" id="emotion13" onclick="choisemood(13)">
+                    <img width="24" height="24" alt="" data-pagespeed-url-hash="3970565145" src="images/emotions/13.png" onerror="this.onerror=null;pagespeed.lazyLoadImages.loadIfVisibleAndMaybeBeacon(this);">
+                    <span id="emotiontext13">Я подмигнул</span>
+                  </button>
+                  <button class="btn is-ghost" type="button" id="emotion14" onclick="choisemood(14)">
+                    <img width="24" height="24" alt="" data-pagespeed-url-hash="4265065066" src="images/emotions/14.png" onerror="this.onerror=null;pagespeed.lazyLoadImages.loadIfVisibleAndMaybeBeacon(this);">
+                    <span id="emotiontext14">Меня смущает</span>
+                  </button>
+                  <button class="btn is-ghost" type="button" id="emotion15" onclick="choisemood(15)">
+                    <img width="24" height="24" alt="" data-pagespeed-url-hash="264597691" src="images/emotions/15.png" onerror="this.onerror=null;pagespeed.lazyLoadImages.loadIfVisibleAndMaybeBeacon(this);">
+                    <span id="emotiontext15">Я счастлив</span>
+                  </button>
+                  <button class="btn is-ghost" type="button" id="emotion16" onclick="choisemood(16)">
+                    <img width="24" height="24" alt="" data-pagespeed-url-hash="559097612" src="images/emotions/16.png" onerror="this.onerror=null;pagespeed.lazyLoadImages.loadIfVisibleAndMaybeBeacon(this);">
+                    <span id="emotiontext16">Мне скучно</span>
+                  </button>
+                  <button class="btn is-ghost" type="button" id="emotion17" onclick="choisemood(17)">
+                    <img width="24" height="24" alt="" data-pagespeed-url-hash="853597533" src="images/emotions/17.png" onerror="this.onerror=null;pagespeed.lazyLoadImages.loadIfVisibleAndMaybeBeacon(this);">
+                    <span id="emotiontext17">Бинго</span>
+                  </button>
+                  <button class="btn is-ghost" type="button" id="emotion18" onclick="choisemood(18)">
+                    <img width="24" height="24" alt="" data-pagespeed-url-hash="1148097454" src="images/emotions/18.png" onerror="this.onerror=null;pagespeed.lazyLoadImages.loadIfVisibleAndMaybeBeacon(this);">
+                    <span id="emotiontext18">Я думаю</span>
+                  </button>
+                  <button class="btn is-ghost" type="button" id="emotion19" onclick="choisemood(19)">
+                    <img width="24" height="24" alt="" data-pagespeed-url-hash="1442597375" src="images/emotions/19.png" onerror="this.onerror=null;pagespeed.lazyLoadImages.loadIfVisibleAndMaybeBeacon(this);">
+                    <span id="emotiontext19">занят</span>
+                  </button>
+                  <button class="btn is-ghost" type="button" id="emotion20" onclick="choisemood(20)">
+                    <img width="24" height="24" alt="" data-pagespeed-url-hash="3011849369" src="images/emotions/20.png" onerror="this.onerror=null;pagespeed.lazyLoadImages.loadIfVisibleAndMaybeBeacon(this);">
+                    <span id="emotiontext20">рад</span>
+                  </button>
+                  <button class="btn is-ghost" type="button" id="emotion21" onclick="choisemood(21)">
+                    <img width="24" height="24" alt="" data-pagespeed-url-hash="3306349290" src="images/emotions/21.png" onerror="this.onerror=null;pagespeed.lazyLoadImages.loadIfVisibleAndMaybeBeacon(this);">
+                    <span id="emotiontext21">Я сплю</span>
+                  </button>
+                  <button class="btn is-ghost" type="button" id="emotion22" onclick="choisemood(22)">
+                    <img width="24" height="24" alt="" data-pagespeed-url-hash="3600849211" src="images/emotions/22.png" onerror="this.onerror=null;pagespeed.lazyLoadImages.loadIfVisibleAndMaybeBeacon(this);">
+                    <span id="emotiontext22">раздражает</span>
+                  </button>
+                  <button class="btn is-ghost" type="button" id="emotion23" onclick="choisemood(23)">
+                    <img width="24" height="24" alt="" data-pagespeed-url-hash="3895349132" src="images/emotions/23.png" onerror="this.onerror=null;pagespeed.lazyLoadImages.loadIfVisibleAndMaybeBeacon(this);">
+                    <span id="emotiontext23">Я в ярости</span>
+                  </button>
+                  <button class="btn is-ghost" type="button" id="emotion24" onclick="choisemood(24)">
+                    <img width="24" height="24" alt="" data-pagespeed-url-hash="4189849053" src="images/emotions/24.png" onerror="this.onerror=null;pagespeed.lazyLoadImages.loadIfVisibleAndMaybeBeacon(this);">
+                    <span id="emotiontext24">Я смеюсь</span>
+                  </button>
+                  <button class="btn is-ghost" type="button" id="emotion25" onclick="choisemood(25)">
+                    <img width="24" height="24" alt="" data-pagespeed-url-hash="189381678" src="images/emotions/25.png" onerror="this.onerror=null;pagespeed.lazyLoadImages.loadIfVisibleAndMaybeBeacon(this);">
+                    <span id="emotiontext25">нет комментариев</span>
+                  </button>
+                  <button class="btn is-ghost" type="button" id="emotion26" onclick="choisemood(26)">
+                    <img width="24" height="24" alt="" data-pagespeed-url-hash="483881599" src="images/emotions/26.png" onerror="this.onerror=null;pagespeed.lazyLoadImages.loadIfVisibleAndMaybeBeacon(this);">
+                    <span id="emotiontext26">не понимаю</span>
+                  </button>
+                  <button class="btn is-ghost" type="button" id="emotion27" onclick="choisemood(27)">
+                    <img width="24" height="24" alt="" data-pagespeed-url-hash="778381520" src="images/emotions/27.png" onerror="this.onerror=null;pagespeed.lazyLoadImages.loadIfVisibleAndMaybeBeacon(this);">
+                    <span id="emotiontext27">Я в шоке</span>
+                  </button>
+                  <button class="btn is-ghost" type="button" id="emotion28" onclick="choisemood(28)">
+                    <img width="24" height="24" alt="" data-pagespeed-url-hash="1072881441" src="images/emotions/28.png" onerror="this.onerror=null;pagespeed.lazyLoadImages.loadIfVisibleAndMaybeBeacon(this);">
+                    <span id="emotiontext28">Я пьян</span>
+                  </button>
+                  <button class="btn is-ghost" type="button" id="emotion29" onclick="choisemood(29)">
+                    <img width="24" height="24" alt="" data-pagespeed-url-hash="1367381362" src="images/emotions/29.png" onerror="this.onerror=null;pagespeed.lazyLoadImages.loadIfVisibleAndMaybeBeacon(this);">
+                    <span id="emotiontext29">Я боюсь</span>
+                  </button>
+                  <button class="btn is-ghost" type="button" id="emotion30" onclick="choisemood(30)">
+                    <img width="24" height="24" alt="" data-pagespeed-url-hash="2936633356" src="images/emotions/30.png" onerror="this.onerror=null;pagespeed.lazyLoadImages.loadIfVisibleAndMaybeBeacon(this);">
+                    <span id="emotiontext30">в поисках приключений</span>
+                  </button>
+                  <button class="btn is-ghost" type="button" id="emotion31" onclick="choisemood(31)">
+                    <img width="24" height="24" alt="" data-pagespeed-url-hash="3231133277" src="images/emotions/31.png" onerror="this.onerror=null;pagespeed.lazyLoadImages.loadIfVisibleAndMaybeBeacon(this);">
+                    <span id="emotiontext31">Меня возмущает</span>
+                  </button>
+                  <button class="btn is-ghost" type="button" id="noemotion" onclick="choisemood(-1)">Никаких эмоций</button>
+                </div>
+              </div>
+            </div>
+            <!-- Комментарии -->
+            <fieldset class="mt-1">
+              <legend>Комментарии</legend>
+              <div class="form__options">
+                <label class="form__item has-option">
+                  <input id="commentsmode0" name="commentsmode" type="radio" value="0" checked="">
+                  <span>Комментарии разрешены</span>
+                </label>
+                <label class="form__item has-option">
+                  <input id="commentsmode1" name="commentsmode" type="radio" value="1">
+                  <span>Комментарии разрешены</span>, <span>без уведомления</span>&nbsp;&nbsp;&nbsp;
+                </label>
+                <label class="form__item has-option">
+                  <input id="commentsmode2" name="commentsmode" type="radio" value="2">
+                  <span>Комментарии закрыты</span>
+                </label>
+                <label class="form__item has-option"> <input id="showcomments" name="showcomments" type="checkbox" checked="">Комментарии видны всем (если отключено, комментарии будут видны только вам). </label>
+              </div>
+            </fieldset>
+            <!-- Who can read -->
+            <fieldset class="mt-1">
+              <legend>Кто может читать этот пост</legend>
+              <label class="form__item has-option">
+                <input name="accessmode" type="radio" id="accessmode0" value="0" checked="">
+                <span>Все</span>&nbsp;&nbsp;&nbsp;
+              </label>
+              <label class="form__item has-option">
+                <input id="accessmode1" name="accessmode" type="radio" value="1">
+                <span>Только я (проект)</span>
+              </label>
+            </fieldset>
+            <!-- Donations -->
+            <fieldset class="mt-1">
+              <legend>Получать пожертвования от читателей</legend>
+              <label class="form__item has-option">
+                <input id="donates1" name="donates" type="radio" value="1" checked="">
+                Да (рекомендуется)
+              </label>
+              <label class="form__item has-option">
+                <input id="donates0" name="donates" type="radio" value="0">
+                Нет, не хочу
+              </label>
+            </fieldset>
+            <!-- Pin -->
+            <label class="form__item has-option mt-1"> <input id="attached" name="attached" type="checkbox"><b>Закрепить этот пост</b> </label>
+          </section>
+        </form>
+        <div class="form__actions mt-2">
+          <button class="btn btn-primary" id="savebutton" type="button" onclick="savepost();">Сохранить пост</button>
+
+          <button class="btn is-ghost" id="collapse-advanced-title" href="#collapse-advanced" aria-controls="collapse-advanced" role="button" data-toggle="collapse" aria-expanded="false">
+            {% include "base/icon.twig" with {name: "settings"} %}
+            Расширенные настройки
+          </button>
+          <button class="btn is-ghost is-right" type="button" onclick="deletepost();">
+            {% include "base/icon.twig" with {name: "trash"} %}
+            Удалить
+          </button>
+        </div>
+      </div>
+      <div class="tabs__pane" id="Mypictures">
+        <h2>Загруженные изображения</h2>
+        <div class="f-group is-media-library" id="data-container">
+          <div id="img349fe55f480a9d8a8cd6b14283c9fa2f" style="display: inline-block; max-width: 90%; width: 350px; height: 350px; margin: 3px; background: #eaeaea; vertical-align: top" align="center">
+            <label style="width: 90%; text-align: left"><input id="thn349fe55f480a9d8a8cd6b14283c9fa2f" type="checkbox" name="isthumbnail" onclick="selectthumbnail('349fe55f480a9d8a8cd6b14283c9fa2f','349fe55f480a9d8a8cd6b14283c9fa2f.jpg');"> Использовать в качестве миниатюры-изображения для этой статьи</label>
+            <a href="javascript:void(0);" onclick="editpicture('349fe55f480a9d8a8cd6b14283c9fa2f.jpg','uploads/files/3/4/9/f/e/349fe55f480a9d8a8cd6b14283c9fa2f.jpg','Оценка статуса репродуктивной системы женщин');" alt="Оценка статуса репродуктивной системы женщин" title="Оценка статуса репродуктивной системы женщин">
+              <div style="display: -moz-inline-box; display: inline-block; vertical-align: middle; margin-left: -10px; height: 230px; width: 330px; background: url(uploads/files/3/4/9/f/e/349fe55f480a9d8a8cd6b14283c9fa2f.jpg) no-repeat center center; background-size: contain; -moz-background-size: contain; -o-background-size: contain; -webkit-background-size: contain; -khtml-background-size: contain"></div>
+            </a>
+            <div style="margin-top: 5px; height: 30px; vertical-align: bottom">
+              <input id="img1" type="text" name="copypath" value="https://hlaclub.com/uploads/files/3/4/9/f/e/349fe55f480a9d8a8cd6b14283c9fa2f.jpg" style="min-width: 50px; width: 90%" onsubmit="javascript:void(0)"><br>
+              <a href="javascript:void(0)" onclick="insimage('https://hlaclub.com/uploads/files/3/4/9/f/e/349fe55f480a9d8a8cd6b14283c9fa2f.jpg','349fe55f480a9d8a8cd6b14283c9fa2f.jpg')">Вставить изображение в пост</a>
+            </div>
+          </div>
+          <div id="img9a22831b252969f517c457ca291ecc38" style="display: inline-block; max-width: 90%; width: 350px; height: 350px; margin: 3px; background: #eaeaea; vertical-align: top" align="center">
+            <label style="width: 90%; text-align: left"><input id="thn9a22831b252969f517c457ca291ecc38" type="checkbox" name="isthumbnail" onclick="selectthumbnail('9a22831b252969f517c457ca291ecc38','9a22831b252969f517c457ca291ecc38.jpg');"> Использовать в качестве миниатюры-изображения для этой статьи</label>
+            <a href="javascript:void(0);" onclick="editpicture('9a22831b252969f517c457ca291ecc38.jpg','uploads/files/9/a/2/2/8/9a22831b252969f517c457ca291ecc38.jpg','Метод сухого пятна: история и перспективы применения');" alt="Метод сухого пятна: история и перспективы применения" title="Метод сухого пятна: история и перспективы применения">
+              <div style="display: -moz-inline-box; display: inline-block; vertical-align: middle; margin-left: -10px; height: 230px; width: 330px; background: url(uploads/files/9/a/2/2/8/9a22831b252969f517c457ca291ecc38.jpg) no-repeat center center; background-size: contain; -moz-background-size: contain; -o-background-size: contain; -webkit-background-size: contain; -khtml-background-size: contain"></div>
+            </a>
+            <div style="margin-top: 5px; height: 30px; vertical-align: bottom">
+              <input id="img2" type="text" name="copypath" value="https://hlaclub.com/uploads/files/9/a/2/2/8/9a22831b252969f517c457ca291ecc38.jpg" style="min-width: 50px; width: 90%" onsubmit="javascript:void(0)"><br>
+              <a href="javascript:void(0)" onclick="insimage('https://hlaclub.com/uploads/files/9/a/2/2/8/9a22831b252969f517c457ca291ecc38.jpg','9a22831b252969f517c457ca291ecc38.jpg')">Вставить изображение в пост</a>
+            </div>
+          </div>
+          <div id="img3778dbf1bd5969822a73d173113ad162" style="display: inline-block; max-width: 90%; width: 350px; height: 350px; margin: 3px; background: #eaeaea; vertical-align: top" align="center">
+            <label style="width: 90%; text-align: left"><input id="thn3778dbf1bd5969822a73d173113ad162" type="checkbox" name="isthumbnail" onclick="selectthumbnail('3778dbf1bd5969822a73d173113ad162','3778dbf1bd5969822a73d173113ad162.jpg');"> Использовать в качестве миниатюры-изображения для этой статьи</label>
+            <a href="javascript:void(0);" onclick="editpicture('3778dbf1bd5969822a73d173113ad162.jpg','uploads/files/3/7/7/8/d/3778dbf1bd5969822a73d173113ad162.jpg','Производственная аптека');" alt="Производственная аптека" title="Производственная аптека">
+              <div style="display: -moz-inline-box; display: inline-block; vertical-align: middle; margin-left: -10px; height: 230px; width: 330px; background: url(uploads/files/3/7/7/8/d/3778dbf1bd5969822a73d173113ad162.jpg) no-repeat center center; background-size: contain; -moz-background-size: contain; -o-background-size: contain; -webkit-background-size: contain; -khtml-background-size: contain"></div>
+            </a>
+            <div style="margin-top: 5px; height: 30px; vertical-align: bottom">
+              <input id="img3" type="text" name="copypath" value="https://hlaclub.com/uploads/files/3/7/7/8/d/3778dbf1bd5969822a73d173113ad162.jpg" style="min-width: 50px; width: 90%" onsubmit="javascript:void(0)"><br>
+              <a href="javascript:void(0)" onclick="insimage('https://hlaclub.com/uploads/files/3/7/7/8/d/3778dbf1bd5969822a73d173113ad162.jpg','3778dbf1bd5969822a73d173113ad162.jpg')">Вставить изображение в пост</a>
+            </div>
+          </div>
+          <div id="imga815b63f121640e1bb81c15e26f7ba1a" style="display: inline-block; max-width: 90%; width: 350px; height: 350px; margin: 3px; background: #eaeaea; vertical-align: top" align="center">
+            <label style="width: 90%; text-align: left"><input id="thna815b63f121640e1bb81c15e26f7ba1a" type="checkbox" name="isthumbnail" onclick="selectthumbnail('a815b63f121640e1bb81c15e26f7ba1a','a815b63f121640e1bb81c15e26f7ba1a.jpg');"> Использовать в качестве миниатюры-изображения для этой статьи</label>
+            <a href="javascript:void(0);" onclick="editpicture('a815b63f121640e1bb81c15e26f7ba1a.jpg','uploads/files/a/8/1/5/b/a815b63f121640e1bb81c15e26f7ba1a.jpg','Рахимджан');" alt="Рахимджан" title="Рахимджан">
+              <div style="display: -moz-inline-box; display: inline-block; vertical-align: middle; margin-left: -10px; height: 230px; width: 330px; background: url(uploads/files/a/8/1/5/b/a815b63f121640e1bb81c15e26f7ba1a.jpg) no-repeat center center; background-size: contain; -moz-background-size: contain; -o-background-size: contain; -webkit-background-size: contain; -khtml-background-size: contain"></div>
+            </a>
+            <div style="margin-top: 5px; height: 30px; vertical-align: bottom">
+              <input id="img4" type="text" name="copypath" value="https://hlaclub.com/uploads/files/a/8/1/5/b/a815b63f121640e1bb81c15e26f7ba1a.jpg" style="min-width: 50px; width: 90%" onsubmit="javascript:void(0)"><br>
+              <a href="javascript:void(0)" onclick="insimage('https://hlaclub.com/uploads/files/a/8/1/5/b/a815b63f121640e1bb81c15e26f7ba1a.jpg','a815b63f121640e1bb81c15e26f7ba1a.jpg')">Вставить изображение в пост</a>
+            </div>
+          </div>
+          <div id="img92dec91f7e656a01c5b89985478fc344" style="display: inline-block; max-width: 90%; width: 350px; height: 350px; margin: 3px; background: #eaeaea; vertical-align: top" align="center">
+            <label style="width: 90%; text-align: left"><input id="thn92dec91f7e656a01c5b89985478fc344" type="checkbox" name="isthumbnail" onclick="selectthumbnail('92dec91f7e656a01c5b89985478fc344','92dec91f7e656a01c5b89985478fc344.jpg');"> Использовать в качестве миниатюры-изображения для этой статьи</label>
+            <a href="javascript:void(0);" onclick="editpicture('92dec91f7e656a01c5b89985478fc344.jpg','uploads/files/9/2/d/e/c/92dec91f7e656a01c5b89985478fc344.jpg','редакция');" alt="редакция" title="редакция">
+              <div style="display: -moz-inline-box; display: inline-block; vertical-align: middle; margin-left: -10px; height: 230px; width: 330px; background: url(uploads/files/9/2/d/e/c/92dec91f7e656a01c5b89985478fc344.jpg) no-repeat center center; background-size: contain; -moz-background-size: contain; -o-background-size: contain; -webkit-background-size: contain; -khtml-background-size: contain"></div>
+            </a>
+            <div style="margin-top: 5px; height: 30px; vertical-align: bottom">
+              <input id="img5" type="text" name="copypath" value="https://hlaclub.com/uploads/files/9/2/d/e/c/92dec91f7e656a01c5b89985478fc344.jpg" style="min-width: 50px; width: 90%" onsubmit="javascript:void(0)"><br>
+              <a href="javascript:void(0)" onclick="insimage('https://hlaclub.com/uploads/files/9/2/d/e/c/92dec91f7e656a01c5b89985478fc344.jpg','92dec91f7e656a01c5b89985478fc344.jpg')">Вставить изображение в пост</a>
+            </div>
+          </div>
+          <div id="imga3855529454909d692ab73c6a5cce9a7" style="display: inline-block; max-width: 90%; width: 350px; height: 350px; margin: 3px; background: #eaeaea; vertical-align: top" align="center">
+            <label style="width: 90%; text-align: left"><input id="thna3855529454909d692ab73c6a5cce9a7" type="checkbox" name="isthumbnail" onclick="selectthumbnail('a3855529454909d692ab73c6a5cce9a7','a3855529454909d692ab73c6a5cce9a7.jpg');"> Использовать в качестве миниатюры-изображения для этой статьи</label>
+            <a href="javascript:void(0);" onclick="editpicture('a3855529454909d692ab73c6a5cce9a7.jpg','uploads/files/a/3/8/5/5/a3855529454909d692ab73c6a5cce9a7.jpg','');" alt="" title="">
+              <div style="display: -moz-inline-box; display: inline-block; vertical-align: middle; margin-left: -10px; height: 230px; width: 330px; background: url(uploads/files/a/3/8/5/5/a3855529454909d692ab73c6a5cce9a7.jpg) no-repeat center center; background-size: contain; -moz-background-size: contain; -o-background-size: contain; -webkit-background-size: contain; -khtml-background-size: contain"></div>
+            </a>
+            <div style="margin-top: 5px; height: 30px; vertical-align: bottom">
+              <input id="img6" type="text" name="copypath" value="https://hlaclub.com/uploads/files/a/3/8/5/5/a3855529454909d692ab73c6a5cce9a7.jpg" style="min-width: 50px; width: 90%" onsubmit="javascript:void(0)"><br>
+              <a href="javascript:void(0)" onclick="insimage('https://hlaclub.com/uploads/files/a/3/8/5/5/a3855529454909d692ab73c6a5cce9a7.jpg','a3855529454909d692ab73c6a5cce9a7.jpg')">Вставить изображение в пост</a>
+            </div>
+          </div>
+          <div id="img9bb9d98c1d95b6dda2bc3a0066a85b24" style="display: inline-block; max-width: 90%; width: 350px; height: 350px; margin: 3px; background: #eaeaea; vertical-align: top" align="center">
+            <label style="width: 90%; text-align: left"><input id="thn9bb9d98c1d95b6dda2bc3a0066a85b24" type="checkbox" name="isthumbnail" onclick="selectthumbnail('9bb9d98c1d95b6dda2bc3a0066a85b24','9bb9d98c1d95b6dda2bc3a0066a85b24.jpg');"> Использовать в качестве миниатюры-изображения для этой статьи</label>
+            <a href="javascript:void(0);" onclick="editpicture('9bb9d98c1d95b6dda2bc3a0066a85b24.jpg','uploads/files/9/b/b/9/d/9bb9d98c1d95b6dda2bc3a0066a85b24.jpg','женщина в маске');" alt="женщина в маске" title="женщина в маске">
+              <div style="display: -moz-inline-box; display: inline-block; vertical-align: middle; margin-left: -10px; height: 230px; width: 330px; background: url(uploads/files/9/b/b/9/d/9bb9d98c1d95b6dda2bc3a0066a85b24.jpg) no-repeat center center; background-size: contain; -moz-background-size: contain; -o-background-size: contain; -webkit-background-size: contain; -khtml-background-size: contain"></div>
+            </a>
+            <div style="margin-top: 5px; height: 30px; vertical-align: bottom">
+              <input id="img7" type="text" name="copypath" value="https://hlaclub.com/uploads/files/9/b/b/9/d/9bb9d98c1d95b6dda2bc3a0066a85b24.jpg" style="min-width: 50px; width: 90%" onsubmit="javascript:void(0)"><br>
+              <a href="javascript:void(0)" onclick="insimage('https://hlaclub.com/uploads/files/9/b/b/9/d/9bb9d98c1d95b6dda2bc3a0066a85b24.jpg','9bb9d98c1d95b6dda2bc3a0066a85b24.jpg')">Вставить изображение в пост</a>
+            </div>
+          </div>
+          <div id="imga5adfee10b4337360825c0365f75953b" style="display: inline-block; max-width: 90%; width: 350px; height: 350px; margin: 3px; background: #eaeaea; vertical-align: top" align="center">
+            <label style="width: 90%; text-align: left"><input id="thna5adfee10b4337360825c0365f75953b" type="checkbox" name="isthumbnail" onclick="selectthumbnail('a5adfee10b4337360825c0365f75953b','a5adfee10b4337360825c0365f75953b.jpg');"> Использовать в качестве миниатюры-изображения для этой статьи</label>
+            <a href="javascript:void(0);" onclick="editpicture('a5adfee10b4337360825c0365f75953b.jpg','uploads/files/a/5/a/d/f/a5adfee10b4337360825c0365f75953b.jpg','женщина в маске');" alt="женщина в маске" title="женщина в маске">
+              <div style="display: -moz-inline-box; display: inline-block; vertical-align: middle; margin-left: -10px; height: 230px; width: 330px; background: url(uploads/files/a/5/a/d/f/a5adfee10b4337360825c0365f75953b.jpg) no-repeat center center; background-size: contain; -moz-background-size: contain; -o-background-size: contain; -webkit-background-size: contain; -khtml-background-size: contain"></div>
+            </a>
+            <div style="margin-top: 5px; height: 30px; vertical-align: bottom">
+              <input id="img8" type="text" name="copypath" value="https://hlaclub.com/uploads/files/a/5/a/d/f/a5adfee10b4337360825c0365f75953b.jpg" style="min-width: 50px; width: 90%" onsubmit="javascript:void(0)"><br>
+              <a href="javascript:void(0)" onclick="insimage('https://hlaclub.com/uploads/files/a/5/a/d/f/a5adfee10b4337360825c0365f75953b.jpg','a5adfee10b4337360825c0365f75953b.jpg')">Вставить изображение в пост</a>
+            </div>
+          </div>
+          <div id="img3b429b2d9a21479a4fdc66fcbc1affed" style="display: inline-block; max-width: 90%; width: 350px; height: 350px; margin: 3px; background: #eaeaea; vertical-align: top" align="center">
+            <label style="width: 90%; text-align: left"><input id="thn3b429b2d9a21479a4fdc66fcbc1affed" type="checkbox" name="isthumbnail" onclick="selectthumbnail('3b429b2d9a21479a4fdc66fcbc1affed','3b429b2d9a21479a4fdc66fcbc1affed.jpg');"> Использовать в качестве миниатюры-изображения для этой статьи</label>
+            <a href="javascript:void(0);" onclick="editpicture('3b429b2d9a21479a4fdc66fcbc1affed.jpg','uploads/files/3/b/4/2/9/3b429b2d9a21479a4fdc66fcbc1affed.jpg','препараты');" alt="препараты" title="препараты">
+              <div style="display: -moz-inline-box; display: inline-block; vertical-align: middle; margin-left: -10px; height: 230px; width: 330px; background: url(uploads/files/3/b/4/2/9/3b429b2d9a21479a4fdc66fcbc1affed.jpg) no-repeat center center; background-size: contain; -moz-background-size: contain; -o-background-size: contain; -webkit-background-size: contain; -khtml-background-size: contain"></div>
+            </a>
+            <div style="margin-top: 5px; height: 30px; vertical-align: bottom">
+              <input id="img9" type="text" name="copypath" value="https://hlaclub.com/uploads/files/3/b/4/2/9/3b429b2d9a21479a4fdc66fcbc1affed.jpg" style="min-width: 50px; width: 90%" onsubmit="javascript:void(0)"><br>
+              <a href="javascript:void(0)" onclick="insimage('https://hlaclub.com/uploads/files/3/b/4/2/9/3b429b2d9a21479a4fdc66fcbc1affed.jpg','3b429b2d9a21479a4fdc66fcbc1affed.jpg')">Вставить изображение в пост</a>
+            </div>
+          </div>
+          <div id="img77dd06b5fa0f0f2b280b35df4154552c" style="display: inline-block; max-width: 90%; width: 350px; height: 350px; margin: 3px; background: #eaeaea; vertical-align: top" align="center">
+            <label style="width: 90%; text-align: left"><input id="thn77dd06b5fa0f0f2b280b35df4154552c" type="checkbox" name="isthumbnail" onclick="selectthumbnail('77dd06b5fa0f0f2b280b35df4154552c','77dd06b5fa0f0f2b280b35df4154552c.jpg');"> Использовать в качестве миниатюры-изображения для этой статьи</label>
+            <a href="javascript:void(0);" onclick="editpicture('77dd06b5fa0f0f2b280b35df4154552c.jpg','uploads/files/7/7/d/d/0/77dd06b5fa0f0f2b280b35df4154552c.jpg','мужское здоровье');" alt="мужское здоровье" title="мужское здоровье">
+              <div style="display: -moz-inline-box; display: inline-block; vertical-align: middle; margin-left: -10px; height: 230px; width: 330px; background: url(uploads/files/7/7/d/d/0/77dd06b5fa0f0f2b280b35df4154552c.jpg) no-repeat center center; background-size: contain; -moz-background-size: contain; -o-background-size: contain; -webkit-background-size: contain; -khtml-background-size: contain"></div>
+            </a>
+            <div style="margin-top: 5px; height: 30px; vertical-align: bottom">
+              <input id="img10" type="text" name="copypath" value="https://hlaclub.com/uploads/files/7/7/d/d/0/77dd06b5fa0f0f2b280b35df4154552c.jpg" style="min-width: 50px; width: 90%" onsubmit="javascript:void(0)"><br>
+              <a href="javascript:void(0)" onclick="insimage('https://hlaclub.com/uploads/files/7/7/d/d/0/77dd06b5fa0f0f2b280b35df4154552c.jpg','77dd06b5fa0f0f2b280b35df4154552c.jpg')">Вставить изображение в пост</a>
+            </div>
+          </div>
+          <div id="imga98994cc69a858fd9b5db8b4bdf4d619" style="display: inline-block; max-width: 90%; width: 350px; height: 350px; margin: 3px; background: #eaeaea; vertical-align: top" align="center">
+            <label style="width: 90%; text-align: left"><input id="thna98994cc69a858fd9b5db8b4bdf4d619" type="checkbox" name="isthumbnail" onclick="selectthumbnail('a98994cc69a858fd9b5db8b4bdf4d619','a98994cc69a858fd9b5db8b4bdf4d619.jpg');"> Использовать в качестве миниатюры-изображения для этой статьи</label>
+            <a href="javascript:void(0);" onclick="editpicture('a98994cc69a858fd9b5db8b4bdf4d619.jpg','uploads/files/a/9/8/9/9/a98994cc69a858fd9b5db8b4bdf4d619.jpg','жертва коронавирусной инфекции');" alt="жертва коронавирусной инфекции" title="жертва коронавирусной инфекции">
+              <div style="display: -moz-inline-box; display: inline-block; vertical-align: middle; margin-left: -10px; height: 230px; width: 330px; background: url(uploads/files/a/9/8/9/9/a98994cc69a858fd9b5db8b4bdf4d619.jpg) no-repeat center center; background-size: contain; -moz-background-size: contain; -o-background-size: contain; -webkit-background-size: contain; -khtml-background-size: contain"></div>
+            </a>
+            <div style="margin-top: 5px; height: 30px; vertical-align: bottom">
+              <input id="img11" type="text" name="copypath" value="https://hlaclub.com/uploads/files/a/9/8/9/9/a98994cc69a858fd9b5db8b4bdf4d619.jpg" style="min-width: 50px; width: 90%" onsubmit="javascript:void(0)"><br>
+              <a href="javascript:void(0)" onclick="insimage('https://hlaclub.com/uploads/files/a/9/8/9/9/a98994cc69a858fd9b5db8b4bdf4d619.jpg','a98994cc69a858fd9b5db8b4bdf4d619.jpg')">Вставить изображение в пост</a>
+            </div>
+          </div>
+          <div id="imgf68e8bc07f2a916dd6bd84bc287c9976" style="display: inline-block; max-width: 90%; width: 350px; height: 350px; margin: 3px; background: #eaeaea; vertical-align: top" align="center">
+            <label style="width: 90%; text-align: left"><input id="thnf68e8bc07f2a916dd6bd84bc287c9976" type="checkbox" name="isthumbnail" onclick="selectthumbnail('f68e8bc07f2a916dd6bd84bc287c9976','f68e8bc07f2a916dd6bd84bc287c9976.jpg');"> Использовать в качестве миниатюры-изображения для этой статьи</label>
+            <a href="javascript:void(0);" onclick="editpicture('f68e8bc07f2a916dd6bd84bc287c9976.jpg','uploads/files/f/6/8/e/8/f68e8bc07f2a916dd6bd84bc287c9976.jpg','в маске');" alt="в маске" title="в маске">
+              <div style="display: -moz-inline-box; display: inline-block; vertical-align: middle; margin-left: -10px; height: 230px; width: 330px; background: url(uploads/files/f/6/8/e/8/f68e8bc07f2a916dd6bd84bc287c9976.jpg) no-repeat center center; background-size: contain; -moz-background-size: contain; -o-background-size: contain; -webkit-background-size: contain; -khtml-background-size: contain"></div>
+            </a>
+            <div style="margin-top: 5px; height: 30px; vertical-align: bottom">
+              <input id="img12" type="text" name="copypath" value="https://hlaclub.com/uploads/files/f/6/8/e/8/f68e8bc07f2a916dd6bd84bc287c9976.jpg" style="min-width: 50px; width: 90%" onsubmit="javascript:void(0)"><br>
+              <a href="javascript:void(0)" onclick="insimage('https://hlaclub.com/uploads/files/f/6/8/e/8/f68e8bc07f2a916dd6bd84bc287c9976.jpg','f68e8bc07f2a916dd6bd84bc287c9976.jpg')">Вставить изображение в пост</a>
+            </div>
+          </div>
+          <div id="endofscroll" align="center">
+            <button type="button" id="addpicture" class="btn btn-default" style="margin-bottom: 10px; margin-top: 10px" onclick="checkscroll();">Загрузи больше...</button>
+          </div>
+        </div>
+        <script type="text/javascript" data-pagespeed-no-defer="">
+          pagespeed.lazyLoadImages.overrideAttributeFunctions();
+        </script>
+        <script>
+          function checkscroll() {
+            if ($('#endofscroll').length > 0) {
+              if ($(document).scrollTop() + $(window).height() > $('#endofscroll').offset().top && $(document).scrollTop() - $('#endofscroll').offset().top < $('#endofscroll').height()) var hideloader = document.getElementById('endofscroll');
+              if (typeof hideloader != 'undefined') {
+                hideloader.setAttribute('id', 'oldloading');
+                if (!endofdata) dataloading.load(0);
+                $('#oldloading').remove();
+              }
+            }
+          }
+          window.onscroll = checkscroll;
+        </script>
+        <script>
+          var endofdata = false;
+          var dataloading = dataloading || {};
+          (function ($, dataloading) {
+            'use strict';
+            var page = 1,
+              container = '#data-container';
+            dataloading.load = function (mpage) {
+              if (mpage > 0) page = mpage;
+              var url = '/loadpictures.php?page=' + page + '&ispostedit=1&filemd5=&postpath=editpost';
+              $.ajax({
+                url: url,
+                success: function (response) {
+                  if (!response || response.trim() == 'NONE') {
+                    var endofdata = true;
+                    return;
+                  }
+                  appendContests(response);
+                },
+                error: function (response) {
+                  alert('К сожалению, есть ошибка в запросе. Пожалуйста, обновите страницу.');
+                },
+              });
+            };
+            var appendContests = function (response) {
+              $(response).appendTo($(container));
+              page += 1;
+            };
+          })(jQuery, dataloading);
+          dataloading.load(0);
+        </script>
+        <button class="btn" id="addpicture" type="button" onclick="addpicture(0);">Добавить картинку</button>
+      </div>
+    </div>
+  </div>
+
+{% endblock %}
+
+{% block body_suffix %}
+  {% set UserId = 0 %}
+  <script>
+    (() => {
+      if (Number({{ UserId }}) === 0) {
+        document.getElementById('header-menu').classList.add('is-on');
+        document.getElementById('header-sign-up').classList.add('is-on');
+        document.getElementById('header-sign-in').classList.add('is-on');
+      } else {
+        document.querySelector('.header__menu .dropdown').classList.add('is-on');
+      }
+    })();
+  </script>
+{% endblock %}

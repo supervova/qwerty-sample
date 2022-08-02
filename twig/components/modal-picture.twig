@@ -1,0 +1,68 @@
+<!--noindex-->
+
+{# Picture #}
+<div class="modal fade" id="newpicture" role="dialog" aria-labelledby="modal-new-picture-title" aria-hidden="true" tabindex="-1">
+  <div class="modal-dialog" role="document">
+    <div class="modal__box">
+      <div class="modal__header">
+        <h2 class="modal__title" id="modal-new-picture-title">{{ 'Picture'|trans }}</h2>
+        <button class="btn is-close" type="button" data-dismiss="modal" aria-label="{{ 'Close'|trans }}">
+          {% include "base/icon.twig" with {name: "x-mark"} %}
+        </button>
+      </div>
+
+      <form class="modal__body" action="javascript:void(0);">
+        <input type="hidden" name="filename" id="filename" value="">
+        <figure class="avatar is-large"></figure>
+
+        <div class="mb-1" id="selectfile">
+          <input id="PhotoFile" name="PhotoFile" type="file" onchange="showeditphoto('editphoto','PhotoFile','photo_b64');">
+          <input type="hidden" id="photo_b64" name="photo_b64">
+        </div>
+
+        <div class="form__item">
+          <label for="description">{{ 'Description or keywords:'|trans }}</label>
+          <input id="description" name="description" type="text" value="">
+          <small class="form__hint">{{ 'No more than 50 characters'|trans }}</small>
+        </div>
+      </form>
+
+      <div class="modal__footer">
+        <label class="form__item has-option is-dangerous mr-auto" id="deletediv">
+          <input id="todelete" name="todelete" type="checkbox">
+          {% include "base/icon.twig" with {name: "trash", class: "is-left is-dangerous"} %}
+          {{ 'Delete file'|trans }}
+        </label>
+        <button class="btn" id="cancelimgbutton" type="button" data-dismiss="modal">
+          {{ 'Cancel changes'|trans }}
+        </button>
+        <button class="btn is-primary" id="saveimgbutton" type="button" onclick="saveimage()">
+          {{ 'Save changes'|trans }}
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+{# Uploading file #}
+<div class="modal fade" id="uploadingwin" role="dialog" aria-labelledby="modal-uploading" aria-hidden="true" tabindex="-1">
+  <div class="modal-dialog" role="document">
+    <div class="modal__box">
+      <div class="modal__header">
+        <h2 class="modal__title" id="modal-uploading">{{ 'Upload file'|trans }}<span id="progressperc"></span></h2>
+        <button class="btn is-close" type="button" data-dismiss="modal" aria-label="{{ 'Close'|trans }}">
+          {% include "base/icon.twig" with {name: "x-mark"} %}
+        </button>
+      </div>
+      <div class="modal__body">
+        <div id="progressbar" class="progress">
+          <div id="progressline" class="progress-bar progress-bar-striped active" role="progressbar" aria-valuenow="45" aria-valuemin="0" aria-valuemax="0"></div>
+        </div>
+        <div id="filechecking" style="display: none">
+          <strong>{{ 'checking...'|trans }}</strong>
+          <img src="/images/checkfile.gif" alt="">
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,19 @@
+<a class="{{ context_class }} logo" href="/">
+
+  <img class="logo__mark" src="/projects/{{ ExtraData.domain }}/images/base/graphics/logo/logomark.svg" width="48" height="48" alt="{{ ExtraData.name }} — {{ 'Logo'|trans }}">
+
+  <div class="logo__copy">
+    <picture>
+      <source media="(min-width: 1024px)" srcset="/projects/{{ ExtraData.domain }}/images/base/graphics/logo/logotype-lg.svg">
+      <img class="logo__type" src="/projects/{{ ExtraData.domain }}/images/base/graphics/logo/logotype-sm.svg" width="79" height="13" alt="{{ ExtraData.name }} — {{ 'Logo'|trans }}">
+    </picture>
+    <span class="sr-only">{{ ExtraData.name }} — {{ 'Homepage'|trans }}</span>
+    <div class="tagline">
+      {% if ExtraData.Lang == 'ru' %}
+        здорового долголетия
+      {% else %}
+        {{ 'Healthy Longevity'|trans }}
+      {% endif %}
+    </div>
+  </div>
+</a>

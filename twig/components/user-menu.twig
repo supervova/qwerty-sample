@@ -1,0 +1,29 @@
+<li class="header__user dropdown">
+  <a class="dropdown-toggle" href="javascript:void(0)" data-toggle="dropdown">
+    {# PHP stuff #}
+    <div class="header_photo" style="display: inline-block; vertical-align: middle; white-space: nowrap">
+      <img src="/images/profile_nophoto.jpg" alt="" />
+
+    </div>
+    {# <span class="hidden-xs blackback">Vladimir Nikishin</span> #}
+  </a>
+  <ul class="dropdown-menu">
+    <li>
+      <button type="button" data-toggle="modal" data-target="#modal-location">
+        <span id="header-menu-location">
+          Москва
+          {# {$locationstr_header} #}
+        </span>
+        {% include "base/icon.twig" with { name: "pin", class: "is-user-menu-icon" } %}
+      </button>
+    </li>
+    <li class="dropdown__divider" role="separator"></li>
+    <li><a href="/user/1042861">Моя страница</a></li>
+    <li><a href="/notifications" onclick="">Уведомления</a></li>
+    <li><a href="/user/1042861?tab=communities" onclick="">Мои сообщества</a></li>
+    <li><a href="/communicator" onclick="">Мои сообщения</a></li>
+    <li><a href="/finance" onclick="">Мои Финансы</a></li>
+    <li><a href="/profile" onclick="">Настройки профиля</a></li>
+    <li><a href="javascript:void(0)" onclick="bootpopup.confirm('Вы уверены, что хотите выйти?', 'Выход', function(ans) { if (ans) { location.href='/?action=logout&amp;gourl=aHR0cHM6Ly9ydS5teWJ1c2luZXMuYXBwLz9uZXc9b2s@'; } });">Выход</a></li>
+  </ul>
+</li>

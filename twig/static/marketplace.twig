@@ -1,0 +1,301 @@
+
+{% extends "clean_page.twig" %}
+
+{% block config %}
+  {{ parent() }}
+
+  {% set ExtraData = ExtraData|merge(
+    {
+      title: "Тестовая страница",
+      is_dev: true
+    }
+  ) %}
+
+  {% set user_id = 0 %}
+{% endblock %}
+
+{% block html_head %}
+  {{ parent() }}
+
+  <script>
+    (() => {
+      {% include "scripts/marketplace.js" %}
+      {% include "scripts/marketplace-cart.js" %}
+      {% include "scripts/marketplace-filter.js" %}
+    })();
+  </script>
+
+  <style>
+    {% include "styles/marketplace/marketplace.css" %}
+  </style>
+{% endblock %}
+
+{# MAIN CONTENT ------------------------------------------------------------- #}
+{% block content %}
+
+
+  <header class="main__header has-submenu">
+    <h1>{{ 'Marketplace'|trans }}</h1>
+    <ul class="main__header-submenu">
+      <li class="main__header-filter filter dropdown">
+        <button class="btn is-ghost" id="main-header-filter-toggle" data-toggle="dropdown" aria-haspopup="true">
+          {% include "base/icon.twig" with {name: "filter"} %}
+          <span class="sr-only">{{ 'Filter'|trans }}</span>
+        </button>
+        <ul class="dropdown__menu is-all" aria-labelledby="main-header-filter-toggle">
+
+          <li class="dropdown">
+            <label id="main-header-filter-products-toggle" for="filter-categories-input" data-toggle="dropdown" aria-haspopup="true">
+              Products:&nbsp;
+              <span class="filter__selected-value" data-source="filter-categories-input">
+                {{ 'All'|trans }}
+              </span>
+            </label>
+            <div class="dropdown__menu" aria-labelledby="main-header-filter-products-toggle">
+              <input class="filter__datalist-input" id="filter-categories-input" name="filter-categories-input" list="filter-categories" placeholder="Filter...">
+              <datalist id="filter-categories">
+                <option value="All products" selected>
+                <option value="My products">
+
+                {# Medicines #}
+                <option>MEDICINES --------------------------</option>
+                <option value="Акушерство, гинекология">
+                <option value="Аллергия">
+                <option value="Анестезия, реанимация">
+                <option value="Антибиотики">
+                <option value="Болезни крови">
+                <option value="Боль, температура">
+                <option value="Геморрой">
+                <option value="Глаза">
+                <option value="Глисты, вши, чесотка">
+                <option value="Гомеопатия">
+                <option value="Диабет">
+                <option value="Диагностические средства">
+                <option value="Дыхательная система">
+                <option value="Желудок, кишечник, печень">
+                <option value="Зубы и рот">
+                <option value="Иммунная система">
+                <option value="Кожа">
+                <option value="Мочеполовая система">
+                <option value="Нарушения обмена веществ">
+                <option value="Неврология, психиатрия">
+                <option value="Обеззараживающие средства">
+                <option value="Онкология">
+                <option value="Отравления">
+                <option value="Питательные смеси">
+                <option value="Противовирусные средства">
+                <option value="Противогрибковые средства">
+                <option value="Разное">
+                <option value="Сердечно-сосудистые">
+                <option value="Трихомоноз и малярия">
+                <option value="Ухо, горло, нос">
+                <option value="Эндокринология">
+                <option value="Все категории">
+
+                {# Vitamins and Dietary supplement #}
+                <option>VITAMINS AND DIETARY SUPPLEMENT ----</option>
+                <option value="Ароматерапия">
+                <option value="Волосы">
+                <option value="Депиляция и бритье">
+                <option value="Загар">
+                <option value="Макияж">
+                <option value="Маникюр и педикюр">
+                <option value="Подарочные наборы">
+                <option value="Товары для мужчин">
+                <option value="Приборы и аксессуары для ухода за лицом">
+                <option value="БАД пищеварительный тракт и обмен веществ">
+                <option value="БАД при диабете">
+                <option value="БАД при климаксе">
+                <option value="БАД при простуде">
+                <option value="БАД седативные">
+                <option value="Витамины и минералы">
+                <option value="Витамины для беременных и кормящих">
+
+                {# Beauty #}
+                <option>BEAUTY -----------------</option>
+                <option value="Ароматерапия">
+                <option value="Волосы">
+                <option value="Депиляция и бритье">
+                <option value="Загар">
+                <option value="Макияж">
+                <option value="Маникюр и педикюр">
+                <option value="Подарочные наборы">
+                <option value="Товары для мужчин">
+                <option value="Приборы и аксессуары для ухода за лицом">
+
+                {# Hygiene #}
+                <option>HYGIENE ----------------------------</option>
+                <option value="Антибактериальные средства гигиены">
+                <option value="Атмосфера в доме">
+                <option value="Ватные и бумажные изделия">
+                <option value="Гигиена дома">
+                <option value="Дезодоранты">
+                <option value="Средства женской гигиены">
+                <option value="Урологические прокладки">
+                <option value="Уход за одеждой и обувью">
+                <option value="Уход за полостью рта">
+
+
+                {# Lenses #}
+                <option>LENSES -----------------------------</option>
+                <option value="Двухнедельные">
+                <option value="Квартальные">
+                <option value="На месяц">
+                <option value="Однодневные">
+                <option value="Цветные">
+                <option value="Очки">
+                <option value="Средства по уходу за линзами">
+                <option value="Увлажняющие капли">
+
+                {# Mother and child #}
+                <option>MOTHER AND CHILD -------------------</option>
+                <option value="Бытовая химия">
+                <option value="Все для кормления ребенка">
+                <option value="Все для купания ребенка">
+                <option value="Гигиена малыша">
+                <option value="Детская бытовая техника">
+                <option value="Детское питание">
+                <option value="Игрушки">
+                <option value="Кормящим и беременным">
+                <option value="Подгузники">
+                <option value="Товары для безопасности детей">
+
+                {# Medical products #}
+                <option>MEDICAL PRODUCTS -------------------</option>
+                <option value="Тесты на COVID-19">
+                <option value="Здоровое питание">
+                <option value="Компрессионное и корректирующее белье">
+                <option value="Медицинские изделия и расходные материалы">
+                <option value="Перевязочные материалы">
+                <option value="Перчатки и напальчники">
+                <option value="Пластыри">
+                <option value="Презервативы и смазка">
+                <option value="Сертификаты на услуги">
+                <option value="Солевые лампы, грелки">
+                <option value="Средства ухода за лежачими больными">
+
+                {# Medical equipment #}
+                <option>MEDICAL EQUIPMENT ------------------</option>
+                <option value="Глюкометры">
+                <option value="Ланцеты">
+                <option value="Тест-полоски">
+                <option value="Датчики и мониторы активности">
+                <option value="Ингаляторы">
+                <option value="Ингаляторы и небулайзеры">
+                <option value="Комплектующие и маски для ингаляторов">
+                <option value="Пикфлоуметры">
+                <option value="Спейсеры">
+                <option value="Массажеры">
+                <option value="Аппараты магнитотерапии">
+                <option value="Аппликаторы">
+                <option value="Вакуумные массажеры">
+                <option value="Медицинские мячи">
+                <option value="Механические массажеры">
+                <option value="Электрические массажеры">
+                <option value="Термометры">
+                <option value="Тонометры и стетоскопы">
+                <option value="Запасные части для тонометров">
+                <option value="Стетоскопы">
+                <option value="Тонометры автоматические">
+                <option value="Тонометры механические">
+                <option value="Тонометры полуавтоматические">
+                <option value="Увлажнители и очистители воздуха">
+                <option value="УФ и ИК облучатели">
+                <option value="Уход за полостью рта">
+                <option value="Ирригаторы">
+                <option value="Электрические зубные щетки">
+                <option value="Шагомеры">
+                <option value="Элементы питания">
+              </datalist>
+            </div>
+          </li>
+
+          <li class="dropdown">
+            <label id="main-header-filter-price-toggle" for="costfrom" data-toggle="dropdown" aria-haspopup="true">
+              {{ 'Price'|trans }},
+
+              <span class="filter__currency" data-tooltip="{{ 'You can change currency on profile settings page.'|trans }}">
+                $
+              </span>
+              :&nbsp;
+              <span class="filter__selected-value" data-source="costfrom">
+                {{ 'Any'|trans }}
+              </span>
+              <span class="filter__selected-value" data-source="costto"></span>
+            </label>
+
+
+            <div class="dropdown__menu" aria-labelledby="main-header-price-products-toggle">
+              <div class="filter__row">
+                <input id="costfrom" name="costfrom" type="number" value="" oninput="getnew_header(2000);" min="0" placeholder="1">
+                -
+                <input id="costto" name="costto" type="number" value="" oninput="getnew_header(2000);" min="1" placeholder="100">
+              </div>
+            </div>
+          </li>
+
+
+        </ul>
+      </li>
+      <li data-tooltip="{{ 'Create new listing.'| trans }}">
+        <a class="filter__icon-action" href="/marketplace/cart">
+          {% include "base/icon.twig" with {name: "add"} %}
+          <span class="sr-only">Create new listing</span>
+        </a>
+      </li>
+      <li data-tooltip="{{ 'Your cart: 293.71'| trans }}">
+        <a class="filter__icon-action" href="/marketplace/cart">
+          {% include "base/icon.twig" with {name: "shopping-bag"} %}
+          <span class="sr-only">Your cart: $293.71</span>
+        </a>
+      </li>
+    </ul>
+  </header>
+
+  <span class="endblock"></span>
+  <ul class="products grid is-sm" id="datablock">
+    <li class="product">
+      <figure class="product__image">
+        <img src="https://hlaclub.com/uploads/files/e/d/3/c/8/ed3c80e2e96021fce68f1e9e0742de80.jpg" alt="">
+      </figure>
+      <div class="product__body">
+        <h2 class="product__description">
+          <a class="product__wrapper-link" href="/marketplace/5">
+            Смартфон Xiaomi Redmi Note 9 Pro 6/128GB Global Version
+          </a>
+        </h2>
+        <div class="product__price">250,00 €<small> + 14 € доставка</small></div>
+        <button class="btn" type="button" onclick="addToCart()">{{ 'Add to cart'|trans }}</button>
+      </div>
+    </li>
+    <li class="product">
+      <figure class="product__image">
+        <img src="https://hlaclub.com/uploads/files/9/d/8/f/1/9d8f1f07615e76823101d97382d852c7.jpg" alt="">
+      </figure>
+      <div class="product__body">
+        <h2 class="product__description">
+          <a class="product__wrapper-link" href="/marketplace/4">
+            Велосипед Merida 2020 Silex 300 700C Glossy Green/Black
+          </a>
+        </h2>
+        <div class="product__price">872,53€</div>
+      <button class="btn" type="button" onclick="addToCart()">{{ 'Add to cart'|trans }}</button>
+     </div>
+    </li>
+  </ul>
+
+  <script>
+    lasteventtime = 4;
+  </script>
+
+  <div id="loadingdata" style="display: none">
+    Загрузка...<br>
+    <img src="/images/loading.gif" alt="Загрузка..." width="30"><br>
+    <a href="/marketplace">Нажмите здесь если загрузка не выполняется</a>
+  </div>
+
+{% endblock %}
+
+{# {% block body_suffix %}
+  {{ parent() }}
+{% endblock %} #}

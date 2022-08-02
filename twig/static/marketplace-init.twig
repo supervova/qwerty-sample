@@ -1,0 +1,337 @@
+
+{% extends "clean_page.twig" %}
+
+{% block config %}
+  {{ parent() }}
+
+  {% set ExtraData = ExtraData|merge(
+    {
+      title: "Тестовая страница",
+      is_dev: true
+    }
+  ) %}
+
+  {% set user_id = 0 %}
+{% endblock %}
+
+{% block html_head %}
+  {{ parent() }}
+
+  <style>
+    {% include "styles/marketplace/marketplace.css" %}
+  </style>
+{% endblock %}
+
+{# MAIN CONTENT ------------------------------------------------------------- #}
+{% block content %}
+
+
+  <script>
+    function getblock() {
+      if (loadingdata == 0)
+      {
+        lastcall = new Date().getTime();
+        location_country = document.getElementById('cclist').value;
+        searchtext = document.getElementById('searchtext').value;
+        this_region = document.getElementById('this_region').value;
+        this_region_lng = document.getElementById('this_region_lng').value;
+        costfrom = document.getElementById('costfrom').value;
+        costto = document.getElementById('costto').value;
+        curr = document.getElementById('usercurr').value;
+        loadingdata = 1;
+        document.getElementById('loadingdata').style.display = 'block';
+        $(".endblock").removeClass("endblock");
+        if (lasteventtime == 0)
+        {
+          $('#datablock').html('');
+        }
+        $.ajax({
+        url: './getmarketplace.php',
+        type: 'POST',
+        async: false,
+        data: { lasteventtime: lasteventtime, searchtext: searchtext, location_country: location_country, this_region: this_region, this_region_lng: this_region_lng, costfrom: costfrom, costto: costto, curr: curr, mpcountry: 'ME', cat: 0, myads: false },
+        success: function(response) {
+          if (lasteventtime == 0)
+          {
+            $('#datablock').html(response);
+
+          }
+          else
+          {
+            $('#datablock').append(response);
+
+          }
+          loadingdata = 0;
+          document.getElementById('loadingdata').style.display = 'none';
+          $('[data-toggle="tooltip"]').tooltip();
+          showblock();
+        },
+        error: function(response) {
+          loadingdata = 0;
+          getblock();
+        }
+        });
+      }
+    }
+
+    function showblock() {
+      if (loadingdata == 0)
+      {
+        for(var i=0;i<$('.endblock').get().length;i++)
+        {
+          var item = document.getElementsByClassName('endblock');
+          var itemFirst = item[i];
+          if (elementInViewport(itemFirst) || lasteventtime == 0)
+          {
+            getblock();
+          }
+        }
+      }
+    }
+
+    function checkregion() {
+      var location_country = document.getElementById('cclist').value;
+      var this_region_lng = document.getElementById('this_region_lng').value;
+      if (this_region_lng != '')
+      {
+        if (this_region_lng != '')
+        {
+          $.ajax({
+            url: './regionlng.php',
+            type: 'POST',
+            data: { region_lng: this_region_lng, usercountry: location_country },
+            async: false,
+            success: function(response) {
+              response = $.parseJSON(response);
+              if (response[0] == 'OK')
+              {
+                document.getElementById('this_region').value = response[1];
+                document.getElementById('this_region_lng').value = response[2];
+                getnew(100);
+              }
+            }
+          });
+        }
+        else
+        {
+          document.getElementById('this_region').value = '';
+          document.getElementById('this_region_lng').value = '';
+        }
+      }
+      else
+      {
+        document.getElementById('this_region').value = '';
+        document.getElementById('this_region_lng').value = '';
+      }
+    }
+
+    function keyupcity() {
+      var this_region_lng = document.getElementById('this_region_lng').value;
+      if (this_region_lng == '')
+      {
+        getnew(100);
+      }
+    }
+
+    function getnew(delaysec = 1000) {
+      adcountry = document.getElementById('cclist').value;
+      var largeExpDate = new Date ();
+      largeExpDate.setTime(largeExpDate.getTime() + (24 * 60 * 60 * 100000));
+      SetCookieQwerty('mpcountry', adcountry, largeExpDate,'/','hlaclub.com');
+      searchcities(adcountry);
+      if (adcountry != '')
+      {
+        document.getElementById('this_region_lng').disabled = false;
+      }
+      else
+      {
+        document.getElementById('this_region_lng').disabled = true;
+      }
+      $('#datablock').html('');
+      document.getElementById('loadingdata').style.display = 'block';
+      lastcall = new Date().getTime();
+      setTimeout(function() {
+        thiscall = new Date().getTime();
+        diffms = thiscall - lastcall;
+        if (diffms >= delaysec)
+        {
+          loadingdata = 0;
+          lasteventtime = 0;
+          getblock();
+        }
+      }
+      ,delaysec);
+    }
+
+    function searchcities(country_code) {
+      $('.typeahead__result').remove();
+      $('#this_region_lng').typeahead({
+      minLength: 1,
+      order: "asc",
+      cache: false,
+      maxItem: false,
+      offset: true,
+      source: {
+        ajax: {
+          type: "POST",
+          url: "/json.php",
+          data: {
+            country_code: country_code, user_lng: 'ru'
+          }
+        }
+      },
+      callback: {
+        onClick: function (node, a, item, event) {
+          $('#this_region_lng').val(item.display);
+          checkregion();
+        }
+      }
+      });
+    }
+
+    function cartinfo() {
+      mycart = GetCookieQwerty('mycart');
+      if (mycart == null)
+      {
+        cartData = new Object();
+        cartData.total = 0;
+      }
+      else
+      {
+        cartData = JSON.parse(mycart);
+      }
+      if (typeof cartData !== 'object')
+      {
+        cartData = new Object();
+        cartData.total = 0;
+      }
+      if (cartData.total > 0)
+      {
+        $('#cartinfo').show();
+        $('#cartinfo').html('<a href="/ru/marketplace/cart"><span style="font-weight:500;">Ваша Корзина: '+cartData.total+' $</span></a>');
+      }
+      else
+      {
+        $('#cartinfo').hide();
+      }
+    }
+
+    $(document).ready(function(){
+      loadingdata = 0;
+      lasteventtime = 0;
+      window.onscroll = showblock;
+      $('#usercurr').change(function(){
+        getnew(100);
+      });
+      if (false)
+      {
+        $('.allads').hide();
+        $('.myads').show();
+      }
+      else
+      {
+        $('.allads').show();
+        $('.myads').hide();
+      }
+      searchcities('CD');
+      showblock();
+      cartinfo();
+    });
+  </script>
+
+<div class="main__header has-single-action allads">
+  <h1>Маркетплейс hlaclub.com</h1>
+  <a href="javascript:void(0)" onclick="$('#forsellers').show()">
+    для продавцов
+  </a>
+</div>
+
+  <div id="forsellers" style="">
+    <div class="alert alert-success">
+      <h4 style="margin-top:20px;">Правила для продавцов</h4>
+        <p>
+        1. Размещая свои товары на нашем сервисе, вы соглашаетесь со всеми условиями!
+        </p>
+        <p>
+        2. Мы гарантируем безопасность сделок с клиентами! Покупатель оплачивает товары в момент их заказа, но продавец получает оплату от нашего сервиса ТОЛЬКО после того, как покупатель подтверждает получение товара и при отсутствии претензий!
+        </p>
+        <p>
+        3. Продавец обязан обеспечить доставку товара - самостоятельно или с помощью нашей логистической службы.
+        </p>
+        <p>
+        <strong>Если вы согласны со всеми условиями,</strong> <a href="/ru/editproduct"><strong>вы можете начать добавлять товары на наш сайт!</strong></a>
+        </p>
+    </div>
+  </div>
+
+  <div class="myads" style="display: none;">
+    <span>Мои объявления</span> | <a href="/ru/marketplace">Все объявления</a>
+  </div>
+
+
+  <div><div style="display:inline-block;padding:0 15px 10px 0;color:#999;">Витамины и БАДы (0)</div><div style="display:inline-block;padding:0 15px 10px 0;color:#999;">Гигиена (0)</div><div style="display:inline-block;padding:0 15px 10px 0;color:#999;">Красота (0)</div><div style="display:inline-block;padding:0 15px 10px 0;color:#999;">Лекарственные средства (0)</div><div style="display:inline-block;padding:0 15px 10px 0;color:#999;">Медтехника (0)</div><div style="display:inline-block;padding:0 15px 10px 0;color:#999;">Медтовары (0)</div></div>
+
+  <div id="cartinfo" style=""><a href="/ru/marketplace/cart"><span style="font-weight:500;">Ваша Корзина: 292.06 $</span></a></div>
+
+  <div class="filter pt-2">
+    <div class="filter__item">
+      <label for="searchtext">Поиск</label>
+      <input id="searchtext" name="searchtext" type="search" value="" placeholder="Поиск по названию товара или описанию" onchange="getnew(2000)" onkeyup="getnew()" spellcheck="false" data-ms-editor="true">
+    </div>
+
+    <div class="filter__row allads" style="">
+      <div class="filter__item">
+        <label for="cclist">Страна</label>
+        <select name="cclist" id="cclist" class="form-control" onchange="location.href='https://hlaclub.com/ru/marketplace/?mpcountry='+this.value"><option value="">Не выбрано</option><option value="AU">Австралия (Australia)</option><option value="AT">Австрия (Austria)</option><option value="AZ">Азербайджан (Azerbaijan)</option><option value="AX">Аландские острова (Aland Islands)</option><option value="AL">Албания (Albania)</option><option value="DZ">Алжир (Algeria)</option><option value="AS">Американское Самоа (American Samoa)</option><option value="AI">Ангилья (Anguilla)</option><option value="AO">Ангола (Angola)</option><option value="AD">Андора (Andorra)</option><option value="AQ">Антарктида (Antarctica)</option><option value="AG">Антигуа и Барбуда (Antigua and Barbuda)</option><option value="AR">Аргентина (Argentina)</option><option value="AM">Армения (Armenia)</option><option value="AW">Аруба (Aruba)</option><option value="AF">Афганистан (Afghanistan)</option><option value="BS">Багамские острова (Bahamas)</option><option value="BD">Бангладеш (Bangladesh)</option><option value="BB">Барбадос (Barbados)</option><option value="BH">Бахрейн (Bahrain)</option><option value="BY">Беларусь (Belarus)</option><option value="BZ">Белиз (Belize)</option><option value="BE">Бельгия (Belgium)</option><option value="BJ">Бенин (Benin)</option><option value="BM">Бермудские острова (Bermuda)</option><option value="BG">Болгария (Bulgaria)</option><option value="BO">Боливия (Bolivia)</option><option value="BA">Босния и Герцеговина (Bosnia and Herzegovina)</option><option value="BW">Ботсвана (Botswana)</option><option value="BR">Бразилия (Brazil)</option><option value="IO">Британской территории в Индийском океане (British Indian Ocean Territory)</option><option value="BN">Бруней-Даруссалам (Brunei Darussalam)</option><option value="BF">Буркина-Фасо (Burkina Faso)</option><option value="BI">Бурунди (Burundi)</option><option value="BT">Бутан (Bhutan)</option><option value="VU">Вануату (Vanuatu)</option><option value="UK">Великобритания (United Kingdom)</option><option value="GB">Великобритания (UK) (Great Britain (UK))</option><option value="HU">Венгрия (Hungary)</option><option value="VE">Венесуэла (Venezuela)</option><option value="VG">Виргинские острова (Британские) (Virgin Islands (British))</option><option value="VI">Виргинские острова (США) (Virgin Islands (U.S.))</option><option value="VN">Вьетнам (Viet Nam)</option><option value="GA">Габон (Gabon)</option><option value="HT">Гаити (Haiti)</option><option value="GY">Гайана (Guyana)</option><option value="GM">Гамбия (Gambia)</option><option value="GH">Гана (Ghana)</option><option value="GP">Гваделупа (Guadeloupe)</option><option value="GT">Гватемала (Guatemala)</option><option value="GN">Гвинея (Guinea)</option><option value="GW">Гвинея-Бисау (Guinea-Bissau)</option><option value="DE">Германия (Germany)</option><option value="GI">Гибралтар (Gibraltar)</option><option value="HN">Гондурас (Honduras)</option><option value="HK">Гонконг (Hong Kong)</option><option value="VA">Город-государство Ватикан (Святейший Престол) (Vatican City State (Holy See))</option><option value="GD">Гренада (Grenada)</option><option value="GL">Гренландия (Greenland)</option><option value="GR">Греция (Greece)</option><option value="GE">Грузия (Georgia)</option><option value="GU">Гуам (Guam)</option><option value="DK">Дания (Denmark)</option><option value="CD">Демократическая Республика Конго (Democratic Republic of the Congo)</option><option value="JE">Джерси (Jersey)</option><option value="DJ">Джибути (Djibouti)</option><option value="DM">Доминика (Dominica)</option><option value="DO">Доминиканская Республика (Dominican Republic)</option><option value="EU">Европа (Europe)</option><option value="EG">Египет (Egypt)</option><option value="ZM">Замбия (Zambia)</option><option value="ZW">Зимбабве (Zimbabwe)</option><option value="IL">Израиль (Israel)</option><option value="IN">Индия (India)</option><option value="ID">Индонезия (Indonesia)</option><option value="JO">Иордания (Jordan)</option><option value="IQ">Ирак (Iraq)</option><option value="IR">Иран (Iran)</option><option value="IE">Ирландия (Ireland)</option><option value="IS">Исландия (Iceland)</option><option value="ES">Испания (Spain)</option><option value="IT">Италия (Italy)</option><option value="YE">Йемен (Yemen)</option><option value="CV">Кабо-Верде (Cape Verde)</option><option value="KZ">Казахстан (Kazakhstan)</option><option value="KY">Каймановы острова (Cayman Islands)</option><option value="KH">Камбоджа (Cambodia)</option><option value="CM">Камерун (Cameroon)</option><option value="CA">Канада (Canada)</option><option value="QA">Катар (Qatar)</option><option value="KE">Кения (Kenya)</option><option value="CY">Кипр (Cyprus)</option><option value="KG">Киргизия (Kyrgyzstan)</option><option value="KI">Кирибати (Kiribati)</option><option value="CN">Китай (China)</option><option value="CO">Колумбия (Colombia)</option><option value="KM">Коморские острова (Comoros)</option><option value="CG">Конго (Congo)</option><option value="KP">Корея (Северная) (Korea (North))</option><option value="KR">Корея (Южная) (Korea (South))</option><option value="CR">Коста-Рика (Costa Rica)</option><option value="CI">Кот-д ` (Cote D)</option><option value="CU">Куба (Cuba)</option><option value="KW">Кувейт (Kuwait)</option><option value="LA">Лаос (Laos)</option><option value="LV">Латвия (Latvia)</option><option value="LS">Лесото (Lesotho)</option><option value="LR">Либерия (Liberia)</option><option value="LB">Ливан (Lebanon)</option><option value="LY">Ливия (Libya)</option><option value="LT">Литва (Lithuania)</option><option value="LI">Лихтенштейн (Liechtenstein)</option><option value="LU">Люксембург (Luxembourg)</option><option value="MU">Маврикий (Mauritius)</option><option value="MR">Мавритания (Mauritania)</option><option value="MG">Мадагаскар (Madagascar)</option><option value="YT">Майотта (Mayotte)</option><option value="MO">Макао (Macao)</option><option value="MK">Македония (Macedonia)</option><option value="MW">Малави (Malawi)</option><option value="MY">Малайзия (Malaysia)</option><option value="ML">Мали (Mali)</option><option value="MV">Мальдивы (Maldives)</option><option value="MT">Мальта (Malta)</option><option value="MA">Марокко (Morocco)</option><option value="MQ">Мартиника (Martinique)</option><option value="MH">Маршалловы острова (Marshall Islands)</option><option value="MX">Мексика (Mexico)</option><option value="MZ">Мозамбик (Mozambique)</option><option value="MD">Молдова (Moldova)</option><option value="MC">Монако (Monaco)</option><option value="MN">Монголия (Mongolia)</option><option value="MS">Монтсеррат (Montserrat)</option><option value="MM">Мьянма (Myanmar)</option><option value="NA">Намибия (Namibia)</option><option value="NR">Науру (Nauru)</option><option value="NP">Непал (Nepal)</option><option value="NE">Нигер (Niger)</option><option value="NG">Нигерия (Nigeria)</option><option value="NL">Нидерланды (Netherlands)</option><option value="NI">Никарагуа (Nicaragua)</option><option value="NU">Ниуэ (Niue)</option><option value="NC">Новая Каледония (New Caledonia)</option><option value="NZ">Новой Зеландии (Аотеароа) (New Zealand (Aotearoa))</option><option value="NO">Норвегия (Norway)</option><option value="AE">Объединённые Арабские Эмираты (United Arab Emirates)</option><option value="OM">Оман (Oman)</option><option value="BV">Остров Буве (Bouvet Island)</option><option value="IM">Остров Мэн (Isle of Man)</option><option value="NF">Остров Норфолк (Norfolk Island)</option><option value="CK">острова Кука (Cook Islands)</option><option value="TC">Острова Теркс и Кайкос (Turks and Caicos Islands)</option><option value="PK">Пакистан (Pakistan)</option><option value="PW">Палау (Palau)</option><option value="PS">Палестинская территория (Palestinian Territory)</option><option value="PA">Панама (Panama)</option><option value="PG">Папуа-Новая Гвинея (Papua New Guinea)</option><option value="PY">Парагвай (Paraguay)</option><option value="PE">Перу (Peru)</option><option value="PL">Польша (Poland)</option><option value="PT">Португалия (Portugal)</option><option value="PR">Пуэрто-Рико (Puerto Rico)</option><option value="RE">Реюньон (Reunion)</option><option value="RU">Россия (Russian Federation)</option><option value="RW">Руанда (Rwanda)</option><option value="RO">Румыния (Romania)</option><option value="SV">Сальвадор (El Salvador)</option><option value="WS">Самоа (Samoa)</option><option value="SM">Сан - Марино (San Marino)</option><option value="ST">Сан-Томе и Принсипи (Sao Tome and Principe)</option><option value="SA">Саудовская Аравия (Saudi Arabia)</option><option value="SZ">Свазиленд (Swaziland)</option><option value="MP">Северные Марианские острова (Northern Mariana Islands)</option><option value="SC">Сейшельские острова (Seychelles)</option><option value="PM">Сен-Пьер и Микелон (Saint Pierre and Miquelon)</option><option value="SN">Сенегал (Senegal)</option><option value="VC">Сент-Винсент и Гренадины (Saint Vincent and the Grenadines)</option><option value="KN">Сент-Китс и Невис (Saint Kitts and Nevis)</option><option value="LC">Сент-Люсия (Saint Lucia)</option><option value="RS">Сербия (Serbia)</option><option value="SG">Сингапур (Singapore)</option><option value="SY">Сирия (Syria)</option><option value="SK">Словакия (Slovakia)</option><option value="SI">Словения (Slovenia)</option><option value="UM">Соединенные Штаты Америки Внешние малые острова (United States Minor Outlying Islands)</option><option value="SB">Соломоновы острова (Solomon Islands)</option><option value="SO">Сомали (Somalia)</option><option value="SD">Судан (Sudan)</option><option value="SR">Суринам (Suriname)</option><option value="US">США (United States)</option><option value="SL">Сьерра-Леоне (Sierra Leone)</option><option value="TJ">Таджикистан (Tajikistan)</option><option value="TH">Таиланд (Thailand)</option><option value="TW">Тайвань (Taiwan)</option><option value="TZ">Танзания (Tanzania)</option><option value="TG">Того (Togo)</option><option value="TK">Токелау (Tokelau)</option><option value="TO">Тонга (Tonga)</option><option value="TT">Тринидад и Тобаго (Trinidad and Tobago)</option><option value="TV">Тувалу (Tuvalu)</option><option value="TN">Тунис (Tunisia)</option><option value="TM">Туркменистан (Turkmenistan)</option><option value="TR">Турция (Turkey)</option><option value="UG">Уганда (Uganda)</option><option value="UZ">Узбекистан (Uzbekistan)</option><option value="UA">Украина (Ukraine)</option><option value="WF">Уоллис и Футуна (Wallis and Futuna)</option><option value="UY">Уругвай (Uruguay)</option><option value="FO">Фарерские острова (Faroe Islands)</option><option value="FM">Федеративные Штаты Микронезии (Federated States of Micronesia)</option><option value="FJ">Фиджи (Fiji)</option><option value="PH">Филиппины (Philippines)</option><option value="FI">Финляндия (Finland)</option><option value="FK">Фолклендские (Мальвинские) острова (Falkland Islands (Malvinas))</option><option value="FR">Франция (France)</option><option value="GF">Французская Гвиана (French Guiana)</option><option value="PF">Французская Полинезия (French Polynesia)</option><option value="HR">Хорватия (Hrvatska) (Croatia (Hrvatska))</option><option value="CF">Центрально-Африканская Республика (Central African Republic)</option><option value="TD">Чад (Chad)</option><option value="ME" selected="">Черногория (Montenegro)</option><option value="CZ">Чешская республика (Czech Republic)</option><option value="CL">Чили (Chile)</option><option value="CH">Швейцария (Switzerland)</option><option value="SE">Швеция (Sweden)</option><option value="GG">шерстяная фуфайка (Guernsey)</option><option value="LK">Шри Ланка (Sri Lanka)</option><option value="EC">Эквадор (Ecuador)</option><option value="GQ">Экваториальная Гвинея (Equatorial Guinea)</option><option value="ER">Эритрее (Eritrea)</option><option value="EE">Эстония (Estonia)</option><option value="ET">Эфиопия (Ethiopia)</option><option value="ZA">ЮАР (South Africa)</option><option value="JM">Ямайка (Jamaica)</option><option value="JP">Япония (Japan)</option></select>
+      </div>
+
+      <div class="filter__item is-half">
+        <label for="this_region_lng">Город</label>
+        <div class="typeahead__container">
+          <div class="typeahead__field">
+            <span class="typeahead__query">
+              <span class="typeahead__cancel-button">×</span><input id="this_region_lng" name="this_region_lng" type="text" value="" placeholder="Поиск города..." autocomplete="off" onchange="checkregion()" onkeyup="keyupcity()" spellcheck="false" data-ms-editor="true">
+            </span>
+          </div>
+        </div>
+        <input id="this_region" name="this_region" type="hidden" value="">
+      </div>
+
+    </div>
+
+    <div class="filter__item">
+      <label for="costfrom">Цена</label>
+
+      <div class="filter__row">
+
+        <div class="filter__item">
+          <input id="costfrom" name="costfrom" value="" type="number" onkeyup="this.value = this.value.replace (/\D/gi, '').replace (/^0+/, ''); getnew(2000);" onchange="getnew(2000);" placeholder="From">
+        </div>
+
+        <div class="filter__item">
+          <input id="costto" name="costto" type="number" value="" onkeyup="this.value = this.value.replace (/\D/gi, '').replace (/^0+/, ''); getnew(2000);" onchange="getnew(2000);" placeholder="to">
+        </div>
+
+        <div class="filter__item">
+          <select name="usercurr" id="usercurr" class="form-control"><option value="AUD">Australian Dollar</option><option value="BTC">Bitcoin</option><option value="CAD">Canadian Dollar</option><option value="CZK">Česká Koruna</option><option value="DKK">Danske kroner</option><option value="EUR">Euro</option><option value="HUF">Forint</option><option value="ISK">Icelandic krone</option><option value="INR">Indian rupee</option><option value="HRK">Kuna</option><option value="RON">Lei</option><option value="TRY">Lyra</option><option value="BRL">Moeda brasileira</option><option value="NZD">New Zealand Dollar</option><option value="NOK">Norske kroner</option><option value="MXN">Peso mejicano</option><option value="PHP">Philippine Peso</option><option value="ICG">Physical gold based coin</option><option value="GBP">Pound sterling</option><option value="ZAR">Rand</option><option value="MYR">Ringgit Malaysia</option><option value="IDR">Rupee</option><option value="SGD">Singapore Dollar</option><option value="SEK">Svenska kronor</option><option value="CHF">Swiss franc</option><option value="USD" selected="">US Dollar</option><option value="USDT">USDT stable coin</option><option value="WMC">WMProfile Credits</option><option value="PLN">Zloty</option><option value="BYN">Беларускі рубель</option><option value="BGN">Български лев</option><option value="RUB">Российский рубль</option><option value="UAH">Українська гривня</option><option value="ILS">שקל</option><option value="THB">ค้างคาว</option><option value="CNY">中國元</option><option value="JPY">円</option><option value="HKD">港元</option><option value="KRW">원</option></select>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <span class=""></span>
+  <ul class="products grid is-sm" id="datablock">
+    <li class="sr-only">No exact maches found</li>
+  </ul>
+
+  <div id="loadingdata" style="display: none;">
+    <span>Загрузка...</span><br>
+    <img src="/images/loading.gif" alt="Загрузка..." width="30"><br>
+    <a href="https://hlaclub.com/ru/marketplace">Нажмите здесь если загрузка не выполняется</a>
+  </div>
+
+{% endblock %}
+
+{# {% block body_suffix %}
+  {{ parent() }}
+{% endblock %} #}

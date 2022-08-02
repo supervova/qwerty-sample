@@ -1,0 +1,291 @@
+
+{% extends "clean_page.twig" %}
+
+{% block config %}
+  {{ parent() }}
+
+  {% set ExtraData = ExtraData|merge(
+    {
+      is_app: false,
+      body_classes: "is-home",
+      title: "Первая страница",
+      is_dev: true,
+      styles_addon: false
+    }
+  ) %}
+{% endblock %}
+
+{% block html_head %}
+  {{ parent() }}
+
+  <style>
+    {% include "styles/home/home.css" %}
+  </style>
+{% endblock %}
+
+{# MAIN CONTENT ------------------------------------------------------------- #}
+{% block content %}
+  <section class="hero">
+    <h1 class="sr-only">{{ 'Healthy Longevity Academy'|trans }}</h1>
+    <h2 class="hero__title">
+      Будем жить!
+    </h2>
+    <p class="hero__copy">
+      Выявление и предупреждение развития заболеваний, превентивные технологии поддержки молодости и здоровья. Персонально, своевременно, достоверно.
+    </p>
+    <div class="buttons">
+      <button class="btn is-outline" type="button" data-toggle="modal" data-target="#modal-partners-call">
+        {{ 'Doctors and partners'|trans }}
+      </button>
+      <button class="btn is-primary" type="button" data-role="button-sign-up-body" onclick="quickreg()">
+        <span class="text-truncate">{{ 'Live long and happy'|trans }}</span>
+      </button>
+    </div>
+  </section>
+
+  <div class="section">
+    <section class="subsection is-1st">
+      <a href="/ru/marketplace">
+        <img src="/projects/hlaclub.com/images/mrktplc.svg" style="width: 100%" alt="" />
+      </a>
+    </section>
+  </div>
+
+  <div class="daily-tip q-row is-sm">
+    <section class="daily-tip__content">
+      <header class="daily-tip__header">
+        <figure class="icon-badge is-lg">
+          {% include "base/icon.twig" with {name: "lg-food"} %}
+        </figure>
+        <div class="daily-tip__hgroup">
+          <h2 class="h3">Совет дня</h2>
+          <p>После пробуждения первым делом выпивайте стакан воды.</p>
+        </div>
+      </header>
+      <p class="daily-tip__summary">Кофе — это прекрасно, но лучше начать день со стакана чистой воды. Востановление жидкости в организме помогает пищеварению, улучшает здоровье кожи и повышает энергию.</p>
+    </section>
+  </div>
+
+  <div class="section benefits" id="section-benefits">
+    <section class="subsection is-1st hidden">
+      <h2 class="subsection__heading">Круглосуточная медицинская поддержка</h2>
+      <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Enim aspernatur ipsa fugit magni eum officiis at repellendus, maiores, incidunt veniam iste modi sequi harum, fugiat culpa recusandae dolore consequatur corrupti!</p>
+      <a class="link is-forward" href="#"> Выучить больше </a>
+    </section>
+
+    <section class="subsection is-2nd">
+      <h2 class="subsection__heading">Индивидуальные лекарства из аптеки производителя</h2>
+      <p>В недавнем прошлом врач писал в рецепте, какие и в каком количестве принимать действующие вещества для личного приготовления препарата фармацевтом. Времена изменились, сегодня существует огромное разнообразие готовых лекарственных форм и необходимость их изготовления в аптеке отпала.</p>
+      <p>При этом, к сожалению, практически отсутствуют препараты для профилактики, а не лечения заболеваний, риски развития патологий индивидуальны по тяжести и симптомам, люди отличаются друг от друга по возрасту, весу и другим показателям. Все это привело к возрождению аптечного производства профилактических индивидуально изготовленных препаратов, отсутствующих на рынке.</p>
+      <p class="">В нашей аптеке для производства используются зарегистрированные, проверенные на безопасность активные вещества, а какие и в каком количестве принимать, определяет врач, оставляя запись в медицинской карте и выписывая соответствующий рецепт.</p>
+      <p class="">Персонализированный подход к медицинскому обслуживанию человека становится мировым трендом, и во многом благодаря информации и новым технологиям медицинская документация и рецепты становятся электронными, а доставку лекарств можно организовать практически в любом месте.</p>
+      <a class="link is-forward" href="/ru/marketplace"> Узнать больше </a>
+    </section>
+  </div>
+
+  <section class="section prim">
+    <div class="section__content">
+      <h2 class="section__heading">Центр ПРИМ — учредитель Академии</h2>
+
+      <div class="section__copy">
+        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Enim aspernatur ipsa fugit magni eum officiis at repellendus, maiores, incidunt veniam iste modi sequi harum, fugiat culpa recusandae dolore consequatur corrupti!</p>
+        <a class="link is-forward" href="#">
+          {{ 'Learn more'|trans }}
+        </a>
+      </div>
+    </div>
+    <div class="section__cards">
+
+      <div class="card is-doctors">
+        <figure class="icon-badge">
+          {% include "base/icon.twig" with {name: "stethoscope"} %}
+        </figure>
+        <div class="card__summary">
+          <h3 class="h4">
+            <a class="link is-expanded" href="#">
+              {{ 'Doctors'|trans }}
+            </a>
+          </h3>
+          <p>{{ 'Doctors of the PRIM Center, and joined our network'|trans }}</p>
+        </div>
+      </div>
+
+      <div class="card is-healthcare">
+        <figure class="icon-badge">
+          {% include "base/icon.twig" with {name: "doctor-case"} %}
+        </figure>
+        <div class="card__summary">
+          <h3 class="h4">Превентивная медицина</h3>
+          <p>сохранение активного долголетия</p>
+        </div>
+      </div>
+
+      <div class="card is-pharmacy">
+        <figure class="icon-badge">
+          {% include "base/icon.twig" with {name: "medicine"} %}
+        </figure>
+        <div class="card__summary">
+          <h3 class="h4">Производственная аптека</h3>
+          <p>индивидуальные препараты</p>
+        </div>
+      </div>
+
+      <div class="card is-programs">
+        <figure class="icon-badge">
+          {% include "base/icon.twig" with {name: "heart"} %}
+        </figure>
+        <div class="card__summary">
+          <h3 class="h4">Программы здоровья</h3>
+          <p>Выявление и предупреждение развития заболеваний</p>
+        </div>
+      </div>
+
+      <div class="card is-partners">
+        <figure class="icon-badge">
+          {% include "base/icon.twig" with {name: "group"} %}
+        </figure>
+        <div class="card__summary">
+          <h3 class="h4">
+            <a class="link is-expanded" href="#">
+              {{ 'Partners'|trans }}
+            </a>
+          </h3>
+          <p>{{ 'clinics, sanatoriums, beauty industry'|trans }}</p>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <section class="section pricing-table">
+    <header class="section__header">
+      <h2 class="text-center mb-n2s">
+        Зарегистрируйся сейчас
+        <small>Выбери тарифный план через 30 дней</small>
+      </h2>
+      <label class="form__item has-option">
+        <input id="input-annual-subscription" name="annual-subscription" type="checkbox" checked>
+        Годовая подписка (экономия — 17%)
+      </label>
+    </header>
+    <div class="pricing-table__plans">
+      <h3 class="pricing-table__plan-header is-1st">
+        «Стандарт»
+        <span class="pricing-table__price"><span data-role="price">1200</span><small> руб./мес.</small></span>
+      </h3>
+      <div class="pricing-table__plan-body is-1st">
+        <ul>
+          <li>1 приём у врача центра ПРИМ в мес.</li>
+          <li>Стандартная функция №1</li>
+          <li>Стандартная функция №2</li>
+          <li>Чатбот с искусственным интеллектом</li>
+        </ul>
+      </div>
+
+      <h3 class="pricing-table__plan-header is-2nd">
+        «Эликсир»
+        <span class="pricing-table__price"><span data-role="price">1600</span><small> руб./мес.</small></span>
+        <span class="tag">Самый популярный</span>
+      </h3>
+      <div class="pricing-table__plan-body is-2nd">
+        <p class="list-caption">Всё, что есть в плане «Стандарт» или больше:</p>
+        <ul>
+          <li>2 приёма у врача центра ПРИМ в мес.</li>
+          <li>Премиальная функция №1</li>
+          <li>Премиальная функция №2</li>
+        </ul>
+      </div>
+
+      <h3 class="pricing-table__plan-header is-3rd">
+        «Олимп»
+        <span class="pricing-table__price"><span data-role="price">2000</span><small> руб./мес.</small></span>
+      </h3>
+      <div class="pricing-table__plan-body is-3rd">
+        <p class="list-caption">Всё, что есть в плане «Эликсир» или больше:</p>
+        <ul>
+          <li>2 приёма у врача центра ПРИМ в мес.</li>
+          <li>Премиальная функция №3</li>
+          <li>Премиальная функция №4</li>
+        </ul>
+      </div>
+    </div>
+    <button class="btn is-primary" type="button" data-role="button-sign-up-body" onclick="quickreg()">
+      <span class="text-truncate">{{ 'Register'|trans }}</span>
+    </button>
+    <h3 class="h4">30 дней бесплатно!</h3>
+    <p class="note">По окончании пробного срока можно пользоваться бесплатной версией с функциональными ограничениями.</p>
+  </section>
+
+  <div class="section partners">
+    <a href="#">
+      <img src="/projects/{{ ExtraData.domain }}/images/placeholders/sklif.svg" alt="">
+    </a>
+    <a href="#">
+      <img src="/projects/{{ ExtraData.domain }}/images/placeholders/sklif.svg" alt="">
+    </a>
+    <a href="#">
+      <img src="/projects/{{ ExtraData.domain }}/images/placeholders/sklif.svg" alt="">
+    </a>
+    <a href="#">
+      <img src="/projects/{{ ExtraData.domain }}/images/placeholders/sklif.svg" alt="">
+    </a>
+    <a href="#">
+      <img src="/projects/{{ ExtraData.domain }}/images/placeholders/sklif.svg" alt="">
+    </a>
+  </div>
+
+
+  {#
+  <div class="cookiesalert">
+    To make our service as convenient as possible, we use special cookies to store statistical information and information about our users. In addition, we use third-party statistics services (eg Google). More information about the privacy policy of our service can be found at this link:
+    <div style="text-align:center;margin-top:5px;width:100%">
+      <a href="https://hlaclub.com/en/privacypolicy" class="qwerty"><span>Confidentiality</span> <!--nottranslate--><span class="nottranslate">&amp; Cookies</span><!--nottranslate--></a> &nbsp; &nbsp; <button class="btn btn-info btn-sm" onclick="acceptcookies()">I agree</button>
+    </div>
+  </div>
+  #}
+
+{% endblock %}
+
+
+{% block body_suffix %}
+  {% import "base/macros.twig" as macros %}
+
+  {{ macros.modal(
+    'partners-call',
+    'For doctors and partners',
+    '
+    <p>Academy of Healthy Longevity - high-tech online service for disease prevention. Our choice is preventive personalized medicine aimed at the advanced identification of risks and preventing the development of diseases.</p>
+    <p>We are adherents of family, personalized medicine, which actively uses innovative medical solutions and relies on information technology.</p>
+    <p>Now we are considering new clinics to connect to our network. If you manage the clinic, ready to work with telemedicine consultations, please <a href="#">fill out the form</a> - we will contact you.</p>
+    <p>If you are a practitioner specialist, <a href="#">please sign up</a> to participate in the project, we will contact you.</p>
+    ',
+    '
+    <button class="btn is-primary" type="button">
+      Form for clinic
+    </button>
+    <button class="btn" type="button">
+      Form for a specialist
+    </button>
+    ',
+    'is-left-aligned'
+  ) }}
+
+  {{ parent() }}
+
+  <script>
+    const userId = 0;
+
+    if (userId === 0) {
+      document.getElementById('header-sign-up').classList.add('is-on');
+      document.getElementById('header-sign-in').classList.add('is-on');
+    } else {
+      document.querySelector('.header__menu .dropdown').classList.add('is-on');
+
+      document
+        .querySelectorAll('[data-role="button-sign-up-body"]')
+        .forEach((button) => {
+          button.style.display = 'none';
+        });
+    }
+  </script>
+{% endblock %}

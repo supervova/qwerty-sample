@@ -1,0 +1,435 @@
+
+{% extends "clean_page.twig" %}
+
+{% block config %}
+  {{ parent() }}
+
+  {% set ExtraData = ExtraData|merge(
+    {
+      title: "Тестовая страница",
+      is_dev: true
+    }
+  ) %}
+
+  {% if not user %}{% set user = 1 %}{% endif %}
+{% endblock %}
+
+{# MAIN CONTENT ------------------------------------------------------------- #}
+{% block content %}
+
+
+  <h1>Страницы компаний, клубов, организаций и брендов</h1>
+  <div class="main__row is-communities-lead">
+    <img style="padding: 0 20px 0 0; width: 230px; height: auto; max-width: 30% !important; float: left" class="revealator-rotateright" src="/images/pages.png" onerror="this.onerror=null;pagespeed.lazyLoadImages.loadIfVisibleAndMaybeBeacon(this);" />
+    <div class="main__col">
+      <ul class="list is-checklist">
+        <li>Создайте страницу для своей компании или бренда;</li>
+        <li>Привлекайте клиентов, публикуя новости и пресс-релизы;</li>
+        <li>Рекламируйте свои услуги или продукты;</li>
+        <li>Продвигайте свои страницы с помощью встроенных инструментов!</li>
+      </ul>
+    </div>
+  </div>
+  <p>
+    <button type="button" class="btn btn-primary" onclick="newcommunity()">Создать страницу</button>
+  </p>
+  <div class="form pt-2" id="createcommunity" style="display: block">
+    <fieldset class="form__item">
+      <legend>Тип новой страницы:</legend>
+      <label class="form__item has-option">
+        <input type="radio" name="page_type" value="1" id="pagetype1" checked="" />
+        <span>Компания</span>
+      </label>
+      <label class="form__item has-option">
+        <input type="radio" name="page_type" value="2" id="pagetype2" />
+        <span>Клуб</span>
+      </label>
+      <label class="form__item has-option">
+        <input type="radio" name="page_type" value="3" id="pagetype3" />
+        <span>Организация</span>
+      </label>
+      <label class="form__item has-option">
+        <input type="radio" name="page_type" value="4" id="pagetype4" />
+        <span>Бренд</span>
+      </label>
+    </fieldset>
+    <div class="form__item">
+      <label for="address">Уникальный адрес:</label>
+      <input id="address" type="text" name="address" placeholder="my-page-address" onfocus="this.select();" onkeyup="ChangeAddress();" />
+      <span id="checking" style="display: none">проверка...</span>
+      <div>
+        <span class="text-success" id="addressok" style="display: none">
+          <svg class="icon" aria-hidden="true" focusable="false">
+            <use href="/projects/hlaclub.com/images/base/graphics/sprite.svg#icon-checkmark"></use>
+          </svg>
+          адрес доступен
+        </span>
+        <span class="text-danger" id="addressno" style="display: none">
+          <svg class="icon is-dangerous" aria-hidden="true" focusable="false">
+            <use href="/projects/hlaclub.com/images/base/graphics/sprite.svg#icon-error"></use>
+          </svg>
+          <span id="errmsg">адрес недоступен</span>
+        </span>
+      </div>
+      <div class="form__hint" id="addressinstr">не менее 3 и не более 50 символов; допускаются символы латинского алфавита, цифры, подчеркивание, точка или дефис.</div>
+    </div>
+    <div class="form__item">
+      <label for="communitytitle">Название:</label>
+      <input type="hidden" id="mypages" name="mypages" />
+      <input id="communitytitle" name="communitytitle" type="text" placeholder="ИНН или название компании (/клуба /организации)" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" class="suggestions-input" style="box-sizing: border-box" />
+      <div class="suggestions-wrapper">
+        <span class="suggestions-addon" data-addon-type="spinner" style="left: 697px; top: -48px; height: 48px; width: 48px"></span>
+        <ul class="suggestions-constraints" style="left: 16px; top: -24px"></ul>
+        <div class="suggestions-suggestions" style="position: absolute; display: none; left: 0px; top: 0px; width: 745px"></div>
+      </div>
+      <script type="text/javascript" data-pagespeed-no-defer="">
+        pagespeed.lazyLoadImages.overrideAttributeFunctions();
+      </script>
+      <script>
+        $("#communitytitle").suggestions({ token: "f0aa715d9ab2ed33f0c19326894d447f6a0fb145", type: "PARTY", constraints: { locations: { country: "*" } }, onSelect: function (suggestion) {} });
+      </script>
+    </div>
+    <div class="form__item">
+      <label for="communitydescr">Подзаголовок:</label>
+      <input id="communitydescr" name="communitydescr" type="text" value="" placeholder="краткое описание (не более 200 символов)" />
+    </div>
+    <p>На следующем шаге вам будет предложено ввести дополнительные параметры для вашей страницы, включая логотип, полное описание, контактную информацию.</p>
+    <button class="btn is-primary" id="savebutton" type="button" onclick="savecommunity()">Сохранить и продолжить настройку</button>
+    <div id="saving" style="display: none"><img alt="" width="50" height="50" src="./images/loading.gif" onerror="this.onerror=null;pagespeed.lazyLoadImages.loadIfVisibleAndMaybeBeacon(this);" /></div>
+  </div>
+  <div class="form__item is-section-search has-filter" id="typesdiv">
+    <div class="form__row mb-2s">
+      <input id="descsearch" name="descsearch" type="search" placeholder="Поиск страниц" />
+      <button class="btn is-search" type="submit">
+        <svg class="icon" aria-hidden="true" focusable="false">
+          <use href="/projects/hlaclub.com/images/base/graphics/sprite.svg#icon-search"></use>
+        </svg>
+      </button>
+      <div class="dropdown is-leftward">
+        <button class="btn is-icon is-ghost" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" aria-label="Фильтровать поиск">
+          <svg class="icon" aria-hidden="true" focusable="false">
+            <use href="/projects/hlaclub.com/images/base/graphics/sprite.svg#icon-sm-chevron-down"></use>
+          </svg>
+        </button>
+        <ul class="dropdown__menu">
+          <li>
+            <label class="form__item has-option">
+              <input id="communitytype0" name="community_type" type="radio" value="0" onchange="changetype()" checked="" />
+              Все страницы
+            </label>
+          </li>
+          <li>
+            <label class="form__item has-option">
+              <input id="communitytype1" name="community_type" type="radio" value="1" onchange="changetype()" />
+              Компании
+            </label>
+          </li>
+          <li>
+            <label class="form__item has-option">
+              <input id="communitytype2" name="community_type" type="radio" value="2" onchange="changetype()" />
+              Клубы
+            </label>
+          </li>
+          <li>
+            <label class="form__item has-option">
+              <input id="communitytype3" name="community_type" type="radio" value="3" onchange="changetype()" />
+              Организации
+            </label>
+          </li>
+          <li>
+            <label class="form__item has-option">
+              <input id="communitytype4" name="community_type" type="radio" value="4" onchange="changetype()" />
+              Бренды
+            </label>
+          </li>
+          <li style="display: none">
+            <label class="form__item has-option is-admin-job">
+              <input id="moderationtype0" name="moderation_type" type="radio" value="0" onchange="changetype()" checked="" />
+              Все страницы
+            </label>
+          </li>
+          <li style="display: none">
+            <label class="form__item has-option is-admin-job">
+              <input id="moderationtype3" name="moderation_type" type="radio" value="3" onchange="changetype()" />
+              В ожидании модерации
+            </label>
+          </li>
+          <li style="display: none">
+            <label class="form__item has-option is-admin-job">
+              <input id="moderationtype1" name="moderation_type" type="radio" value="1" onchange="changetype()" />
+              Утвержденные страницы
+            </label>
+          </li>
+          <li style="display: none">
+            <label class="form__item has-option is-admin-job">
+              <input id="moderationtype2" name="moderation_type" type="radio" value="2" onchange="changetype()" />
+              Отклоненные страницы
+            </label>
+          </li>
+        </ul>
+      </div>
+    </div>
+    <div class="form__row mb-1s">
+      <div class="form__item" style="display: table">
+        <label for="cclist">Страна:</label>
+        <select name="cclist" id="cclist" class="form-control" onchange="getnewcountry()">
+          <option value="">Не выбрано</option>
+          <option value="AU">Австралия</option>
+          <option value="AT">Австрия</option>
+          <option value="AZ">Азербайджан</option>
+          <option value="AX">Аландские острова</option>
+          <option value="AL">Албания</option>
+          <option value="DZ">Алжир</option>
+          <option value="AS">Американское Самоа</option>
+          <option value="AI">Ангилья</option>
+          <option value="AO">Ангола</option>
+          <option value="AD">Андора</option>
+          <option value="AQ">Антарктида</option>
+          <option value="AG">Антигуа и Барбуда</option>
+          <option value="AR">Аргентина</option>
+          <option value="AM">Армения</option>
+          <option value="AW">Аруба</option>
+          <option value="AF">Афганистан</option>
+          <option value="BS">Багамские острова</option>
+          <option value="BD">Бангладеш</option>
+          <option value="BB">Барбадос</option>
+          <option value="BH">Бахрейн</option>
+          <option value="BY">Беларусь</option>
+          <option value="BZ">Белиз</option>
+          <option value="BE">Бельгия</option>
+          <option value="BJ">Бенин</option>
+          <option value="BM">Бермудские острова</option>
+          <option value="BG">Болгария</option>
+          <option value="BO">Боливия</option>
+          <option value="BA">Босния и Герцеговина</option>
+          <option value="BW">Ботсвана</option>
+          <option value="BR">Бразилия</option>
+          <option value="IO">Британской территории в Индийском океане</option>
+          <option value="BN">Бруней-Даруссалам</option>
+          <option value="BF">Буркина-Фасо</option>
+          <option value="BI">Бурунди</option>
+          <option value="BT">Бутан</option>
+          <option value="VU">Вануату</option>
+          <option value="GB">Великобритания (UK)</option>
+          <option value="HU">Венгрия</option>
+          <option value="VE">Венесуэла</option>
+          <option value="VG">Виргинские острова (Британские)</option>
+          <option value="VI">Виргинские острова (США)</option>
+          <option value="VN">Вьетнам</option>
+          <option value="GA">Габон</option>
+          <option value="HT">Гаити</option>
+          <option value="GY">Гайана</option>
+          <option value="GM">Гамбия</option>
+          <option value="GH">Гана</option>
+          <option value="GP">Гваделупа</option>
+          <option value="GT">Гватемала</option>
+          <option value="GN">Гвинея</option>
+          <option value="GW">Гвинея-Бисау</option>
+          <option value="DE">Германия</option>
+          <option value="GI">Гибралтар</option>
+          <option value="HN">Гондурас</option>
+          <option value="HK">Гонконг</option>
+          <option value="VA">Город-государство Ватикан (Святейший Престол)</option>
+          <option value="GD">Гренада</option>
+          <option value="GL">Гренландия</option>
+          <option value="GR">Греция</option>
+          <option value="GE">Грузия</option>
+          <option value="GU">Гуам</option>
+          <option value="DK">Дания</option>
+          <option value="CD" selected="">Демократическая Республика Конго</option>
+          <option value="JE">Джерси</option>
+          <option value="DJ">Джибути</option>
+          <option value="DM">Доминика</option>
+          <option value="DO">Доминиканская Республика</option>
+          <option value="EU">Европа</option>
+          <option value="EG">Египет</option>
+          <option value="ZM">Замбия</option>
+          <option value="ZW">Зимбабве</option>
+          <option value="IL">Израиль</option>
+          <option value="IN">Индия</option>
+          <option value="ID">Индонезия</option>
+          <option value="JO">Иордания</option>
+          <option value="IQ">Ирак</option>
+          <option value="IR">Иран</option>
+          <option value="IE">Ирландия</option>
+          <option value="IS">Исландия</option>
+          <option value="ES">Испания</option>
+          <option value="IT">Италия</option>
+          <option value="YE">Йемен</option>
+          <option value="CV">Кабо-Верде</option>
+          <option value="KZ">Казахстан</option>
+          <option value="KY">Каймановы острова</option>
+          <option value="KH">Камбоджа</option>
+          <option value="CM">Камерун</option>
+          <option value="CA">Канада</option>
+          <option value="QA">Катар</option>
+          <option value="KE">Кения</option>
+          <option value="CY">Кипр</option>
+          <option value="KG">Киргизия</option>
+          <option value="KI">Кирибати</option>
+          <option value="CN">Китай</option>
+          <option value="CO">Колумбия</option>
+          <option value="KM">Коморские острова</option>
+          <option value="CG">Конго</option>
+          <option value="KP">Корея (Северная)</option>
+          <option value="KR">Корея (Южная)</option>
+          <option value="CR">Коста-Рика</option>
+          <option value="CI">Кот-д `</option>
+          <option value="CU">Куба</option>
+          <option value="KW">Кувейт</option>
+          <option value="LA">Лаос</option>
+          <option value="LV">Латвия</option>
+          <option value="LS">Лесото</option>
+          <option value="LR">Либерия</option>
+          <option value="LB">Ливан</option>
+          <option value="LY">Ливия</option>
+          <option value="LT">Литва</option>
+          <option value="LI">Лихтенштейн</option>
+          <option value="LU">Люксембург</option>
+          <option value="MU">Маврикий</option>
+          <option value="MR">Мавритания</option>
+          <option value="MG">Мадагаскар</option>
+          <option value="YT">Майотта</option>
+          <option value="MO">Макао</option>
+          <option value="MK">Македония</option>
+          <option value="MW">Малави</option>
+          <option value="MY">Малайзия</option>
+          <option value="ML">Мали</option>
+          <option value="MV">Мальдивы</option>
+          <option value="MT">Мальта</option>
+          <option value="MA">Марокко</option>
+          <option value="MQ">Мартиника</option>
+          <option value="MH">Маршалловы острова</option>
+          <option value="MX">Мексика</option>
+          <option value="MZ">Мозамбик</option>
+          <option value="MD">Молдова</option>
+          <option value="MC">Монако</option>
+          <option value="MN">Монголия</option>
+          <option value="MS">Монтсеррат</option>
+          <option value="MM">Мьянма</option>
+          <option value="NA">Намибия</option>
+          <option value="NR">Науру</option>
+          <option value="NP">Непал</option>
+          <option value="NE">Нигер</option>
+          <option value="NG">Нигерия</option>
+          <option value="NL">Нидерланды</option>
+          <option value="NI">Никарагуа</option>
+          <option value="NU">Ниуэ</option>
+          <option value="NC">Новая Каледония</option>
+          <option value="NZ">Новой Зеландии (Аотеароа)</option>
+          <option value="NO">Норвегия</option>
+          <option value="AE">Объединённые Арабские Эмираты</option>
+          <option value="OM">Оман</option>
+          <option value="BV">Остров Буве</option>
+          <option value="IM">Остров Мэн</option>
+          <option value="NF">Остров Норфолк</option>
+          <option value="CK">острова Кука</option>
+          <option value="TC">Острова Теркс и Кайкос</option>
+          <option value="PK">Пакистан</option>
+          <option value="PW">Палау</option>
+          <option value="PS">Палестинская территория</option>
+          <option value="PA">Панама</option>
+          <option value="PG">Папуа-Новая Гвинея</option>
+          <option value="PY">Парагвай</option>
+          <option value="PE">Перу</option>
+          <option value="PL">Польша</option>
+          <option value="PT">Португалия</option>
+          <option value="PR">Пуэрто-Рико</option>
+          <option value="RE">Реюньон</option>
+          <option value="RU">Россия</option>
+          <option value="RW">Руанда</option>
+          <option value="RO">Румыния</option>
+          <option value="SV">Сальвадор</option>
+          <option value="WS">Самоа</option>
+          <option value="SM">Сан - Марино</option>
+          <option value="ST">Сан-Томе и Принсипи</option>
+          <option value="SA">Саудовская Аравия</option>
+          <option value="SZ">Свазиленд</option>
+          <option value="MP">Северные Марианские острова</option>
+          <option value="SC">Сейшельские острова</option>
+          <option value="PM">Сен-Пьер и Микелон</option>
+          <option value="SN">Сенегал</option>
+          <option value="VC">Сент-Винсент и Гренадины</option>
+          <option value="KN">Сент-Китс и Невис</option>
+          <option value="LC">Сент-Люсия</option>
+          <option value="RS">Сербия</option>
+          <option value="SG">Сингапур</option>
+          <option value="SY">Сирия</option>
+          <option value="SK">Словакия</option>
+          <option value="SI">Словения</option>
+          <option value="UM">Соединенные Штаты Америки Внешние малые острова</option>
+          <option value="SB">Соломоновы острова</option>
+          <option value="SO">Сомали</option>
+          <option value="SD">Судан</option>
+          <option value="SR">Суринам</option>
+          <option value="US">США</option>
+          <option value="SL">Сьерра-Леоне</option>
+          <option value="TJ">Таджикистан</option>
+          <option value="TH">Таиланд</option>
+          <option value="TW">Тайвань</option>
+          <option value="TZ">Танзания</option>
+          <option value="TG">Того</option>
+          <option value="TK">Токелау</option>
+          <option value="TO">Тонга</option>
+          <option value="TT">Тринидад и Тобаго</option>
+          <option value="TV">Тувалу</option>
+          <option value="TN">Тунис</option>
+          <option value="TM">Туркменистан</option>
+          <option value="TR">Турция</option>
+          <option value="UG">Уганда</option>
+          <option value="UZ">Узбекистан</option>
+          <option value="UA">Украина</option>
+          <option value="WF">Уоллис и Футуна</option>
+          <option value="UY">Уругвай</option>
+          <option value="FO">Фарерские острова</option>
+          <option value="FM">Федеративные Штаты Микронезии</option>
+          <option value="FJ">Фиджи</option>
+          <option value="PH">Филиппины</option>
+          <option value="FI">Финляндия</option>
+          <option value="FK">Фолклендские (Мальвинские) острова</option>
+          <option value="FR">Франция</option>
+          <option value="GF">Французская Гвиана</option>
+          <option value="PF">Французская Полинезия</option>
+          <option value="HR">Хорватия (Hrvatska)</option>
+          <option value="CF">Центрально-Африканская Республика</option>
+          <option value="TD">Чад</option>
+          <option value="ME">Черногория</option>
+          <option value="CZ">Чешская республика</option>
+          <option value="CL">Чили</option>
+          <option value="CH">Швейцария</option>
+          <option value="SE">Швеция</option>
+          <option value="GG">шерстяная фуфайка</option>
+          <option value="LK">Шри Ланка</option>
+          <option value="EC">Эквадор</option>
+          <option value="GQ">Экваториальная Гвинея</option>
+          <option value="ER">Эритрее</option>
+          <option value="EE">Эстония</option>
+          <option value="ET">Эфиопия</option>
+          <option value="ZA">ЮАР</option>
+          <option value="JM">Ямайка</option>
+          <option value="JP">Япония</option>
+        </select>
+      </div>
+      <div class="form__item" id="citydiv" style="display: none">
+        <label for="pageregion_lng">Город:</label>
+        <div class="typeahead__container">
+          <div class="typeahead__field">
+            <span class="typeahead__query">
+              <input id="pageregion_lng" name="pageregion_lng" type="text" value="dss" placeholder="Поиск города..." autocomplete="off" onchange="checkregion()" />
+            </span>
+          </div>
+        </div>
+        <input type="hidden" id="pageregion" name="pageregion" value="" />
+      </div>
+    </div>
+    <a class="filter__reset" href="javascript:void(0)" onclick="cleanfilter()">очистить фильтр</a>
+  </div>
+  <span class=""></span>
+  <div id="postsblock" class="row row-flex"></div>
+  <div id="loadingcommunities" style="display: none">
+    <span>Загрузка...</span><br />
+    <img alt="Загрузка..." width="30" src="/images/loading.gif" onerror="this.onerror=null;pagespeed.lazyLoadImages.loadIfVisibleAndMaybeBeacon(this);" /><br />
+    <a href="https://hlaclub.com/ru/pages">Нажмите здесь если загрузка не выполняется</a>
+  </div>
+
+{% endblock %}

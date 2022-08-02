@@ -1,0 +1,55 @@
+{$alertmsg}
+<footer class="footer" id="page-footer">
+  <div class="footer__container">
+    <ul class="footer__nav">
+{#      <li><a href="/pricing">{{ 'Pricing'|trans }}</a></li>#}
+      <li><a href="/about">{{ 'About us'|trans }}</a></li>
+      <li><a href="/contacts">{{ 'Contacts'|trans }}</a></li>
+      <li><a href="/useragreement">{{ 'User agreement'|trans }}</a></li>
+      <li><a href="/privacypolicy">{{ 'Privacy policy'|trans }}</a></li>
+      {% if ExtraData.site_section == 'marketplace' and ExtraData.user_lng == 'ru' %}
+        <li>
+          <a href="#modal-return-conditions" data-toggle="modal" role="button">
+            Условия возврата
+          </a>
+        </li>
+        <li>
+          <a href="#modal-delivery" data-toggle="modal" role="button">
+            Доставка
+          </a>
+        </li>
+      {% endif %}
+      <li><a href="/personal_data">Персональные данные</a></li>
+      <li><a href="/public_offer">{{ 'Public offer'|trans }}</a></li>
+    </ul>
+
+    {% include "components/languages.twig" %}
+
+    <img class="footer__logo" src="/projects/{{ ExtraData.domain }}/images/base/graphics/logo/logomark.svg" width="48" height="48" alt="{{ ExtraData.name }}">
+    <p class="footer__site-credits"><span class="nottranslate">Copyright © {$today_year}, {{ ExtraData.name }} ™</span></p>
+
+  </div>
+  {$authframe}
+</footer>
+
+{% if ExtraData.site_section == 'marketplace' and ExtraData.user_lng == 'ru' %}
+  {% import "base/macros.twig" as macros %}
+
+  {{ macros.modal(
+    'return-conditions',
+    'Условия возврата и обмена покупок',
+    '
+      <p>В случае доставки заказа ненадлежащего качества (ненадлежащее качество лекарственного препарата, доставленный заказ не соответствует заказанному по количеству или составу) покупатель вправе вернуть его работнику, осуществляющему доставку, без оплаты доставленного лекарственного препарата и (или) услуги по его доставке и (или) потребовать надлежащее исполнение заказа.</p>
+      <p>Сведения о нормативных правовых актах, регламентирующих возможность возврата покупателем лекарственных препаратов ненадлежащего качества: Закон РФ "О защите прав потребителей" N 2300-1 от 07.02.1992 г.</p>
+    '
+  ) }}
+
+  {{ macros.modal(
+    'delivery',
+    's',
+    '
+      <p>В случае достащего качества (ненадлежащее качество лекарственного препарата, доставленный заказ не соответствует заказанному по количеству или составу) покупатель вправе вернуть его работнику, осуществляющему доставку, без оплаты доставленного лекарственного препарата и (или) услуги по его доставке и (или) потребовать надлежащее исполнение заказа.</p>
+      <p>Сведения о нормативных правовых актах, регламентирующих возможность возврата покупателем лекарственных препаратов ненадлежащего качества: Закон РФ "О защите прав потребителей" N 2300-1 от 07.02.1992 г.</p>
+    '
+  ) }}
+{% endif %}

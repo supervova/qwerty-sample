@@ -1,0 +1,14 @@
+<a href="{{ msglnk }}" target="_blank">
+<figure class="contact__image">
+  <picture>
+    <source media="(min-width: 768px)" srcset="/projects/{{ ExtraData.domain }}/images/people/{{ image }}.jpg">
+    <img src="/projects/{{ ExtraData.domain }}/images/people/{{ image }}-sm.jpg" width="40" height="40" alt="{{ name|trans }}">
+  </picture>
+</figure>
+<div class="form__item contact__caption">
+  <div class="contact__hgroup">
+    <strong class="contact__name">{{ name|trans }}</strong>
+    <span class="contact__position">{{ position|trans }}</span>
+  </div>
+</div>
+</a>

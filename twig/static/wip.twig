@@ -1,0 +1,40 @@
+
+{% extends "clean_page.twig" %}
+
+{% block config %}
+  {{ parent() }}
+
+  {% set ExtraData = ExtraData|merge(
+    {
+      title: "Тестовая страница",
+      is_dev: true,
+      is_home: true
+    }
+  ) %}
+
+  {% set user_id = 0 %}
+{% endblock %}
+
+{% block html_head %}
+  {{ parent() }}
+
+  <script>
+    {% include "scripts/marketplace.js" %}
+  </script>
+
+  <style>
+    {% include "styles/home/home.css" %}
+  </style>
+{% endblock %}
+
+{# MAIN CONTENT ------------------------------------------------------------- #}
+{% block content %}
+  <h1>Fuck</h1>
+  {% include "base/logo.twig" with {context_class: 'header__logo'} %}
+{% endblock %}
+
+{% block body_suffix %}
+  {{ parent() }}
+  {% include "components/modal-picture.twig" %}
+{% endblock %}
+

@@ -1,0 +1,28 @@
+{% import "base/macros.twig" as form %}
+
+<form class="header__search" id="header-search-form" role="search" onsubmit="searchblog(); return false;">
+  <div class="form__item">
+
+    {{ form.search('header-search-input', 'Search') }}
+
+    <button style="right: 40px"
+            class="header__search-submit"
+            id="header-search-submit"
+            type="submit"
+            aria-label="{{ 'Search'|trans }}"
+    >
+      {% include "base/icon.twig" with {name: 'search'} %}
+    </button>
+    <button
+            class="header__search-submit"
+            id="header-search-submit"
+            type="submit"
+            aria-label="{{ 'Settings'|trans }}"
+    >
+      {% include "base/icon.twig" with {name: 'settings'} %}
+    </button>
+  </div>
+  <button class="header__search-cancel" type="reset" data-role="search-cancel">
+    Cancel
+  </button>
+</form>

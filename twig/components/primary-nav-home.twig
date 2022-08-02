@@ -1,0 +1,148 @@
+<style>
+    @media (min-width: 768px) {
+
+        .primary-nav-home {
+            position: fixed;
+            width: fit-content;
+            left: -100%;
+            top: 0;
+            bottom: 0;
+            background-color: var(--color-background-base);
+        }
+
+        .primary-nav-home.active {
+            left: 0;
+            transition: ease all 0.3s;
+        }
+    }
+</style>
+<nav class="primary-nav-home primary-nav" aria-label="Main">
+
+    {% include "/base/logo.twig" with {context_class: 'primary-nav__logo'} %}
+
+    {#{% if ExtraData.userRole == 'doctor' and ExtraData.page == 'profile_index' %}
+    <meta http-equiv="refresh" content="0; url=/profile_doc" />
+  {% endif %}#}
+
+    <ul class="menu" role="menu">
+
+        <li class="menu__item is-events" role="none">
+            <a onclick="$('#roles_list').modal('show');return false;" class="dropdown__link" href="#" role="menuitem">
+                <svg class="icon" aria-hidden="true" focusable="false">
+                    <use href="/projects/{{ ExtraData.domain }}/images/base/graphics/sprite.svg#icon-home"></use>
+                </svg>
+                <span class="label">{{ 'Cabinet'|trans|raw }}</span>
+            </a>
+        </li>
+
+        {% if ExtraData.userRole == 'participant' %}
+            {% include "components/primary-nav-item.twig" with {
+                label: 'Cabinet', link: '/profile_index', icon: 'home', item_class: 'is-profile'
+            } %}
+        {% endif %}
+
+        {% if ExtraData.userRole == 'doctor' %}
+            {% include "components/primary-nav-item.twig" with {
+                label: 'Cabinet', link: '/profile_doc', icon: 'home', item_class: 'is-profile'
+            } %}
+        {% endif %}
+
+        {% include "components/primary-nav-item.twig" with {
+            label: 'Tariffs', link: '/under_development', icon: 'money', item_class: 'is-tariffs'
+        } %}
+
+        {% include "components/primary-nav-item.twig" with {
+            label: 'Services', link: '/under_development', icon: 'microscope', item_class: 'is-services'
+        } %}
+
+        {% include "components/primary-nav-item.twig" with {
+            label: 'Marketplace', link: '/marketplace', icon: 'store', item_class: 'is-marketplace'
+        } %}
+
+
+        <li class="menu__item dropdown is-more" role="none">
+
+            <a class="menu__link" href="javascript:void(0)" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" role="menuitem">
+                <svg class="icon" aria-hidden="true" focusable="false">
+                    <use href="/projects/{{ ExtraData.domain }}/images/base/graphics/sprite.svg#icon-more"></use>
+                </svg>
+                <span class="label">{{ 'More'|trans }}</span>
+            </a>
+
+            <ul class="dropdown__menu menu" role="menu" aria-label="More">
+
+                {% include "components/primary-nav-item.twig" with {
+                    label: 'Programs', link: '/health_programs', icon: 'heart', dropdown: true, item_class: 'is-programs'
+                } %}
+
+                {% include "components/primary-nav-item.twig" with {
+                    label: 'Journal', link: 'https://pam-research.com', icon: 'magazine', dropdown: true, item_class: 'is-research'
+                } %}
+
+                {% include "components/primary-nav-item.twig" with {
+                    label: 'Publications', link: '/publications', icon: 'news', dropdown: true, item_class: 'is-blog'
+                } %}
+
+                {% include "components/primary-nav-item.twig" with {
+                    label: 'Communities', link: '/communities', icon: 'group', dropdown: true, item_class: 'is-communities'
+                } %}
+
+                {% include "components/primary-nav-item.twig" with {
+                    label: 'Organizations', link: '/pages', icon: 'building', dropdown: true, item_class: 'is-companies'
+                } %}
+
+                {% include "components/primary-nav-item.twig" with {
+                    label: 'Events', link: '/events', icon: 'calendar', dropdown: true, item_class: 'is-events'
+                } %}
+
+                {% include "components/primary-nav-item.twig" with {
+                    label: 'Short survey', link: '/assistant/18-RY3t/13/?medicaltest=4&startnew=ok#endofchat', icon: 'message', dropdown: true, item_class: 'is-quiz'
+                } %}
+
+            </ul>
+        </li>
+
+        {# <li class="menu__item is-cta" role="none">
+    </li> #}
+    </ul>
+</nav>
+
+<div id="roles_list" class="modal fade" style="width: 100%;" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document" >
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="exampleModalLabel">{{ 'Select cabinet'|trans }}</h4>
+                <button onclick="$('#roles_list').modal('hide')" type="button" class="close btn btn-danger shadow-none" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body" style="text-align: left;">
+                <div class="row" style="padding: 10px;">
+                    <div>
+                        <div>
+                            {% if ExtraData.userRole.isDoctor == true %}
+                                <h3 class="selectRole"><span><a href="/profile_doc"><span class="glyphicons glyphicons-doctor"></span>&nbsp;{{ 'doctor'|trans }}</a></span></h3>
+                            {% endif %}
+                            {% if ExtraData.userRole.isParticipant == true %}
+                                <h3 class="selectRole"><span><a href="/profile_index"><span class="glyphicons glyphicons-user"></span>&nbsp;{{ 'participant'|trans }}</a></span></h3>
+                            {% endif %}
+                            {% if ExtraData.userRole.isProvisor == true %}
+                                <h3 class="selectRole"><span><a href="/marketplace"><span class="glyphicons glyphicons-bike-park"></span>&nbsp;{{ 'provisor'|trans }}</a></span></h3>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<style>
+    h3.selectRole span
+    border-radius: 4px;
+    }
+
+    h3.selectRole span:hover
+    background: #0eb7d238;
+    cursor: pointer;
+    }
+</style>

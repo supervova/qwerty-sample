@@ -1,0 +1,35 @@
+{% set languages = {
+  af: "Afrikaans",
+  de: "Deutsch",
+  en: "English",
+  es: "Español",
+  fr: "Français",
+  it: "Italiano",
+  pl: "Polski",
+  pt: "Português",
+  hr: "Srpsko-hrvatski",
+  fi: "Suomi",
+  tr: "Türkçe",
+  ru: "Русский",
+  uk: "Українська",
+  hy: "Հայերեն",
+  he: "עִברִית",
+  ar: "العربية",
+  hi: "हिन्दी",
+  th: "ภาษาไทย",
+  zh: "中文",
+  ja: "日本語"
+} %}
+
+<ul class="languages">
+  {% for key, value in languages %}
+    <li>
+      <a class="languages__link" href="/{{ key }}{$simpleuri}" lang="{{ key }}">
+        {% include "base/icon.twig" with {name: key, flag: true} %}
+        <span class="nottranslate">
+          {{ value }}
+        </span>
+      </a>
+    </li>
+  {% endfor %}
+</ul>

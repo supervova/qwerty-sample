@@ -1,0 +1,112 @@
+{% block config %}
+  {% if ExtraData is not defined %}
+    {% set ExtraData = {
+      name: 'Healthy Longevity Academy',
+      domain: 'hlaclub.com',
+      brand_color: '#dde5ee',
+      fonts_local: ['RFDewiExpanded-Regular', 'RFDewiExpanded-Semibold'],
+      body_classes: false,
+      main_classes: false,
+      is_app: true,
+      section: false,
+      is_home: false,
+      is_resume_section: false,
+      powered_by: '@qwertynetworks',
+      Lang: 'ru'
+    } %}
+  {% endif %}
+
+  {% set is_dev = true %}
+
+{% endblock %}
+
+<!DOCTYPE html>
+<html lang="{{ qwerty.lng_html }}" prefix="og: http://ogp.me/ns#">
+  <head>
+    {% block html_head %}
+      {% include "base/head.twig" %}
+    {% endblock %}
+  </head>
+<body
+  class="
+    entity
+    {{ ExtraData.is_app ? ' is-app' : '' }}
+    {{ user > 0 ? ' is-unlocked' : 'is-locked' }}
+    {{ ExtraData.body_classes ? ExtraData.body_classes : null }}
+  "
+>
+
+  {# App wrapper #}
+  {{ ExtraData.is_app ? '<div class="wrapper">' : null }}
+    {% include "components/alert.twig" %}
+
+
+    <div id="notifier"></div>
+
+  {% if ExtraData.is_home %}
+      {% include "header-home.twig" %}
+  {% else %}
+      {% include "header.twig" %}
+  {% endif %}
+
+
+    {# Main content area #}
+    <main class="main{% if ExtraData.main_classes %} {{ ExtraData.main_classes }}{% endif %}">
+      {$bootstrap_message}
+      {% block content %}
+      {% endblock %}
+    </main>
+
+    {# Primary navigation & footer #}
+    {% if ExtraData.is_app %}
+        {% if ExtraData.is_home %}
+            {% include "components/primary-nav-home.twig" %}
+        {% else %}
+            {% include "components/primary-nav.twig" %}
+        {% endif %}
+    {% endif %}
+
+    {% include "components/footer.twig" %}
+
+  {{ ExtraData.is_app ? '</div>' : null }}
+
+  {% block body_suffix %}
+    {$blog_yandex}
+    {$blog_google}
+    {$chathtml}
+    {$loginform}
+
+    {% include "components/modal-location.twig" %}
+
+    <script src="/projects/{{ ExtraData.domain }}/js/{{ site.assets ~ 'main.js?' }}{{ 'now'|date('Y-m-d-H:i') }}"></script>
+
+    <script>
+      /** Sign Up and Sign In */
+      {% if not is_dev %}
+      const userId = {$user_id};
+      {% else %}
+      const userId = {{ user_id }};
+      {% endif %}
+
+      if (userId === 0) {
+        document.getElementById('header-sign-up').classList.add('is-on');
+        document.getElementById('header-sign-in').classList.add('is-on');
+      } else {
+        document.querySelector('.header__menu .dropdown').classList.add('is-on');
+      }
+
+      function quickreg() {
+        window.location.href = location.protocol+ '//{$authhost}/auth/?regform&returl={$thispageurlencoded}';
+      }
+
+      function loginform() {
+        window.location.href = location.protocol+ '//{$authhost}/auth?returl={$thispageurlencoded}';
+      }
+    </script>
+  {% endblock %}
+
+  {% if not is_dev %}
+    <script id="aiwigetjs" src="https://hlaclub.com/js/aiwiget.js?rnd=1650269019" data-id="13" data-pos="right-bottom" async></script>
+  {% endif %}
+</body>
+</html>

@@ -1,0 +1,40 @@
+{# Modal: Location #}
+<section class="modal fade" id="modal-location" role="dialog" aria-labelledby="region-selector-title" aria-hidden="true" tabindex="-1">
+  <div class="modal-dialog" role="document">
+    <div class="modal__box">
+      <div class="modal__header">
+        <h2 class="modal__title" id="region-selector-title">{{ 'Your location'|trans }}</h2>
+        <button class="btn is-close" type="button" data-dismiss="modal" aria-label="{{ 'Close'|trans }}">
+          {% include "base/icon.twig" with {name: "x-mark"} %}
+        </button>
+      </div>
+      <form class="modal__body" id="form-region">
+        <div class="form__item has-select">
+          <label for="cclist_header">{{ 'Country:'|trans }}</label>
+          {% if is_dev %}
+            <select name="cclist_header" id="cclist_header" class="form-control" onchange="getnewcountry_header()"><option value="">Не выбрано</option><option value="AU">Австралия</option><option value="AT">Австрия</option><option value="AR">Аргентина</option><option value="UK">Великобритания</option><option value="US">США</option><option value="FR">Франция</option><option value="ME" selected>Черногория</option><option value="CZ">Чешская республика</option><option value="CH">Швейцария</option><option value="JP">Япония</option></select>
+          {% else %}
+            {$cc_html_header}
+          {% endif %}
+        </div>
+        <div class="form__item ">
+          <label for="this_region_lng_header">{{ 'City:'|trans }}</label>
+          <div class="typeahead__container">
+            <div class="typeahead__field">
+              <span class="typeahead__query">
+                <input type="text" name="this_region_lng_header" id="this_region_lng_header" value="{$user_region_lng_header}" placeholder="City search..." autocomplete="off" onchange="checkregion_header()">
+              </span>
+            </div>
+          </div>
+          <input type="hidden" name="this_region_header" id="this_region_header" value="">
+        </div>
+      </form>
+      <div class="modal__footer">
+        <button class="btn is-primary" onclick="saveregion_header()">
+          {{ 'Continue with new region'|trans }}
+        </button>
+      </div>
+    </div>
+  </div>
+</section>
+

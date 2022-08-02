@@ -1,0 +1,130 @@
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>{% if ExtraData.title %}{{ ExtraData.title }}{% else %}{$meta_title}{% endif %}</title>
+<meta name="description" content="{$meta_description}">
+{$meta_robots}
+{$ogtype}
+<meta property="og:locale" content="{$lng_html}">
+<meta property="og:title" content="{$meta_title}">
+<meta property="og:description" content="{$meta_description}">
+{% if ExtraData.is_home %}
+  <meta property="og:image" content="{{ '/projects/' ~ ExtraData.domain ~ '/images/cover.jpg' }}">
+{% else %}
+  <meta property="og:image" content="{$meta_ogimage}">
+{% endif %}
+<meta property="og:url" content="{$thispageurl_lng}">
+<meta property="og:site_name" content="{$meta_title}">
+<meta property="og:see_also" content="{$main_href}">
+<meta property="fb:app_id" content="{$fb_app_id}" >
+<meta name="twitter:card" content="summary_large_image">
+{% if ExtraData.powered_by %}
+  <meta name="twitter:creator" content="{{ ExtraData.powered_by }}">
+{% endif %}
+
+<base href="{$base_href}">
+{$canonical}
+{$schemaorg}
+
+{# Referrer-Policy #}
+<meta name="referrer" content="strict-origin-when-cross-origin">
+<meta name="apple-mobile-web-app-title" content="{{ ExtraData.name }}">
+
+{# It's part of the safe areas strategy. The env() CSS function is another one #}
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+
+{# /images/apple-touch/hlaclub.com #}
+{$linkicons}
+
+<script src="/js/jquery-3.6.0.min.js"></script>
+{% if not ExtraData.is_home %}
+  {% if not ExtraData.styles_addon %}
+    <script src="/js/bootstrap5.min.js"></script>
+    {#<script src="/js/bootstrap.min.js?v=1"></script>#}
+  {% endif %}
+  <script src="/js/bootstrap-editable.min.js"></script>
+{% endif %}
+{% if ExtraData.is_home %}
+{% endif %}
+<script src="/js/bootstrap.min.js?v=1"></script>
+<script src="/js/jquery.toast.min.js"></script>
+<script src="/js/bootpopup.js"></script>
+<script src="/js/tinymce/tinymce.min.js"></script>
+<script src="/js/tinymce/jquery.tinymce.min.js"></script>
+<script src="/js/tinymce/plugins/codesample/prism.js"></script>
+<script src="/js/jquery-smartphoto.min.js"></script>
+<script src="/js/bootstrap-datetimepicker.js"></script>
+
+{$datetimepicker_lng_js}
+<script src="/js/jquery.typeahead.min.js"></script>
+<script src="/js/qwerty.js"></script>
+<script src="/projects/{{ ExtraData.domain }}/js/location-header.js"></script>
+<script src="/js/bootbox.min.js"></script>
+
+{% if ExtraData.styles_addon %}
+  <script src=""></script>
+{% endif %}
+
+<script>
+  function js_translate(str) {
+    let newString = str;
+
+    if (newString === '{$phraseclose}') {
+      newString = '{$btn_close}';
+    }
+
+    if (newString === 'Close') {
+      newString = '{$btn_close}';
+    }
+
+    if (newString === '{$phraseok}') {
+      newString = '{$btn_ok}';
+    }
+
+    if (newString === '{$phrasecancel}') {
+      newString = '{$btn_cancel}';
+    }
+
+    if (newString === '{$phraseyes}') {
+      newString = '{$btn_yes}';
+    }
+
+    if (newString === '{$phraseno}') {
+      newString = '{$btn_no}';
+    }
+
+    return newString;
+  }
+</script>
+
+{# Styles: vendor #}
+{% if ExtraData.styles_addon %}
+  <link rel="stylesheet" href="/css/main.css">
+  <link rel="stylesheet" href="/projects/{{ ExtraData.domain }}/bootstrap/dist/css/bootstrap.css">
+{% endif %}
+{% if not ExtraData.is_home %}
+
+{% endif %}
+{% if ExtraData.is_home %}
+  <link type="text/css" rel="stylesheet" href="/css/bootstrap/bootstrap_5.min.css">
+{% endif %}
+<link rel="stylesheet" href="/css/bootstrap.css">
+<link rel="stylesheet" href="/css/bootstrap-datetimepicker.css">
+<link rel="stylesheet" href="/css/jquery.toast.min.css">
+<link rel="stylesheet" href="/css/smartphoto.min.css">
+<link rel="stylesheet" href="/css/bootstrap-datetimepicker.min.css">
+<link rel="stylesheet" href="/css/jquery.typeahead.css">
+<link rel="stylesheet" href="/js/tinymce/plugins/codesample/prism.css">
+
+{# Styles: project #}
+{% if ExtraData.fonts_local %}
+  {% for font in ExtraData.fonts_local %}
+    <link rel="prefetch" href="{{ '/projects/' ~ ExtraData.domain ~ '/fonts/' ~ font }}.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+    <link rel="prefetch" href="{{ '/projects/' ~ ExtraData.domain ~ '/fonts/' ~ font }}.woff" as="font" type="font/woff" crossorigin="anonymous">
+  {% endfor %}
+{% endif %}
+{# {$projectcss} #}
+<link rel="stylesheet" href="/projects/{{ ExtraData.domain }}/css/theme.css?{{ 'now'|date('Y-m-d-H:i') }}">
+{% if ExtraData.styles_addon %}
+  <link rel="stylesheet" href="/projects/{{ ExtraData.domain }}/css/styles.css?{{ 'now'|date('Y-m-d-H:i') }}">
+{% endif %}

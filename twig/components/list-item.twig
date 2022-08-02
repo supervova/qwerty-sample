@@ -1,0 +1,18 @@
+{# Parameters: link, img (path from images folder), heading, summary #}
+<article class="view-list__item" itemscope itemtype="http://schema.org/Article">
+  <a class="view-list__wrapper-link" href="{{ link }}">
+    {% if img %}
+      <figure class="view-list__item-img">
+        <img src="/projects/{{ ExtraData.domain }}/images/{{ img }}" itemprop="image" alt="{{ heading }}">
+      </figure>
+    {% endif %}
+    <div class="view-list__item-copy">
+      <h2 class="view-list__item-title" itemprop="headline">
+        {{ heading }}
+      </h2>
+      <p class="view-list__item-summary" itemprop="description">
+        {{ summary }}
+      </p>
+    </div>
+  </a>
+</article>

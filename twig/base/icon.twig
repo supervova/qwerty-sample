@@ -1,0 +1,10 @@
+{% set project = ExtraData.domain ? ExtraData.domain : 'hlaclub.com' %}
+<svg class="icon{% if class %} {{ class }}{% endif %}" aria-hidden="true" focusable="false">
+  {% if flag %}
+    <use href="/images/base/graphics/flags.svg#icon-flag-{{ name }}"></use>
+  {% elseif logo %}
+    <use href="/projects/{{ project }}/images/base/graphics/logos.svg#{{ name }}"></use>
+  {% else %}
+    <use href="/projects/{{ project }}/images/base/graphics/sprite.svg#icon-{{ name }}"></use>
+  {% endif %}
+</svg>
